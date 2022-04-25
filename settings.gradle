@@ -1,0 +1,4 @@
+rootProject.name = 'monetary'
+include 'infra'
+include 'domain'
+

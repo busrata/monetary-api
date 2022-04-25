@@ -1,0 +1,15 @@
+//description = 'Monetary'
+//
+////apply plugin: 'org.springframework.boot'
+//
+//dependencies {
+//	implementation project('infra')
+//}
+//
+//springBoot {
+//	mainClassName = 'com.maxijett.monetary.MonetaryApplication'
+//}
+//
+//build {
+//	dependsOn 'domain:build', 'infra:build'
+//}
