@@ -1,11 +1,11 @@
 sonarqube {
     properties {
         property "sonar.projectKey", "monetary"
-        property "sonar.organization", "hexagonal"
+        property "sonar.organization", "cloudnesil"
 
-        property "sonar.projectKey", "hex"
-        property "sonar.projectName", "hexagonal-demo"
-        property "sonar.organization", "hexagonal"
+        property "sonar.projectKey", "monetary"
+        property "sonar.projectName", "monetary-api"
+        property "sonar.organization", "cloudnesil"
         property "sonar.login", "db2b87c604ecbe1728a930d6567d26c54c816c81"
 
         property "sonar.host.url", "https://sonarcloud.io"
