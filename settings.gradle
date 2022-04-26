@@ -1,4 +1,4 @@
-rootProject.name = 'monetary'
+rootProject.name = 'monetary-api'
 include 'infra'
 include 'domain'
 
