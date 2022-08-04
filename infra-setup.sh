@@ -6,9 +6,10 @@ TEST_NETWORK='monetary_network'
 # DB
 TEST_DB_DATA='monetary_test_db_data'
 TEST_DB_NAME='monetary_test_db'
-TEST_DB_IMAGE='mysql'
-TEST_DB_PASSWORD='password'
-TEST_DB_PORT=4306
+TEST_DB_IMAGE='postgres'
+TEST_DB_USERNAME='postgres'
+TEST_DB_PASSWORD='postgres'
+TEST_DB_PORT=5433
 
 if [ -n "$DB_PORT" ]; then
     echo "Database port is set as $DB_PORT"
@@ -83,11 +84,11 @@ isDBUp() {
 }
 
 up_db() {
-    if [[ ! $(isUp 4306) ]]; then
+    if [[ ! $(isUp 5433) ]]; then
         echo ">> starting: db up"
         create_volume $TEST_DB_DATA
         create_network $TEST_NETWORK
-        docker run --rm --network ${TEST_NETWORK} --name ${TEST_DB_NAME} --mount source=${TEST_DB_DATA},target=/var/lib/mysql --env MYSQL_ROOT_PASSWORD=${TEST_DB_PASSWORD} -p ${TEST_DB_PORT}:3306 -d ${TEST_DB_IMAGE}
+        docker run --rm --network ${TEST_NETWORK} --name ${TEST_DB_NAME} -e POSTGRES_PASSWORD=${TEST_DB_PASSWORD} -e POSTGRESQL_USERNAME=${TEST_DB_USERNAME} -p ${TEST_DB_PORT}:5433 --mount source=${TEST_DB_DATA},target=/var/lib/postgresql postgres
         isDBUp
     else
         echo ">> db is already up"
