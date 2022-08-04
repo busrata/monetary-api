@@ -29,6 +29,6 @@ You can use any programming language for implementing Hexagonal Architecture. He
 * Java 17
 * Gradle 7
 * Docker
-* Mysql
+* Postgres
 * Redis
 * Kafka
