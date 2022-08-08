@@ -1,7 +1,5 @@
-package com.maxijett.monetary.integration;
+package com.maxijett.monetary;
 
-import com.maxijett.monetary.AbstractIT;
-import com.maxijett.monetary.IT;
 import org.junit.jupiter.api.Test;
 
 @IT
