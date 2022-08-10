@@ -1,0 +1,2 @@
+insert into driver_cash(id, amount, driver_id, create_on, store_id, client_id, paying_account, group_id, prepaid_amount)
+values (1, 100, 1,'2022-08-10T11:46:24.940979529Z',200, 20, 'Store Chain', 20,0);

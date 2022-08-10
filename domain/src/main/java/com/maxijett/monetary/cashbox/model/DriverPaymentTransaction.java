@@ -12,7 +12,7 @@ import java.time.ZonedDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DriverTransaction {
+public class DriverPaymentTransaction {
 
     private Long id;
 

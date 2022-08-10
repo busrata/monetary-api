@@ -1,13 +1,13 @@
 package com.maxijett.monetary.adapters;
 
-import com.maxijett.monetary.cashbox.model.DriverTransaction;
-import com.maxijett.monetary.cashbox.port.DriverTransactionPort;
+import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
+import com.maxijett.monetary.cashbox.port.DriverPaymentTransactionPort;
 
-public class DriverTransactionFakeDataAdapter implements DriverTransactionPort {
+public class DriverPaymentPaymentTransactionFakeDataAdapter implements DriverPaymentTransactionPort {
 
     @Override
-    public Long createTransaction(DriverTransaction driverTransaction) {
-        return DriverTransaction.builder()
+    public Long createTransaction(DriverPaymentTransaction driverTransaction) {
+        return DriverPaymentTransaction.builder()
                 .id(1L)
                 .driverId(driverTransaction.getDriverId())
                 .dateTime(driverTransaction.getDateTime())

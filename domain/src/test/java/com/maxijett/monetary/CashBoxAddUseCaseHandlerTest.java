@@ -3,15 +3,14 @@ package com.maxijett.monetary;
 import com.maxijett.monetary.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.adapters.CashBoxTransactionFakeDataAdapter;
 import com.maxijett.monetary.adapters.DriverCashFakeDataAdapter;
-import com.maxijett.monetary.adapters.DriverTransactionFakeDataAdapter;
+import com.maxijett.monetary.adapters.DriverPaymentPaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.CashBoxAddUseCaseHandler;
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
 import com.maxijett.monetary.cashbox.port.DriverCashPort;
-import com.maxijett.monetary.cashbox.port.DriverTransactionPort;
+import com.maxijett.monetary.cashbox.port.DriverPaymentTransactionPort;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -28,7 +27,7 @@ public class CashBoxAddUseCaseHandlerTest {
 
     CashBoxPort mockCashBoxPort;
     DriverCashPort driverCashPort;
-    DriverTransactionPort driverTransactionPort;
+    DriverPaymentTransactionPort driverTransactionPort;
     CashBoxTransactionPort mockCashBoxTransactionPort;
     CashBoxAddUseCaseHandler cashBoxAddUseCaseHandler;
 
@@ -37,7 +36,7 @@ public class CashBoxAddUseCaseHandlerTest {
         mockCashBoxPort = new CashBoxFakeDataAdapter();
         mockCashBoxTransactionPort = new CashBoxTransactionFakeDataAdapter();
         driverCashPort = new DriverCashFakeDataAdapter();
-        driverTransactionPort = new DriverTransactionFakeDataAdapter();
+        driverTransactionPort = new DriverPaymentPaymentTransactionFakeDataAdapter();
         cashBoxAddUseCaseHandler = new CashBoxAddUseCaseHandler(mockCashBoxPort, driverCashPort, driverTransactionPort, mockCashBoxTransactionPort);
     }
 

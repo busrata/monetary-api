@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CashBoxAddDTO implements Serializable {
+public class CashBoxAddDTO {
     private Long driverId;
     private ZonedDateTime createOn;
     private BigDecimal amount;

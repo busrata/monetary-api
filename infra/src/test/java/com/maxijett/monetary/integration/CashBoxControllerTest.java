@@ -10,6 +10,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
@@ -17,7 +18,11 @@ import java.time.ZonedDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @IT
-public class CashBoxControllerIT extends AbstractIT {
+@Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/driver-cash.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+public class CashBoxControllerTest extends AbstractIT {
+
+
     @Test
     public void addCashToCashBoxByDriver() {
 
@@ -33,9 +38,13 @@ public class CashBoxControllerIT extends AbstractIT {
 
 
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox", HttpMethod.POST, new HttpEntity<>(cashBoxDTO), new ParameterizedTypeReference<CashBoxDTO>() {});
+        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox",
+                HttpMethod.POST, new HttpEntity<>(cashBoxDTO, null), new ParameterizedTypeReference<CashBoxDTO>() {
+                });
 
         //Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(new BigDecimal("100.00"), response.getBody().getCash());
+        assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
     }
 }
