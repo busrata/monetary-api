@@ -52,7 +52,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         assertEquals(BigDecimal.valueOf(25), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
         assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
-        assertEquals(new BigDecimal(25.00), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
+        assertEquals(BigDecimal.valueOf(25), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
 
     }
 

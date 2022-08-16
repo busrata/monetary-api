@@ -13,6 +13,7 @@ import com.maxijett.monetary.driver.port.DriverCashPort;
 import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
@@ -25,6 +26,7 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
     private final DriverPaymentTransactionPort driverPaymentTransactionPort;
     private final CashBoxTransactionPort cashBoxTransactionPort;
 
+    @Transactional
     @Override
     public CashBox handle(CashBoxAdd useCase) {
 
