@@ -1,6 +1,6 @@
 package com.maxijett.monetary.adapters.coshbox.rest.jpa.entity;
 
-import com.maxijett.monetary.cashbox.model.DriverCash;
+import com.maxijett.monetary.driver.model.DriverCash;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,7 +41,7 @@ public class DriverCashEntity {
                 .clientId(getClientId())
                 .groupId(getGroupId())
                 .cash(getCash())
-                .dispatchDriverId(getDispatchDriverId())
+                .driverId(getDispatchDriverId())
                 .prepaidCollectionCash(getPrepaidCollectionCash()).build();
     }
 }

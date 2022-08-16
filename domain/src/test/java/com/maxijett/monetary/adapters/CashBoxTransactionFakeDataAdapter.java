@@ -1,9 +1,7 @@
 package com.maxijett.monetary.adapters;
 
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
-import com.maxijett.monetary.cashbox.model.DriverCash;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
-import org.apache.commons.lang3.RandomUtils;
 
 import java.util.ArrayList;
 import java.util.List;

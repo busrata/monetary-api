@@ -1,6 +1,6 @@
-package com.maxijett.monetary.cashbox.model;
+package com.maxijett.monetary.driver.model;
 
-import com.maxijett.monetary.cashbox.model.enumeration.DriverEventType;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

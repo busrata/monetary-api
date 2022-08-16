@@ -1,7 +1,7 @@
 package com.maxijett.monetary.adapters;
 
-import com.maxijett.monetary.cashbox.model.DriverCash;
-import com.maxijett.monetary.cashbox.port.DriverCashPort;
+import com.maxijett.monetary.driver.model.DriverCash;
+import com.maxijett.monetary.driver.port.DriverCashPort;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,7 +17,7 @@ public class DriverCashFakeDataAdapter implements DriverCashPort {
     public DriverCash retrieve(Long driverId, Long groupId) {
         return DriverCash.builder()
                 .id(1L)
-                .dispatchDriverId(2L)
+                .driverId(2L)
                 .clientId(20L)
                 .groupId(1L)
                 .prepaidCollectionCash(BigDecimal.valueOf(75))

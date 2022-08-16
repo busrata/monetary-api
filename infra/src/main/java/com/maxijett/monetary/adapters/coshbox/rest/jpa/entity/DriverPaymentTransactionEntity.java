@@ -1,6 +1,6 @@
 package com.maxijett.monetary.adapters.coshbox.rest.jpa.entity;
 
-import com.maxijett.monetary.cashbox.model.enumeration.DriverEventType;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,6 @@
-package com.maxijett.monetary.cashbox.port;
+package com.maxijett.monetary.driver.port;
 
-import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 
 public interface DriverPaymentTransactionPort {
     Long createTransaction(DriverPaymentTransaction driverTransaction);

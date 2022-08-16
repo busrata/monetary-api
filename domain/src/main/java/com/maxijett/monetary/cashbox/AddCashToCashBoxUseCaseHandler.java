@@ -2,13 +2,15 @@ package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
-import com.maxijett.monetary.cashbox.model.DriverCash;
-import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
-import com.maxijett.monetary.cashbox.model.enumeration.DriverEventType;
+import com.maxijett.monetary.driver.model.DriverCash;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.cashbox.port.*;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+import com.maxijett.monetary.driver.port.DriverCashPort;
+import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
 import java.math.BigDecimal;

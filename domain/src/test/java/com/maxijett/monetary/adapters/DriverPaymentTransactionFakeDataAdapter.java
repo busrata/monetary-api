@@ -1,19 +1,33 @@
 package com.maxijett.monetary.adapters;
 
-import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
-import com.maxijett.monetary.cashbox.port.DriverPaymentTransactionPort;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTransactionPort {
 
+    List<DriverPaymentTransaction> driverPaymentTransactions = new ArrayList<>();
+
     @Override
     public Long createTransaction(DriverPaymentTransaction driverTransaction) {
-        return DriverPaymentTransaction.builder()
+
+        DriverPaymentTransaction transaction = DriverPaymentTransaction.builder()
                 .id(1L)
                 .driverId(driverTransaction.getDriverId())
                 .dateTime(driverTransaction.getDateTime())
                 .paymentCash(driverTransaction.getPaymentCash())
                 .userId(driverTransaction.getUserId())
-                .orderNumber(driverTransaction.getOrderNumber()).build()
-                .getId();
+                .eventType(driverTransaction.getEventType())
+                .orderNumber(driverTransaction.getOrderNumber()).build();
+
+        driverPaymentTransactions.add(transaction);
+
+        return driverPaymentTransactions.get(0).getParentTransactionId();
+    }
+
+    public List<DriverPaymentTransaction> getDriverPaymentTransactions() {
+        return driverPaymentTransactions;
     }
 }

@@ -2,8 +2,8 @@ package com.maxijett.monetary.adapters.coshbox.rest.jpa;
 
 import com.maxijett.monetary.adapters.coshbox.rest.jpa.entity.DriverCashEntity;
 import com.maxijett.monetary.adapters.coshbox.rest.jpa.repository.DriverCashRepository;
-import com.maxijett.monetary.cashbox.model.DriverCash;
-import com.maxijett.monetary.cashbox.port.DriverCashPort;
+import com.maxijett.monetary.driver.model.DriverCash;
+import com.maxijett.monetary.driver.port.DriverCashPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +29,7 @@ public class DriverCashDataAdapter implements DriverCashPort {
         entity.setClientId(driverCash.getClientId());
         entity.setGroupId(driverCash.getGroupId());
         entity.setCash(driverCash.getCash());
-        entity.setDispatchDriverId(driverCash.getDispatchDriverId());
+        entity.setDispatchDriverId(driverCash.getDriverId());
         entity.setPrepaidCollectionCash(driverCash.getPrepaidCollectionCash());
         return entity;
     }

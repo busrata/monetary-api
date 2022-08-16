@@ -1,4 +1,4 @@
-package com.maxijett.monetary.cashbox.model;
+package com.maxijett.monetary.driver.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class DriverCash {
 
     private Long id;
-    private Long dispatchDriverId;
+    private Long driverId;
     private Long groupId;
     private BigDecimal cash;
     private Long clientId;

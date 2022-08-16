@@ -2,9 +2,9 @@ package com.maxijett.monetary.adapters.coshbox.rest.jpa;
 
 import com.maxijett.monetary.adapters.coshbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.coshbox.rest.jpa.repository.DriverPaymentTransactionRepository;
-import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
-import com.maxijett.monetary.cashbox.model.enumeration.DriverEventType;
-import com.maxijett.monetary.cashbox.port.DriverPaymentTransactionPort;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
+import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

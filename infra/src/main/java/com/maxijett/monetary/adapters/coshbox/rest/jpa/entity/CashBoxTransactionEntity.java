@@ -26,9 +26,6 @@ public class CashBoxTransactionEntity {
     @Column(name = "driver_id", nullable = false)
     private Long driverId;
 
-    @Column(name = "total_cash", nullable = false)
-    private BigDecimal totalCash;
-
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
 }
