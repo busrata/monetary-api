@@ -13,13 +13,12 @@ import java.math.BigDecimal;
 @Table(name = "cash_box")
 public class CashBoxEntity {
 
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
-
-    @Column(name = "store_chain_id", nullable = false)
-    private Long storeChainId;
 
     @Column(name = "group_id", nullable = false)
     private Long groupId;

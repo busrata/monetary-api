@@ -7,7 +7,12 @@ import java.math.BigDecimal;
 
 public class CashBoxFakeDataAdapter implements CashBoxPort {
     @Override
-    public CashBox retrive(Long groupId) {
+    public CashBox retrieve(Long groupId) {
         return CashBox.builder().id(1L).clientId(20000L).userId(2L).groupId(groupId).cash(BigDecimal.ZERO).build();
+    }
+
+    @Override
+    public CashBox update(CashBox cashBox) {
+        return cashBox;
     }
 }

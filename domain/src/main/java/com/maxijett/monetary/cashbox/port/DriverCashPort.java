@@ -3,5 +3,7 @@ package com.maxijett.monetary.cashbox.port;
 import com.maxijett.monetary.cashbox.model.DriverCash;
 
 public interface DriverCashPort {
-    DriverCash retrieve(Long driverId);
+    DriverCash retrieve(Long driverId, Long groupId);
+
+    DriverCash update(DriverCash driverCash);
 }

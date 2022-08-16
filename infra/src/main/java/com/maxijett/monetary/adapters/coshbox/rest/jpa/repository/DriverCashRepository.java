@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DriverCashRepository extends JpaRepository<DriverCashEntity, Long> {
-    DriverCashEntity findByDriverId(Long driverId);
+    DriverCashEntity findByDispatchDriverIdAndGroupId(Long driverId, Long groupId);
 }

@@ -3,7 +3,7 @@ package com.maxijett.monetary.adapters;
 import com.maxijett.monetary.cashbox.model.DriverPaymentTransaction;
 import com.maxijett.monetary.cashbox.port.DriverPaymentTransactionPort;
 
-public class DriverPaymentPaymentTransactionFakeDataAdapter implements DriverPaymentTransactionPort {
+public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTransactionPort {
 
     @Override
     public Long createTransaction(DriverPaymentTransaction driverTransaction) {

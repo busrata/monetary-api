@@ -20,5 +20,4 @@ public class CashBoxAdd implements UseCase {
     private Long groupId;
     private Long clientId;
     private String payingAccount;
-    private BigDecimal prePaidAmount;
 }

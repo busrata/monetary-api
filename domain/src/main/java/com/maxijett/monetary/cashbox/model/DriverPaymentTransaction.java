@@ -1,5 +1,6 @@
 package com.maxijett.monetary.cashbox.model;
 
+import com.maxijett.monetary.cashbox.model.enumeration.DriverEventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -27,4 +28,6 @@ public class DriverPaymentTransaction {
     private Long userId;
 
     private Long parentTransactionId;
+
+    private DriverEventType eventType;
 }

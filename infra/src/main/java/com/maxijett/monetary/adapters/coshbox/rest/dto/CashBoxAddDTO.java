@@ -27,7 +27,6 @@ public class CashBoxAddDTO {
                 .createOn(createOn)
                 .amount(amount)
                 .payingAccount(payingAccount)
-                .driverId(driverId)
-                .prePaidAmount(prePaidAmount).build();
+                .driverId(driverId).build();
     }
 }
