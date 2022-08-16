@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/cashbox")
+@RequestMapping("/api/v1/cashbox") // /driver-cash/fromCashBox
 public class CashBoxController {
 
     private final UseCaseHandler<CashBox, CashBoxAdd> addCashToCashBoxUseCaseHandler;

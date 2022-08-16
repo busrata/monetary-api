@@ -42,7 +42,7 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
 
             cashBoxPort.update(cashBox);
 
-            cashBoxTransactionPort.createTransaction(buildCashBoxTransaction(useCase, cashBox));
+            cashBoxTransactionPort.createTransaction(buildCashBoxTransaction(useCase, increaseAmount));
 
 
         } else {
@@ -66,12 +66,11 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
                 .build();
     }
 
-    private CashBoxTransaction buildCashBoxTransaction(CashBoxAdd useCase, CashBox cashBox) {
+    private CashBoxTransaction buildCashBoxTransaction(CashBoxAdd useCase, BigDecimal increaseAmount) {
         return CashBoxTransaction.builder()
                 .driverId(useCase.getDriverId())
-                .totalCash(cashBox.getCash())
                 .dateTime(ZonedDateTime.now())
-                .amount(useCase.getAmount())
+                .amount(increaseAmount)
                 .build();
     }
 }

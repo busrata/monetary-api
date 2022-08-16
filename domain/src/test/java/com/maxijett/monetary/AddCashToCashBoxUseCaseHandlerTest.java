@@ -3,6 +3,7 @@ package com.maxijett.monetary;
 import com.maxijett.monetary.adapters.*;
 import com.maxijett.monetary.cashbox.AddCashToCashBoxUseCaseHandler;
 import com.maxijett.monetary.cashbox.model.CashBox;
+import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.model.DriverCash;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
@@ -20,18 +21,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AddCashToCashBoxUseCaseHandlerTest {
 
     CashBoxPort mockCashBoxPort;
-    DriverCashFakeDataAdapter driverCashFakeDataAdapter ;
+    DriverCashFakeDataAdapter driverCashFakeDataAdapter;
     DriverPaymentTransactionPort driverPaymentTransactionPort;
-    CashBoxTransactionPort mockCashBoxTransactionPort;
+    CashBoxTransactionFakeDataAdapter cashBoxTransactionFakeDataAdapter;
     AddCashToCashBoxUseCaseHandler addCashToCashBoxUseCaseHandler;
 
     @BeforeEach
     public void setUp() {
         mockCashBoxPort = new CashBoxFakeDataAdapter();
         driverCashFakeDataAdapter = new DriverCashFakeDataAdapter();
-        mockCashBoxTransactionPort = new CashBoxTransactionFakeDataAdapter();
+        cashBoxTransactionFakeDataAdapter = new CashBoxTransactionFakeDataAdapter();
         driverPaymentTransactionPort = new DriverPaymentTransactionFakeDataAdapter();
-        addCashToCashBoxUseCaseHandler = new AddCashToCashBoxUseCaseHandler(mockCashBoxPort, driverCashFakeDataAdapter, driverPaymentTransactionPort, mockCashBoxTransactionPort);
+        addCashToCashBoxUseCaseHandler = new AddCashToCashBoxUseCaseHandler(mockCashBoxPort, driverCashFakeDataAdapter, driverPaymentTransactionPort, cashBoxTransactionFakeDataAdapter);
     }
 
     @Test
@@ -50,6 +51,8 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         //Then
         assertEquals(BigDecimal.valueOf(25), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
+        assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
+        assertEquals(new BigDecimal(25.00), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
 
     }
 

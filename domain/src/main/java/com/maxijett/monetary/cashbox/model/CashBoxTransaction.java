@@ -20,8 +20,6 @@ public class CashBoxTransaction {
 
     private Long driverId;
 
-    private BigDecimal totalCash;
-
     private BigDecimal amount;
 
 }
