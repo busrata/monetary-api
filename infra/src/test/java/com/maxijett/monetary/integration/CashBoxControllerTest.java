@@ -44,7 +44,7 @@ public class CashBoxControllerTest extends AbstractIT {
 
         //Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(new BigDecimal("100.00"), response.getBody().getCash());
+        assertEquals(new BigDecimal("50.00"), response.getBody().getCash());
         assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
     }
 }

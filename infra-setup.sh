@@ -181,38 +181,38 @@ case "${1}" in
         "up") echo Starting db && up_db;;
 #        "down") echo Stopping db && down_db;;
         esac;;
-#    "redis")
-#        case "${2}" in
-#        "up") echo Starting redis && up_redis;;
-#        "down") echo Stopping redis && down_redis;;
-#        esac;;
-#    "kafka")
-#        case "${2}" in
-#        "up")
-#            echo Starting zookeeper && up_zookeeper;
-#            echo Starting kafka && up_kafka;
-#            ;;
-#        "down")
-#            echo Stopping zookeeper && down_zookeeper;
-#            echo Stopping kafka && down_kafka;
-#            ;;
-#        esac;;
-#    "infra")
-#        case "${2}" in
-#        "up")
-#            echo Starting db && up_db;
-#            echo Starting redis && up_redis;
-#            echo Starting zookeeper && up_zookeeper;
-#            echo Starting kafka && up_kafka;
-#            ;;
-#        "down")
-##            echo Stopping db && down_db;
-#            echo Stopping redis && down_redis;
-#            echo Stopping zookeeper && down_zookeeper;
-#            echo Stopping kafka && down_kafka;
-#            ;;
-#        esac
-#        ;;
+    "redis")
+        case "${2}" in
+        "up") echo Starting redis && up_redis;;
+        "down") echo Stopping redis && down_redis;;
+        esac;;
+    "kafka")
+        case "${2}" in
+        "up")
+            echo Starting zookeeper && up_zookeeper;
+            echo Starting kafka && up_kafka;
+            ;;
+        "down")
+            echo Stopping zookeeper && down_zookeeper;
+            echo Stopping kafka && down_kafka;
+            ;;
+        esac;;
+    "infra")
+        case "${2}" in
+        "up")
+            echo Starting db && up_db;
+            echo Starting redis && up_redis;
+            echo Starting zookeeper && up_zookeeper;
+            echo Starting kafka && up_kafka;
+            ;;
+        "down")
+#            echo Stopping db && down_db;
+            echo Stopping redis && down_redis;
+            echo Stopping zookeeper && down_zookeeper;
+            echo Stopping kafka && down_kafka;
+            ;;
+        esac
+        ;;
     *)
         echo Unknown command! "${1}"
 esac
