@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class DriverCashDataAdapter implements DriverCashPort {
 
-    DriverCashRepository driverCashRepository;
+    private final DriverCashRepository driverCashRepository;
 
     @Override
     public DriverCash retrieve(Long driverId, Long groupId) {
