@@ -1,10 +1,9 @@
-package com.maxijett.monetary;
+package com.maxijett.monetary.cashbox;
 
-import com.maxijett.monetary.adapters.CashBoxFakeDataAdapter;
-import com.maxijett.monetary.adapters.CashBoxTransactionFakeDataAdapter;
-import com.maxijett.monetary.adapters.DriverCashFakeDataAdapter;
-import com.maxijett.monetary.adapters.DriverPaymentTransactionFakeDataAdapter;
-import com.maxijett.monetary.cashbox.AddCashToCashBoxUseCaseHandler;
+import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
+import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
+import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
+import com.maxijett.monetary.cashbox.adapters.DriverPaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;

@@ -30,4 +30,6 @@ public class DriverPaymentTransaction {
     private Long parentTransactionId;
 
     private DriverEventType eventType;
+
+    private Long groupId;
 }

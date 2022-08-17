@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters;
+package com.maxijett.monetary.cashbox.adapters;
 
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
@@ -20,7 +20,9 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                 .paymentCash(driverTransaction.getPaymentCash())
                 .userId(driverTransaction.getUserId())
                 .eventType(driverTransaction.getEventType())
-                .orderNumber(driverTransaction.getOrderNumber()).build();
+                .orderNumber(driverTransaction.getOrderNumber())
+                .groupId(driverTransaction.getGroupId())
+            .build();
 
         driverPaymentTransactions.add(transaction);
 

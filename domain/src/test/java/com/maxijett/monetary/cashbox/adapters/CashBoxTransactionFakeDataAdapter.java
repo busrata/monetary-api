@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters;
+package com.maxijett.monetary.cashbox.adapters;
 
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;

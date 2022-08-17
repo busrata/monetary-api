@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters;
+package com.maxijett.monetary.cashbox.adapters;
 
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.port.DriverCashPort;

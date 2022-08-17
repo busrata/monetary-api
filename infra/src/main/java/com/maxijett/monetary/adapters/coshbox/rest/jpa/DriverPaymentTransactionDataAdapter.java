@@ -21,6 +21,7 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
         driverPaymentTransactionEntity.setPaymentCash(from.getPaymentCash());
         driverPaymentTransactionEntity.setDateTime(from.getDateTime());
         driverPaymentTransactionEntity.setEventType(DriverEventType.ADMIN_GET_PAID);
+        driverPaymentTransactionEntity.setGroupId(from.getGroupId());
 
         return driverPaymentTransactionRepository.save(driverPaymentTransactionEntity).getId();
     }

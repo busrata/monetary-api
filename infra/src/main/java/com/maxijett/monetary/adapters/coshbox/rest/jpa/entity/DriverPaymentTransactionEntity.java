@@ -41,4 +41,7 @@ public class DriverPaymentTransactionEntity {
 
     @Column(name="parent_transaction_id")
     private Long parentTransactionId;
+
+    @Column(name="group_id")
+    private Long groupId;
 }
