@@ -13,6 +13,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+
 
 @IT
 public class CollectionPaymentControllerTest extends AbstractIT {
@@ -21,7 +24,15 @@ public class CollectionPaymentControllerTest extends AbstractIT {
   public void saveCollectionPaymentByDriver(){
 
     //Given
-    CollectionPaymentDTO collectionPaymentDTO = CollectionPaymentDTO.builder().build();
+    CollectionPaymentDTO collectionPaymentDTO = CollectionPaymentDTO.builder()
+            .id(101L)
+            .clientId(20L)
+            .groupId(6258L)
+            .storeId(200L)
+            .cash(BigDecimal.valueOf(84))
+            .date(ZonedDateTime.now())
+            .driverId(20000L)
+            .build();
 
     //When
     ResponseEntity<CollectionPayment> response = testRestTemplate.exchange("/api/v1/collection-payment/by-driver",
@@ -29,14 +40,14 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         });
 
     //Then
-    CollectionPayment responseDTO = response.getBody();
+    CollectionPayment collectionPayment = response.getBody();
 
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    Assertions.assertEquals(collectionPaymentDTO.getCash(), responseDTO.getCash());
-    Assertions.assertEquals(collectionPaymentDTO.getDriverId(), responseDTO.getDriverId());
-    Assertions.assertEquals(collectionPaymentDTO.getStoreId(), responseDTO.getStoreId());
-    Assertions.assertEquals(collectionPaymentDTO.getGroupId(), responseDTO.getGroupId());
-    Assertions.assertNotNull(responseDTO.getId());
+    Assertions.assertEquals(collectionPaymentDTO.getCash(), collectionPayment.getCash());
+    Assertions.assertEquals(collectionPaymentDTO.getDriverId(), collectionPayment.getDriverId());
+    Assertions.assertEquals(collectionPaymentDTO.getStoreId(), collectionPayment.getStoreId());
+    Assertions.assertEquals(collectionPaymentDTO.getGroupId(), collectionPayment.getGroupId());
+    Assertions.assertNotNull(collectionPayment.getId());
 
   }
 
