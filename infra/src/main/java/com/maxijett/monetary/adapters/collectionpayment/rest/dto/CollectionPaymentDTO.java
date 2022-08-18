@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.collectionPayment.rest.dto;
+package com.maxijett.monetary.adapters.collectionpayment.rest.dto;
 
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import java.math.BigDecimal;

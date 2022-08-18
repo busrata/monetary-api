@@ -3,7 +3,8 @@ package com.maxijett.monetary.integration;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
-import com.maxijett.monetary.adapters.collectionPayment.rest.dto.CollectionPaymentDTO;
+import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
+import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -23,12 +24,12 @@ public class CollectionPaymentControllerTest extends AbstractIT {
     CollectionPaymentDTO collectionPaymentDTO = CollectionPaymentDTO.builder().build();
 
     //When
-    ResponseEntity<CollectionPaymentDTO> response = testRestTemplate.exchange("/api/v1/collection-payment/by-driver",
-        HttpMethod.POST, new HttpEntity<>(collectionPaymentDTO, null), new ParameterizedTypeReference<CollectionPaymentDTO>() {
+    ResponseEntity<CollectionPayment> response = testRestTemplate.exchange("/api/v1/collection-payment/by-driver",
+        HttpMethod.POST, new HttpEntity<>(collectionPaymentDTO, null), new ParameterizedTypeReference<CollectionPayment>() {
         });
 
     //Then
-    CollectionPaymentDTO responseDTO = response.getBody();
+    CollectionPayment responseDTO = response.getBody();
 
     Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
     Assertions.assertEquals(collectionPaymentDTO.getCash(), responseDTO.getCash());

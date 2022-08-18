@@ -1,6 +1,7 @@
-package com.maxijett.monetary.adapters.collectionPayment.rest;
+package com.maxijett.monetary.adapters.collectionpayment.rest;
 
-import com.maxijett.monetary.adapters.collectionPayment.rest.dto.CollectionPaymentDTO;
+import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
+import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.RequiredArgsConstructor;
@@ -17,11 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/collection-payment")
 public class CollectionPaymentController {
 
-  private final UseCaseHandler<CollectionPaymentDTO, CollectionPaymentCreate> payCollectionPaymentToStoreByDriverUseCaseHandler;
+  private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByDriverUseCaseHandler;
 
 
   @PostMapping("/by-driver")
-  public ResponseEntity<CollectionPaymentDTO> saveCollectionPaymentByDriver(CollectionPaymentDTO collectionPaymentDTO){
+  public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(CollectionPaymentDTO collectionPaymentDTO){
      return new ResponseEntity<>(payCollectionPaymentToStoreByDriverUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
          HttpStatus.OK);
   }
