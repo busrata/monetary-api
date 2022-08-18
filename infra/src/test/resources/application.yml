@@ -12,7 +12,7 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL92Dialect
     open-in-view: false
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/monetary_test_db
     username: postgres
