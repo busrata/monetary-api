@@ -15,66 +15,72 @@ import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
 import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+
 import lombok.RequiredArgsConstructor;
+
+import javax.transaction.Transactional;
 
 
 @DomainComponent
 @RequiredArgsConstructor
 public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
-    UseCaseHandler<CollectionPayment, CollectionPaymentCreate> {
+        UseCaseHandler<CollectionPayment, CollectionPaymentCreate> {
 
 
-  private final CollectionPaymentPort collectionPaymentPort;
+    private final CollectionPaymentPort collectionPaymentPort;
 
-  private final DriverCashPort driverCashPort;
+    private final DriverCashPort driverCashPort;
 
-  private final StoreCollectionPort storeCollectionPort;
+    private final StoreCollectionPort storeCollectionPort;
 
-  private final DriverPaymentTransactionPort driverPaymentTransactionPort;
+    private final DriverPaymentTransactionPort driverPaymentTransactionPort;
 
-  private final StorePaymentTransactionPort storePaymentTransactionPort;
+    private final StorePaymentTransactionPort storePaymentTransactionPort;
 
-  @Override
-  public CollectionPayment handle(CollectionPaymentCreate useCase) {
+    @Override
+    @Transactional
+    public CollectionPayment handle(CollectionPaymentCreate useCase) {
 
-    CollectionPayment collectionPayment = collectionPaymentPort.create(useCase);
+        CollectionPayment collectionPayment = collectionPaymentPort.create(useCase);
 
-    DriverCash driverCash = driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
+        DriverCash driverCash = driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
 
-    driverCash.setCash(driverCash.getCash().subtract(useCase.getCash()));
-    driverCashPort.update(driverCash);
+        driverCash.setCash(driverCash.getCash().subtract(useCase.getCash()));
+        driverCashPort.update(driverCash);
+        driverPaymentTransactionPort.createTransaction(buildDriverPaymentTransaction(collectionPayment));
 
-    StoreCollection storeCollection = storeCollectionPort.retrieve(useCase.getStoreId());
+        StoreCollection storeCollection = storeCollectionPort.retrieve(useCase.getStoreId());
 
-    storeCollection.setCash(storeCollection.getCash().subtract(useCase.getCash()));
-    storeCollectionPort.update(storeCollection);
+        storeCollection.setCash(storeCollection.getCash().subtract(useCase.getCash()));
+        storeCollectionPort.update(storeCollection);
+        storePaymentTransactionPort.create(buildStorePaymentTransaction(collectionPayment));
 
-    DriverPaymentTransaction driverPaymentTransaction = DriverPaymentTransaction.builder()
-        .driverId(collectionPayment.getDriverId())
-        .paymentCash(collectionPayment.getCash())
-        .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-        .eventType(DriverEventType.DRIVER_PAY)
-        .groupId(collectionPayment.getGroupId())
-        .build();
+        return collectionPayment;
+    }
 
+    private StorePaymentTransaction buildStorePaymentTransaction(CollectionPayment collectionPayment) {
+        return StorePaymentTransaction.builder()
+                .storeId(collectionPayment.getStoreId())
+                .cash(collectionPayment.getCash())
+                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .clientId(collectionPayment.getClientId())
+                .pos(BigDecimal.ZERO)
+                .driverId(collectionPayment.getDriverId())
+                .eventType(StoreEventType.DRIVER_PAY)
+                .build();
+    }
 
-    driverPaymentTransactionPort.createTransaction(driverPaymentTransaction);
-
-    StorePaymentTransaction storePaymentTransaction = StorePaymentTransaction.builder()
-        .storeId(collectionPayment.getStoreId())
-        .cash(collectionPayment.getCash())
-        .date(ZonedDateTime.now(ZoneId.of("UTC")))
-        .clientId(collectionPayment.getClientId())
-        .pos(BigDecimal.ZERO)
-        .driverId(collectionPayment.getDriverId())
-        .eventType(StoreEventType.DRIVER_PAY)
-        .build();
-
-    storePaymentTransactionPort.create(storePaymentTransaction);
-
-    return collectionPayment;
-  }
+    private DriverPaymentTransaction buildDriverPaymentTransaction(CollectionPayment collectionPayment) {
+        return DriverPaymentTransaction.builder()
+                .driverId(collectionPayment.getDriverId())
+                .paymentCash(collectionPayment.getCash())
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                .eventType(DriverEventType.DRIVER_PAY)
+                .groupId(collectionPayment.getGroupId())
+                .build();
+    }
 }

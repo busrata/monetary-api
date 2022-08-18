@@ -12,6 +12,7 @@ import com.maxijett.monetary.store.port.StoreCollectionPort;
 import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -30,6 +31,7 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
     private final StorePaymentTransactionPort storePaymentTransactionPort;
 
     @Override
+    @Transactional
     public CollectionPayment handle(CollectionPaymentCreate useCase) {
 
         CollectionPayment collectionPayment = collectionPaymentPort.create(useCase);
@@ -40,7 +42,13 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
 
         storeCollectionPort.update(storeCollection);
 
-        StorePaymentTransaction storePaymentTransaction = StorePaymentTransaction.builder()
+        storePaymentTransactionPort.create(buildStorePaymentTransaction(useCase, collectionPayment));
+
+        return collectionPayment;
+    }
+
+    private StorePaymentTransaction buildStorePaymentTransaction(CollectionPaymentCreate useCase, CollectionPayment collectionPayment) {
+        return StorePaymentTransaction.builder()
                 .storeId(collectionPayment.getStoreId())
                 .date(ZonedDateTime.now(ZoneId.of("UTC")))
                 .clientId(collectionPayment.getClientId())
@@ -48,9 +56,5 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
                 .pos(useCase.getPos())
                 .eventType(StoreEventType.ADMIN_GET_PAID)
                 .build();
-
-        storePaymentTransactionPort.create(storePaymentTransaction);
-
-        return collectionPayment;
     }
 }
