@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
 
-  List<StoreCollection> storeList = new ArrayList<>();
+  List<StoreCollection> storeCollectionList = new ArrayList<>();
 
   @Override
   public StoreCollection retrieve(Long storeId){
@@ -27,12 +27,12 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
 
   @Override
   public StoreCollection update(StoreCollection storeCollection){
-    storeList.add(storeCollection);
+    storeCollectionList.add(storeCollection);
     return storeCollection;
   }
 
   public void assertContains(StoreCollection... storeCollections){
-    assertThat(storeList).containsAnyElementsOf(List.of(storeCollections));
+    assertThat(storeCollectionList).containsAnyElementsOf(List.of(storeCollections));
   }
 
 }

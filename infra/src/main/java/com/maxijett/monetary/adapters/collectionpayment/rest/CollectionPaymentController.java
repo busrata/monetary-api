@@ -19,14 +19,22 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/collection-payment")
 public class CollectionPaymentController {
 
-  private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByDriverUseCaseHandler;
+    private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByDriverUseCaseHandler;
+
+    private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler;
 
 
-  @PostMapping("/by-driver")
-  public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(@RequestBody CollectionPaymentDTO collectionPaymentDTO){
-     return new ResponseEntity<>(payCollectionPaymentToStoreByDriverUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
-         HttpStatus.OK);
-  }
+    @PostMapping("/by-driver")
+    public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
+        return new ResponseEntity<>(payCollectionPaymentToStoreByDriverUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
+                HttpStatus.OK);
+    }
+
+    @PostMapping("/by-store-chain-admin")
+    public ResponseEntity<CollectionPayment> saveCollectionPaymentByStoreChainAdmin(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
+        return new ResponseEntity<>(payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
+                HttpStatus.OK);
+    }
 
 
 }
