@@ -38,15 +38,16 @@ public class StorePaymentTransactionEntity {
     private BigDecimal pos;
 
     @Column(name = "event_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private StoreEventType eventType;
 
     @Column(name = "parent_transaction_id")
     private Long parentTransactionId;
 
-    @Column(name = "user_id", nullable = false)
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "driver_id", nullable = false)
+    @Column(name = "driver_id")
     private Long driverId;
 
     @Column(name = "client_id", nullable = false)

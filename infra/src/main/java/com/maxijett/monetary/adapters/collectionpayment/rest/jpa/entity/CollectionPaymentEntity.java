@@ -27,10 +27,10 @@ public class CollectionPaymentEntity {
     @Column(name = "driver_id", nullable = false)
     private Long driverId;
 
-    @Column(name = "cash", columnDefinition = "Decimal(10,2) default '0.00'")
+    @Column(name = "cash", nullable = false,columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal cash;
 
-    @Column(name = "pos", columnDefinition = "Decimal(10,2) default '0.00'")
+    @Column(name = "pos", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal pos;
 
     @Column(name = "date", nullable = false)

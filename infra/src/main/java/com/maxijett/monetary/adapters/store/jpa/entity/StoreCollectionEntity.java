@@ -30,7 +30,8 @@ public class StoreCollectionEntity {
     @Column(name = "pos", columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal pos;
 
-    @Column(name = "tariffType", nullable = false)
+    @Column(name = "tariff_type", nullable = false)
+    @Enumerated(EnumType.STRING)
     private TariffType tariffType;
 
     @Column(name = "client_id")

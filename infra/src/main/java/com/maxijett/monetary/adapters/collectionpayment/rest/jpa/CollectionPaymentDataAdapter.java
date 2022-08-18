@@ -8,6 +8,9 @@ import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
@@ -21,9 +24,9 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
         entity.setDriverId(from.getDriverId());
         entity.setGroupId(from.getGroupId());
         entity.setClientId(from.getClientId());
-        entity.setCash(from.getCash());
+        entity.setCash(Objects.isNull(from.getCash()) ? BigDecimal.valueOf(0.00) : from.getCash());
         entity.setStoreId(from.getStoreId());
-        entity.setPos(from.getPos());
+        entity.setPos(Objects.isNull(from.getPos()) ? BigDecimal.valueOf(0.00) : from.getPos());
         entity.setDate(from.getDate());
 
         return collectionPaymentRepository.save(entity).toModel();

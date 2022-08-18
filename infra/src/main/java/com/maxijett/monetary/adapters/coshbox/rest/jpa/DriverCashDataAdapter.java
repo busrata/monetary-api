@@ -7,6 +7,9 @@ import com.maxijett.monetary.driver.port.DriverCashPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.util.Objects;
+
 @Service
 @RequiredArgsConstructor
 public class DriverCashDataAdapter implements DriverCashPort {
@@ -15,7 +18,7 @@ public class DriverCashDataAdapter implements DriverCashPort {
 
     @Override
     public DriverCash retrieve(Long driverId, Long groupId) {
-        return driverCashRepository.findByDispatchDriverIdAndGroupId(driverId, groupId).toModel();
+        return driverCashRepository.findByDriverIdAndGroupId(driverId, groupId).toModel();
     }
 
     @Override
@@ -28,8 +31,8 @@ public class DriverCashDataAdapter implements DriverCashPort {
         entity.setId(driverCash.getId());
         entity.setClientId(driverCash.getClientId());
         entity.setGroupId(driverCash.getGroupId());
-        entity.setCash(driverCash.getCash());
-        entity.setDispatchDriverId(driverCash.getDriverId());
+        entity.setCash(Objects.isNull(driverCash.getCash()) ? BigDecimal.valueOf(0.00) : driverCash.getCash());
+        entity.setDriverId(driverCash.getDriverId());
         entity.setPrepaidCollectionCash(driverCash.getPrepaidCollectionCash());
         return entity;
     }

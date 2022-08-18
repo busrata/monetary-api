@@ -20,13 +20,13 @@ public class DriverCashEntity {
     @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name = "dispatch_driver_id")
-    private Long dispatchDriverId;
+    @Column(name = "driver_id")
+    private Long driverId;
 
     @Column(name = "group_id")
     private Long groupId;
 
-    @Column(name = "cash")
+    @Column(name = "cash", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal cash;
 
     @Column(name = "client_id")
@@ -41,7 +41,7 @@ public class DriverCashEntity {
                 .clientId(getClientId())
                 .groupId(getGroupId())
                 .cash(getCash())
-                .driverId(getDispatchDriverId())
+                .driverId(getDriverId())
                 .prepaidCollectionCash(getPrepaidCollectionCash()).build();
     }
 }

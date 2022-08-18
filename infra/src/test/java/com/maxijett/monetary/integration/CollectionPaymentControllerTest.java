@@ -12,12 +12,16 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 
 @IT
+@Sql(scripts = "classpath:sql/driver-cash.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/store-collection.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CollectionPaymentControllerTest extends AbstractIT {
 
   @Test
@@ -26,12 +30,12 @@ public class CollectionPaymentControllerTest extends AbstractIT {
     //Given
     CollectionPaymentDTO collectionPaymentDTO = CollectionPaymentDTO.builder()
             .id(101L)
-            .clientId(20L)
-            .groupId(6258L)
+            .clientId(20000L)
+            .groupId(20L)
             .storeId(200L)
             .cash(BigDecimal.valueOf(84))
             .date(ZonedDateTime.now())
-            .driverId(20000L)
+            .driverId(1L)
             .build();
 
     //When
