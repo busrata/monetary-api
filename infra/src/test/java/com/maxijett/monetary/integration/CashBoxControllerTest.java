@@ -2,8 +2,8 @@ package com.maxijett.monetary.integration;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
-import com.maxijett.monetary.adapters.coshbox.rest.dto.CashBoxAddDTO;
-import com.maxijett.monetary.adapters.coshbox.rest.dto.CashBoxDTO;
+import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxAddDTO;
+import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;

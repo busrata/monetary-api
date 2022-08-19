@@ -1,7 +1,7 @@
-package com.maxijett.monetary.adapters.coshbox.rest.jpa;
+package com.maxijett.monetary.adapters.cashbox.rest.jpa;
 
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.entity.CashBoxTransactionEntity;
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.repository.CashBoxTransactionRepository;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.CashBoxTransactionEntity;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.CashBoxTransactionRepository;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
 import lombok.RequiredArgsConstructor;

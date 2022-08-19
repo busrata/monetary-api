@@ -1,7 +1,7 @@
-package com.maxijett.monetary.adapters.coshbox.rest;
+package com.maxijett.monetary.adapters.cashbox.rest;
 
-import com.maxijett.monetary.adapters.coshbox.rest.dto.CashBoxAddDTO;
-import com.maxijett.monetary.adapters.coshbox.rest.dto.CashBoxDTO;
+import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxAddDTO;
+import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxDTO;
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;

@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.coshbox.rest.dto;
+package com.maxijett.monetary.adapters.cashbox.rest.dto;
 
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import lombok.*;

@@ -1,7 +1,7 @@
-package com.maxijett.monetary.adapters.coshbox.rest.jpa;
+package com.maxijett.monetary.adapters.cashbox.rest.jpa;
 
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.entity.DriverCashEntity;
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.repository.DriverCashRepository;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverCashEntity;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverCashRepository;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.port.DriverCashPort;
 import lombok.RequiredArgsConstructor;

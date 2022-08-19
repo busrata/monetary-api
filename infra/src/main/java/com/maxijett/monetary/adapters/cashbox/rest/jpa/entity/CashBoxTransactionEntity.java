@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.coshbox.rest.jpa.entity;
+package com.maxijett.monetary.adapters.cashbox.rest.jpa.entity;
 
 import lombok.Getter;
 import lombok.Setter;

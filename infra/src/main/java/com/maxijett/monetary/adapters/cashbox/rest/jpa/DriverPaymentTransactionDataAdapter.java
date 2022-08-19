@@ -1,7 +1,7 @@
-package com.maxijett.monetary.adapters.coshbox.rest.jpa;
+package com.maxijett.monetary.adapters.cashbox.rest.jpa;
 
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.entity.DriverPaymentTransactionEntity;
-import com.maxijett.monetary.adapters.coshbox.rest.jpa.repository.DriverPaymentTransactionRepository;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
