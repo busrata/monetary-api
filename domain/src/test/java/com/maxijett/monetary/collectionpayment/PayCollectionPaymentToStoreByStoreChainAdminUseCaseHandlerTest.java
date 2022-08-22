@@ -2,7 +2,7 @@ package com.maxijett.monetary.collectionpayment;
 
 import com.maxijett.monetary.collectionpayment.adapters.CollectionPaymentFakeDataAdapter;
 import com.maxijett.monetary.collectionpayment.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.collectionpayment.adapters.StorePaymentTransactionFakeDataAdapter;
+import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;

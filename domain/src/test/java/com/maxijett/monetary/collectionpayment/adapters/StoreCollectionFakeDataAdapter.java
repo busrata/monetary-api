@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
 
-  List<StoreCollection> storeCollectionList = new ArrayList<>();
+  public List<StoreCollection> storeCollectionList = new ArrayList<>();
 
   @Override
   public StoreCollection retrieve(Long storeId){

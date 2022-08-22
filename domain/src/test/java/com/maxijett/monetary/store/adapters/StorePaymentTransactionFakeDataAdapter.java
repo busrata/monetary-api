@@ -1,4 +1,4 @@
-package com.maxijett.monetary.collectionpayment.adapters;
+package com.maxijett.monetary.store.adapters;
 
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.port.StorePaymentTransactionPort;

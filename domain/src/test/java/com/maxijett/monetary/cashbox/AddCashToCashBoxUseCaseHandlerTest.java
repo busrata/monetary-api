@@ -48,7 +48,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         CashBox cashBox = addCashToCashBoxUseCaseHandler.handle(cashBoxAdd);
 
         //Then
-        assertEquals(BigDecimal.valueOf(25), cashBox.getCash());
+        assertEquals(BigDecimal.valueOf(275), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
         assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
         assertEquals(BigDecimal.valueOf(25), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
@@ -80,7 +80,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
                         .cash(BigDecimal.valueOf(20))
                         .build());
 
-        assertEquals(BigDecimal.valueOf(25), cashBox.getCash());
+        assertEquals(BigDecimal.valueOf(275), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
 
     }
@@ -110,7 +110,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
                         .cash(BigDecimal.valueOf(60))
                         .build());
 
-        assertEquals(BigDecimal.valueOf(0), cashBox.getCash());
+        assertEquals(BigDecimal.valueOf(250), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
         assertEquals(cashBoxAdd.getDriverId(), driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0).getDriverId());
         assertEquals(BigDecimal.valueOf(60), driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0).getPaymentCash());
