@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
-import com.maxijett.monetary.collectionpayment.adapters.StoreCollectionFakeDataAdapter;
+import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
 import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import org.junit.jupiter.api.BeforeEach;
@@ -97,6 +97,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
                 .amount(BigDecimal.valueOf(48))
                 .storeId(billingPaymentCreate.getStoreId())
                 .paymentType(PaymentType.CASH)
+                .isDeleted(false)
                 .build());
 
 
@@ -145,6 +146,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
                 .amount(BigDecimal.valueOf(50))
                 .storeId(billingPaymentCreate.getStoreId())
                 .paymentType(PaymentType.CREDIT_CARD)
+                .isDeleted(false)
                 .build());
 
         assertEquals(billingPaymentCreate.getPaymentType(), responseBillingPayment.getPaymentType());

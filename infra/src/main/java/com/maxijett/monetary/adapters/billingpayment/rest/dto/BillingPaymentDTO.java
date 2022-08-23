@@ -1,6 +1,5 @@
 package com.maxijett.monetary.adapters.billingpayment.rest.dto;
 
-import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;

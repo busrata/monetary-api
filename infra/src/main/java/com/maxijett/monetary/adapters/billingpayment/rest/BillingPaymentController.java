@@ -1,8 +1,10 @@
 package com.maxijett.monetary.adapters.billingpayment.rest;
 
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDTO;
+import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDeleteDTO;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentPrePaidDTO;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
+import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
@@ -23,6 +25,8 @@ public class BillingPaymentController {
 
   private final UseCaseHandler<BillingPayment, BillingPaymentCreate> getPaidBillingPaymentFromStoreByStoreChainAdmin;
 
+  private final UseCaseHandler<BillingPayment, BillingPaymentDelete> deletePaidBillingPaymentFromStoreByStoreChainAdmin;
+
   private final UseCaseHandler<BillingPayment, BillingPaymentPrePaidCreate> getPaidBillingPaymentFromColdStoreByDriver;
   @PostMapping("/by-admin")
   public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO){
@@ -36,5 +40,12 @@ public class BillingPaymentController {
     log.info("REST request post to createBillingPaymentFromColdStoreByDriver with billingPaymentPrePaidDTO : {}", billingPaymentPrePaidDTO);
     return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromColdStoreByDriver.handle(billingPaymentPrePaidDTO.toUseCase()), HttpStatus.CREATED);
   }
+
+  @PostMapping("/delete")
+  public ResponseEntity<BillingPayment> deleteBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDeleteDTO billingPaymentDeleteDTO){
+    log.info("REST request delete to deleteBillingPayment with billingPaymentDeleteDTO: {}", billingPaymentDeleteDTO);
+    return new ResponseEntity<BillingPayment>(deletePaidBillingPaymentFromStoreByStoreChainAdmin.handle(billingPaymentDeleteDTO.toUseCase()), HttpStatus.OK);
+  }
+
 
 }

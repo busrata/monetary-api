@@ -2,6 +2,7 @@ package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
+import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
@@ -75,6 +76,7 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
                 .driverId(useCase.getDriverId())
                 .dateTime(ZonedDateTime.now())
                 .amount(increaseAmount)
+                .cashBoxEventType(CashBoxEventType.DRIVER_PAY)
                 .build();
     }
 }

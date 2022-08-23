@@ -5,6 +5,7 @@ import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
 import com.maxijett.monetary.cashbox.adapters.DriverPaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
+import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import com.maxijett.monetary.driver.model.DriverCash;
@@ -52,6 +53,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
         assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
         assertEquals(BigDecimal.valueOf(25), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
+        assertEquals(CashBoxEventType.DRIVER_PAY, cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getCashBoxEventType());
 
     }
 

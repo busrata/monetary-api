@@ -1,5 +1,6 @@
 package com.maxijett.monetary.adapters.cashbox.rest.jpa.entity;
 
+import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -31,4 +32,8 @@ public class CashBoxTransactionEntity {
 
     @Column(name = "paying_account")
     private String payingAccount;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "event_type")
+    private CashBoxEventType eventType;
 }

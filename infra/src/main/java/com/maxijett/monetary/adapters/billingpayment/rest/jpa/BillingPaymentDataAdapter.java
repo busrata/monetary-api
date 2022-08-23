@@ -5,6 +5,7 @@ import com.maxijett.monetary.adapters.billingpayment.rest.jpa.repository.Billing
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
+import javax.transaction.Transactional;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,9 +28,24 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
         entity.setPayingAccount(useCase.getPayingAccount());
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
+        entity.setIsDeleted(false);
 
         return billingPaymentRepository.save(entity).toModel();
 
+    }
+    @Override
+    public BillingPayment retrieve(Long id) {
+
+        return billingPaymentRepository.findById(id).orElseThrow(NullPointerException::new).toModel();
+    }
+
+    @Transactional
+    @Override
+    public BillingPayment update(Long id){
+
+        billingPaymentRepository.updateBillingPaymentIsDeleted(id);
+
+        return retrieve(id);
     }
 
     @Override
@@ -42,6 +58,7 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
         entity.setPayingAccount(useCase.getDriverId().toString());
+        entity.setIsDeleted(false);
 
         return billingPaymentRepository.save(entity).toModel();
     }

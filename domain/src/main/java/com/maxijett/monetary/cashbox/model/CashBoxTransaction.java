@@ -1,5 +1,6 @@
 package com.maxijett.monetary.cashbox.model;
 
+import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,5 +24,7 @@ public class CashBoxTransaction {
     private BigDecimal amount;
 
     private String payingAccount;
+
+    private CashBoxEventType cashBoxEventType;
 
 }

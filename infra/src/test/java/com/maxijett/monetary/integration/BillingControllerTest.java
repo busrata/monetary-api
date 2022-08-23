@@ -6,8 +6,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDTO;
+import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDeleteDTO;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentPrePaidDTO;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
+import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import java.math.BigDecimal;
@@ -20,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
 @IT
+@Sql(scripts = "classpath:sql/billing-payment.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/store-collection.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
@@ -68,7 +71,7 @@ public class BillingControllerTest  extends AbstractIT {
         .clientId(20L)
         .paymentType(PaymentType.CASH)
         .payloadType(PayloadType.NETTING)
-        .payingAccount("storeChainAdmin")
+        .payingAccount("camlikChainAdmin")
         .build();
 
     //When
@@ -88,6 +91,31 @@ public class BillingControllerTest  extends AbstractIT {
     assertEquals(billingPaymentDTO.getAmount(), actualBilling.getAmount());
     assertEquals(billingPaymentDTO.getPayingAccount(), actualBilling.getPayingAccount());
     assertEquals(billingPaymentDTO.getPayloadType(), actualBilling.getPayloadType());
+    assertEquals(false, actualBilling.getIsDeleted());
+  }
+
+  @Test
+  public void deleteBillingPaymentWithPayloadTypeNettingByStoreChainAdmin(){
+
+    //Given
+    BillingPaymentDeleteDTO billingPaymentDeleteDTO = BillingPaymentDeleteDTO.builder()
+        .id(3L)
+        .payingAccount("storeChainAdmin")
+        .payloadType(PayloadType.NETTING)
+        .build();
+
+    //When
+    ResponseEntity<BillingPaymentDelete> response = testRestTemplate.exchange("/api/v1/billing-payment/delete", HttpMethod.POST, new HttpEntity<>(billingPaymentDeleteDTO, null), new ParameterizedTypeReference<BillingPaymentDelete>() {
+        });
+
+    BillingPaymentDelete actualBillingDelete = response.getBody();
+
+    //Then
+    assertEquals(billingPaymentDeleteDTO.getId(), actualBillingDelete.getId());
+    assertEquals(billingPaymentDeleteDTO.getPayloadType(), actualBillingDelete.getPayloadType());
+    assertEquals(billingPaymentDeleteDTO.getPayingAccount(), actualBillingDelete.getPayingAccount());
+    assertEquals(true, actualBillingDelete.getIsDeleted());
+
   }
 
   @Test

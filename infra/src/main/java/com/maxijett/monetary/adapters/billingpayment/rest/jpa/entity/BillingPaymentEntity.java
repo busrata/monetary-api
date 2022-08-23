@@ -9,9 +9,9 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
+@Entity(name="BillingPaymentEntity")
 @Table(name = "billing_payment")
 public class BillingPaymentEntity {
 
@@ -42,6 +42,9 @@ public class BillingPaymentEntity {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
+    @Column(name ="is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     public BillingPayment toModel() {
         return BillingPayment.builder()
                 .id(getId())
@@ -50,6 +53,7 @@ public class BillingPaymentEntity {
                 .clientId(getClientId())
                 .amount(getAmount())
                 .payloadType(getPayloadType())
+                .isDeleted(getIsDeleted())
                 .payingAccount(getPayingAccount()).build();
     }
 }

@@ -8,5 +8,9 @@ public interface BillingPaymentPort {
 
     BillingPayment create(BillingPaymentCreate useCase);
 
+    BillingPayment retrieve(Long id);
+
+    BillingPayment update(Long id);
+
     BillingPayment create(BillingPaymentPrePaidCreate useCase);
 }
