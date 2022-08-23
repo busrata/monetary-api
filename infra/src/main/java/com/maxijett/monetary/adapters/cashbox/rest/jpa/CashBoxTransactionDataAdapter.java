@@ -19,6 +19,7 @@ public class CashBoxTransactionDataAdapter implements CashBoxTransactionPort {
         entity.setDriverId(cashBoxTransaction.getDriverId());
         entity.setAmount(cashBoxTransaction.getAmount());
         entity.setDateTime(cashBoxTransaction.getDateTime());
+        entity.setPayingAccount(cashBoxTransaction.getPayingAccount());
 
         return cashBoxTransactionRepository.save(entity).getId();
 

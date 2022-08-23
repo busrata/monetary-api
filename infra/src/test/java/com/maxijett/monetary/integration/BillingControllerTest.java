@@ -16,8 +16,12 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 
 @IT
+@Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/store-collection.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class BillingControllerTest  extends AbstractIT {
 
   @Test
@@ -25,7 +29,7 @@ public class BillingControllerTest  extends AbstractIT {
 
     //Given
     BillingPaymentDTO billingPaymentDTO = BillingPaymentDTO.builder()
-        .storeId(2L)
+        .storeId(200L)
         .amount(BigDecimal.valueOf(40))
         .clientId(20L)
         .paymentType(PaymentType.CASH)
@@ -34,7 +38,7 @@ public class BillingControllerTest  extends AbstractIT {
         .build();
 
     //When
-    ResponseEntity<BillingPayment> response = testRestTemplate.exchange("/api/v1/billing/by-admin",
+    ResponseEntity<BillingPayment> response = testRestTemplate.exchange("/api/v1/billing-payment/by-admin",
         HttpMethod.POST, new HttpEntity<>(billingPaymentDTO, null), new ParameterizedTypeReference<BillingPayment>() {
         });
 
@@ -57,7 +61,7 @@ public class BillingControllerTest  extends AbstractIT {
 
     //Given
     BillingPaymentDTO billingPaymentDTO = BillingPaymentDTO.builder()
-        .storeId(2L)
+        .storeId(200L)
         .amount(BigDecimal.valueOf(40))
         .clientId(20L)
         .paymentType(PaymentType.CASH)
@@ -66,7 +70,7 @@ public class BillingControllerTest  extends AbstractIT {
         .build();
 
     //When
-    ResponseEntity<BillingPayment> response = testRestTemplate.exchange("/api/v1/billing/by-admin",
+    ResponseEntity<BillingPayment> response = testRestTemplate.exchange("/api/v1/billing-payment/by-admin",
         HttpMethod.POST, new HttpEntity<>(billingPaymentDTO, null), new ParameterizedTypeReference<BillingPayment>() {
         });
 

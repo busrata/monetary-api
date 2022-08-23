@@ -22,4 +22,6 @@ public class CashBoxTransaction {
 
     private BigDecimal amount;
 
+    private String payingAccount;
+
 }

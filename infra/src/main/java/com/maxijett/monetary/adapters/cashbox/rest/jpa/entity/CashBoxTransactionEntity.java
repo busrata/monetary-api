@@ -23,9 +23,12 @@ public class CashBoxTransactionEntity {
     @Column(name = "date_time", nullable = false)
     private ZonedDateTime dateTime;
 
-    @Column(name = "driver_id", nullable = false)
+    @Column(name = "driver_id")
     private Long driverId;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
+
+    @Column(name = "paying_account")
+    private String payingAccount;
 }

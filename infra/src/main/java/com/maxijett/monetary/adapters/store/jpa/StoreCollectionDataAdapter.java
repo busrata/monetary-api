@@ -29,6 +29,7 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
         entity.setClientId(entity.getClientId());
         entity.setPos(storeCollection.getPos());
         entity.setTariffType(storeCollection.getTariffType());
+        entity.setGroupId(storeCollection.getGroupId());
 
         return storeCollectionRepository.save(entity).toModel();
     }

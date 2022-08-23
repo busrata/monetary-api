@@ -24,6 +24,9 @@ public class StoreCollectionEntity {
     @Column(name = "store_id", nullable = false)
     private Long storeId;
 
+    @Column(name = "group_id", nullable = false)
+    private Long groupId;
+
     @Column(name = "cash", columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal cash;
 
@@ -42,6 +45,7 @@ public class StoreCollectionEntity {
                 .id(getId())
                 .cash(getCash())
                 .storeId(getStoreId())
+                .groupId(getGroupId())
                 .clientId(getClientId())
                 .pos(getPos())
                 .tariffType(getTariffType()).build();

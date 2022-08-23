@@ -9,6 +9,7 @@ import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
+import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+@DomainComponent
 @RequiredArgsConstructor
 public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler implements
         UseCaseHandler<BillingPayment, BillingPaymentCreate> {
@@ -49,6 +51,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
                 cashBoxTransactionPort.createTransaction(CashBoxTransaction.builder()
                         .dateTime(ZonedDateTime.now().withZoneSameInstant(ISTANBUL_ZONE_ID))
                         .amount(useCase.getAmount())
+                        .payingAccount(useCase.getPayingAccount())
                         .build());
 
                 storeCollection.setCash(storeCollection.getCash().subtract(useCase.getAmount()));
