@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDTO;
+import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentPrePaidDTO;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
@@ -22,6 +23,7 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/store-collection.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:sql/driver-cash.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public class BillingControllerTest  extends AbstractIT {
 
   @Test
@@ -88,5 +90,33 @@ public class BillingControllerTest  extends AbstractIT {
     assertEquals(billingPaymentDTO.getPayloadType(), actualBilling.getPayloadType());
   }
 
+  @Test
+  public void getPaidBillingPaymentFromColdStoreByDriver(){
+    //Given
+    BillingPaymentPrePaidDTO billingPaymentPrePaidDTO = BillingPaymentPrePaidDTO.builder()
+            .driverId(1L)
+            .paymentType(PaymentType.CASH)
+            .payloadType(PayloadType.NETTING)
+            .storeId(200L)
+            .clientId(20000L)
+            .prePaidBillingAmount(BigDecimal.valueOf(40))
+            .groupId(20L)
+            .build();
+
+    //When
+    ResponseEntity<BillingPayment> response = testRestTemplate.exchange("/api/v1/billing-payment/cold-store-by-driver",
+            HttpMethod.POST, new HttpEntity<>(billingPaymentPrePaidDTO, null), new ParameterizedTypeReference<BillingPayment>() {
+            });
+
+    BillingPayment actualBilling = response.getBody();
+    //Then
+
+    assertEquals(HttpStatus.CREATED, response.getStatusCode());
+    assertNotNull(actualBilling.getId());
+    assertEquals(billingPaymentPrePaidDTO.getStoreId(), actualBilling.getStoreId());
+    assertEquals(billingPaymentPrePaidDTO.getPaymentType(), actualBilling.getPaymentType());
+    assertEquals(billingPaymentPrePaidDTO.getClientId(), actualBilling.getClientId());
+    assertEquals(billingPaymentPrePaidDTO.getPayloadType(), actualBilling.getPayloadType());
+  }
 
 }

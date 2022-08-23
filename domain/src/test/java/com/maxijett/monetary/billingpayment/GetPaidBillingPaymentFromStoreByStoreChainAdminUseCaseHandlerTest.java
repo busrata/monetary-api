@@ -20,7 +20,7 @@ import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
+public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
     private final static Long CLIENT_ID = 20000L;
 
