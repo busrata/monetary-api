@@ -14,14 +14,9 @@ import java.math.BigDecimal;
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
-import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
 import com.maxijett.monetary.collectionpayment.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.StorePortFakeDataAdapter;
 import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
-import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
-import com.maxijett.monetary.store.port.StorePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -34,7 +29,6 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
     StorePaymentTransactionFakeDataAdapter storePaymentTransactionPort;
     CashBoxTransactionFakeDataAdapter cashBoxTransaction;
     BillingPaymentPortFakeDataAdapter billingPaymentPort;
-    StorePort storePort;
     GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler useCaseHandler;
 
     @BeforeEach
@@ -43,10 +37,9 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
         billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
         cashBoxTransaction = new CashBoxTransactionFakeDataAdapter();
         storeCollectionPort = new StoreCollectionFakeDataAdapter();
-        storePort = new StorePortFakeDataAdapter();
         storePaymentTransactionPort = new StorePaymentTransactionFakeDataAdapter();
         useCaseHandler = new GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(
-                cashBoxPort, billingPaymentPort, storeCollectionPort, storePaymentTransactionPort, cashBoxTransaction, storePort);
+                cashBoxPort, billingPaymentPort, storeCollectionPort, storePaymentTransactionPort, cashBoxTransaction);
     }
 
     @Test
@@ -76,13 +69,13 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
     }
 
     @Test
-    public void shouldBeSaveBillingPaymentWithPayloadTypeNetting() {
+    public void shouldBeSaveBillingPaymentCashWithPayloadTypeCollection() {
 
         //Given
         BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
                 .amount(BigDecimal.valueOf(48))
                 .paymentType(PaymentType.CASH)
-                .payloadType(PayloadType.NETTING)
+                .payloadType(PayloadType.COLLECTION)
                 .storeId(20000L)
                 .payingAccount("storeChainAdmin")
                 .clientId(CLIENT_ID)
@@ -91,14 +84,20 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
 
         //When
         BillingPayment responseBillingPayment = useCaseHandler.handle(billingPaymentCreate);
-        BillingPayment savedBillingPayment = billingPaymentPort.billings.get(0);
 
         CashBoxTransaction actualCashBoxTransaction = cashBoxTransaction.getCashBoxTransactions().get(0);
         BigDecimal expectedCashBoxAmountForStoreGroups = BigDecimal.valueOf(202);
 
         //Then
 
-        billingPaymentPort.assertContains(savedBillingPayment);
+        billingPaymentPort.assertContains(BillingPayment.builder()
+                .clientId(CLIENT_ID)
+                .payingAccount("storeChainAdmin")
+                .payloadType(PayloadType.COLLECTION)
+                .amount(BigDecimal.valueOf(48))
+                .storeId(billingPaymentCreate.getStoreId())
+                .paymentType(PaymentType.CASH)
+                .build());
 
 
         assertEquals(expectedCashBoxAmountForStoreGroups, cashBoxPort.boxes.get(0).getCash());
@@ -121,8 +120,72 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminTest {
     }
 
     @Test
-    public void shouldBeSaveBillingPaymentWithPayloadTypeCollection() {
-        //store ve storePaymentTransaction check
+    public void shouldBeSaveBillingPaymentPosWithPayloadTypeCollection() {
+
+        //Given
+        BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
+                .amount(BigDecimal.valueOf(50))
+                .paymentType(PaymentType.CREDIT_CARD)
+                .payloadType(PayloadType.COLLECTION)
+                .storeId(20000L)
+                .payingAccount("storeChainAdmin")
+                .clientId(CLIENT_ID)
+                .build();
+
+
+        //When
+        BillingPayment responseBillingPayment = useCaseHandler.handle(billingPaymentCreate);
+
+        //Then
+
+        billingPaymentPort.assertContains(BillingPayment.builder()
+                .clientId(CLIENT_ID)
+                .payingAccount("storeChainAdmin")
+                .payloadType(PayloadType.COLLECTION)
+                .amount(BigDecimal.valueOf(50))
+                .storeId(billingPaymentCreate.getStoreId())
+                .paymentType(PaymentType.CREDIT_CARD)
+                .build());
+
+        assertEquals(billingPaymentCreate.getPaymentType(), responseBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getPayloadType(), responseBillingPayment.getPayloadType());
+        assertEquals(billingPaymentCreate.getStoreId(), responseBillingPayment.getStoreId());
+        assertEquals(billingPaymentCreate.getClientId(), responseBillingPayment.getClientId());
+        assertEquals(billingPaymentCreate.getAmount(), responseBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
+
+        assertEquals(BigDecimal.valueOf(50), storeCollectionPort.storeCollectionList.get(0).getPos());
+        assertEquals(BigDecimal.valueOf(50), storePaymentTransactionPort.transactionList.get(0).getPos());
+        assertNull(storePaymentTransactionPort.transactionList.get(0).getCash());
+        assertEquals(StoreEventType.ADMIN_GET_PAID, storePaymentTransactionPort.transactionList.get(0).getEventType());
+
+
+    }
+
+    @Test
+    public void shouldBeSaveBillingPaymentCashWithPayloadTypeNetting() {
+        //Given
+        BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
+                .amount(BigDecimal.valueOf(48))
+                .paymentType(PaymentType.CASH)
+                .payloadType(PayloadType.NETTING)
+                .storeId(20000L)
+                .payingAccount("storeChainAdmin")
+                .clientId(CLIENT_ID)
+                .build();
+
+
+        //When
+        BillingPayment actualBillingPayment = useCaseHandler.handle(billingPaymentCreate);
+
+        //Then
+
+        assertEquals(billingPaymentCreate.getPaymentType(), actualBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getPayloadType(), actualBillingPayment.getPayloadType());
+        assertEquals(billingPaymentCreate.getStoreId(), actualBillingPayment.getStoreId());
+        assertEquals(billingPaymentCreate.getClientId(), actualBillingPayment.getClientId());
+        assertEquals(billingPaymentCreate.getAmount(), actualBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getPayingAccount(), actualBillingPayment.getPayingAccount());
     }
 
 

@@ -15,6 +15,7 @@ public class StoreCollection {
 
   private Long id;
   private Long storeId;
+  private Long groupId;
   private BigDecimal cash;
   private BigDecimal pos;
   private TariffType tariffType;
