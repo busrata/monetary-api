@@ -20,7 +20,9 @@ public class CashBoxTransactionFakeDataAdapter implements CashBoxTransactionPort
                 .dateTime(cashBoxTransaction.getDateTime())
                 .driverId(cashBoxTransaction.getDriverId())
                 .cashBoxEventType(cashBoxTransaction.getCashBoxEventType())
+                .payingAccount(cashBoxTransaction.getPayingAccount())
                 .amount(cashBoxTransaction.getAmount()).build();
+
 
         cashBoxTransactions.add(transaction);
 

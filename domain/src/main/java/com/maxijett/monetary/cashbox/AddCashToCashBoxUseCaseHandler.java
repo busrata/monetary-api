@@ -27,6 +27,8 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
     private final DriverPaymentTransactionPort driverPaymentTransactionPort;
     private final CashBoxTransactionPort cashBoxTransactionPort;
 
+    private static final String CASHBOX = "cashBox";
+
     @Transactional
     @Override
     public CashBox handle(CashBoxAdd useCase) {
@@ -72,11 +74,14 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
     }
 
     private CashBoxTransaction buildCashBoxTransaction(CashBoxAdd useCase, BigDecimal increaseAmount) {
+
         return CashBoxTransaction.builder()
                 .driverId(useCase.getDriverId())
                 .dateTime(ZonedDateTime.now())
+                .payingAccount(useCase.getPayingAccount())
                 .amount(increaseAmount)
-                .cashBoxEventType(CashBoxEventType.DRIVER_PAY)
+                .cashBoxEventType(useCase.getPayingAccount().equals(CASHBOX) ? CashBoxEventType.DRIVER_PAY : CashBoxEventType.ADMIN_PAY)
                 .build();
+
     }
 }

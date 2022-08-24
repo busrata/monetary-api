@@ -40,7 +40,7 @@ public class AddCashToCashBoxUseCaseHandlerTest {
 
         //Given
         CashBoxAdd cashBoxAdd = CashBoxAdd.builder().driverId(1L)
-                .payingAccount("StoreChainTest")
+                .payingAccount("cashBox")
                 .amount(BigDecimal.valueOf(100))
                 .clientId(20000L).groupId(2L)
                 .createOn(ZonedDateTime.now()).build();
@@ -51,9 +51,33 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         //Then
         assertEquals(BigDecimal.valueOf(275), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
+        assertEquals("cashBox",cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getPayingAccount());
         assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
         assertEquals(BigDecimal.valueOf(25), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
         assertEquals(CashBoxEventType.DRIVER_PAY, cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getCashBoxEventType());
+
+    }
+
+    @Test
+    public void addCashBoxUseCaseHandlerFromStoreChainAdmin() {
+
+        //Given
+        CashBoxAdd cashBoxAdd = CashBoxAdd.builder().driverId(1L)
+                .payingAccount("storeChainAdmin")
+                .amount(BigDecimal.valueOf(90))
+                .clientId(20000L).groupId(2L)
+                .createOn(ZonedDateTime.now()).build();
+
+        //When
+        CashBox cashBox = addCashToCashBoxUseCaseHandler.handle(cashBoxAdd);
+
+        //Then
+        assertEquals(BigDecimal.valueOf(265), cashBox.getCash());
+        assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
+        assertEquals("storeChainAdmin",cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getPayingAccount());
+        assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
+        assertEquals(BigDecimal.valueOf(15), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
+        assertEquals(CashBoxEventType.ADMIN_PAY, cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getCashBoxEventType());
 
     }
 

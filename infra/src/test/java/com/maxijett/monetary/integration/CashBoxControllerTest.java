@@ -32,7 +32,7 @@ public class CashBoxControllerTest extends AbstractIT {
                 .driverId(1L)
                 .clientId(20000L)
                 .groupId(20L)
-                .payingAccount("StoreChainAdmin")
+                .payingAccount("cashBox")
                 .prePaidAmount(BigDecimal.ZERO)
                 .amount(BigDecimal.valueOf(100))
                 .createOn(ZonedDateTime.now()).build();
@@ -47,5 +47,31 @@ public class CashBoxControllerTest extends AbstractIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(new BigDecimal("50.00"), response.getBody().getCash());
         assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
+    }
+
+    @Test
+    public void addCashToCashBoxByAdmin(){
+
+        //Given
+        CashBoxAddDTO cashBoxDTO = CashBoxAddDTO.builder()
+                .driverId(1L)
+                .clientId(20000L)
+                .groupId(20L)
+                .payingAccount("StoreChain")
+                .prePaidAmount(BigDecimal.ZERO)
+                .amount(BigDecimal.valueOf(65))
+                .createOn(ZonedDateTime.now()).build();
+
+        //When
+        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox",
+                HttpMethod.POST, new HttpEntity<>(cashBoxDTO, null), new ParameterizedTypeReference<CashBoxDTO>() {
+                });
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(new BigDecimal("15.00"), response.getBody().getCash());
+        assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
+
+
     }
 }
