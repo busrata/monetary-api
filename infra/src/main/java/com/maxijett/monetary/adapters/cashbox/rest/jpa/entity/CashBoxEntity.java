@@ -7,10 +7,10 @@ import lombok.*;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
 @Table(name = "cash_box")
+@Entity(name = "CashBoxEntity")
 public class CashBoxEntity {
 
     private static final long serialVersionUID = 1L;
@@ -42,3 +42,4 @@ public class CashBoxEntity {
                 .build();
     }
 }
+

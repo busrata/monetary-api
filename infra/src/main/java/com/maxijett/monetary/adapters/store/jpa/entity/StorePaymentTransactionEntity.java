@@ -9,10 +9,10 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-@Entity
 @Getter
 @Setter
 @Table(name = "store_payment_transaction")
+@Entity(name = "StorePaymentTransactionEntity")
 public class StorePaymentTransactionEntity {
 
     private static final long serialVersionUID = 1L;

@@ -8,10 +8,10 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.math.BigDecimal;
 
-@Entity
 @Getter
 @Setter
 @Table(name = "store_collection")
+@Entity(name = "StoreCollectionEntity")
 public class StoreCollectionEntity {
 
     private static final long serialVersionUID = 1L;

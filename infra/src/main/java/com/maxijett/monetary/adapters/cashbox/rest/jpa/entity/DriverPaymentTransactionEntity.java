@@ -8,40 +8,40 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
-@Entity
 @Getter
 @Setter
 @Table(name = "driver_payment_transaction")
+@Entity(name = "DriverPaymentTransactionEntity")
 public class DriverPaymentTransactionEntity {
 
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
-    @SequenceGenerator(name ="sequenceGenerator")
+    @SequenceGenerator(name = "sequenceGenerator")
     private Long id;
 
-    @Column(name="order_number")
+    @Column(name = "order_number")
     private String orderNumber;
 
-    @Column(name="date_time", nullable = false)
+    @Column(name = "date_time", nullable = false)
     private ZonedDateTime dateTime;
 
-    @Column(name="driver_id", nullable = false)
+    @Column(name = "driver_id", nullable = false)
     private Long driverId;
 
-    @Column(name="payment_cash", nullable = false)
+    @Column(name = "payment_cash", nullable = false)
     private BigDecimal paymentCash;
 
-    @Column(name="user_id")
+    @Column(name = "user_id")
     private Long userId;
 
-    @Column(name="event_type", nullable = false)
+    @Column(name = "event_type", nullable = false)
     private DriverEventType eventType;
 
-    @Column(name="parent_transaction_id")
+    @Column(name = "parent_transaction_id")
     private Long parentTransactionId;
 
-    @Column(name="group_id")
+    @Column(name = "group_id")
     private Long groupId;
 }
