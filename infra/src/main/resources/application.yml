@@ -41,3 +41,8 @@ server:
 logging:
   level:
     com.hexagonaldemo.ticketapi: DEBUG
+
+kafka:
+  topics:
+    orderPayment:
+      name: orderPayment

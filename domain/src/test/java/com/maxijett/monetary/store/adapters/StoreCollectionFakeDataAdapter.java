@@ -21,6 +21,7 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
         .cash(new BigDecimal(55))
         .pos(new BigDecimal(100))
         .clientId(20L)
+        .groupId(1L)
         .tariffType(TariffType.TAXIMETER_HOT)
         .build();
   }
