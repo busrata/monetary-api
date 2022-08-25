@@ -83,6 +83,7 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandlerTest {
                         .cash(new BigDecimal(55))
                         .pos(new BigDecimal(15))
                         .clientId(20L)
+                        .groupId(1L)
                         .tariffType(TariffType.TAXIMETER_HOT)
                         .build());
 

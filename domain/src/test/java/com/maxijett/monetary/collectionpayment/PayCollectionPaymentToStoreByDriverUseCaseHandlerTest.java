@@ -108,6 +108,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandlerTest {
             .cash(new BigDecimal(45))
             .pos(new BigDecimal(100))
             .clientId(20L)
+            .groupId(1L)
             .tariffType(TariffType.TAXIMETER_HOT)
             .build());
 
