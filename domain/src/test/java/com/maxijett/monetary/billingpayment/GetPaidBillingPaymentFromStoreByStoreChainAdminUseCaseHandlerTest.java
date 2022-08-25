@@ -26,8 +26,6 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
     CashBoxFakeDataAdapter cashBoxPort;
     StoreCollectionFakeDataAdapter storeCollectionPort;
-    StorePaymentTransactionFakeDataAdapter storePaymentTransactionPort;
-    CashBoxTransactionFakeDataAdapter cashBoxTransaction;
     BillingPaymentPortFakeDataAdapter billingPaymentPort;
     GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler useCaseHandler;
 
@@ -35,11 +33,9 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
     public void setUp() {
         cashBoxPort = new CashBoxFakeDataAdapter();
         billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
-        cashBoxTransaction = new CashBoxTransactionFakeDataAdapter();
         storeCollectionPort = new StoreCollectionFakeDataAdapter();
-        storePaymentTransactionPort = new StorePaymentTransactionFakeDataAdapter();
         useCaseHandler = new GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(
-                cashBoxPort, billingPaymentPort, storeCollectionPort, storePaymentTransactionPort, cashBoxTransaction);
+                cashBoxPort, billingPaymentPort, storeCollectionPort);
     }
 
     @Test
@@ -85,7 +81,6 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
         //When
         BillingPayment responseBillingPayment = useCaseHandler.handle(billingPaymentCreate);
 
-        CashBoxTransaction actualCashBoxTransaction = cashBoxTransaction.getCashBoxTransactions().get(0);
         BigDecimal expectedCashBoxAmountForStoreGroups = BigDecimal.valueOf(202);
 
         //Then
@@ -109,14 +104,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
         assertEquals(billingPaymentCreate.getAmount(), responseBillingPayment.getAmount());
         assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
 
-        assertEquals(billingPaymentCreate.getAmount(), actualCashBoxTransaction.getAmount());
-        assertNull(actualCashBoxTransaction.getDriverId());
 
         assertEquals(BigDecimal.valueOf(7), storeCollectionPort.storeCollectionList.get(0).getCash());
-        assertEquals(BigDecimal.valueOf(48), storePaymentTransactionPort.transactionList.get(0).getCash());
-        assertNull(storePaymentTransactionPort.transactionList.get(0).getPos());
-        assertEquals(StoreEventType.ADMIN_GET_PAID, storePaymentTransactionPort.transactionList.get(0).getEventType());
-
 
     }
 
@@ -157,10 +146,6 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
         assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
 
         assertEquals(BigDecimal.valueOf(50), storeCollectionPort.storeCollectionList.get(0).getPos());
-        assertEquals(BigDecimal.valueOf(50), storePaymentTransactionPort.transactionList.get(0).getPos());
-        assertNull(storePaymentTransactionPort.transactionList.get(0).getCash());
-        assertEquals(StoreEventType.ADMIN_GET_PAID, storePaymentTransactionPort.transactionList.get(0).getEventType());
-
 
     }
 

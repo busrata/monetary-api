@@ -28,7 +28,6 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
 
     private final StoreCollectionPort storeCollectionPort;
 
-    private final StorePaymentTransactionPort storePaymentTransactionPort;
 
     @Override
     @Transactional
@@ -40,21 +39,16 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
 
         storeCollection.setPos(storeCollection.getPos().subtract(useCase.getPos()));
 
-        storeCollectionPort.update(storeCollection);
-
-        storePaymentTransactionPort.create(buildStorePaymentTransaction(useCase, collectionPayment));
-
-        return collectionPayment;
-    }
-
-    private StorePaymentTransaction buildStorePaymentTransaction(CollectionPaymentCreate useCase, CollectionPayment collectionPayment) {
-        return StorePaymentTransaction.builder()
-                .storeId(collectionPayment.getStoreId())
+        storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
+                .storeId(useCase.getStoreId())
                 .date(ZonedDateTime.now(ZoneId.of("UTC")))
-                .clientId(collectionPayment.getClientId())
-                .cash(BigDecimal.ZERO)
+                .cash(useCase.getCash())
                 .pos(useCase.getPos())
                 .eventType(StoreEventType.ADMIN_GET_PAID)
-                .build();
+                .clientId(useCase.getClientId())
+            .build());
+
+
+        return collectionPayment;
     }
 }

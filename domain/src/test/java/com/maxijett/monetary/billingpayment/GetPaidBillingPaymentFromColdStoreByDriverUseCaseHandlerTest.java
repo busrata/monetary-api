@@ -23,14 +23,12 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
     BillingPaymentPortFakeDataAdapter billingPaymentPort;
     DriverCashFakeDataAdapter driverCashPort;
 
-    DriverPaymentTransactionFakeDataAdapter driverPaymentTransactionPort;
 
     @BeforeEach
     public void setUp() {
         billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
         driverCashPort = new DriverCashFakeDataAdapter();
-        driverPaymentTransactionPort = new DriverPaymentTransactionFakeDataAdapter();
-        useCaseHandler = new GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler(billingPaymentPort, driverCashPort, driverPaymentTransactionPort);
+        useCaseHandler = new GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler(billingPaymentPort, driverCashPort);
     }
     @Test
     public void shouldBeReturnBillingPaymentExistsWhenBillingPaymentPrePaidCreate() {
@@ -93,10 +91,6 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
                         .cash(BigDecimal.valueOf(120))
                 .build());
 
-        DriverPaymentTransaction driverPaymentTransaction = driverPaymentTransactionPort.getDriverPaymentTransactions().get(0);
-        assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), driverPaymentTransaction.getPaymentCash());
-        assertEquals(billingPaymentPrePaidCreate.getDriverId(), driverPaymentTransaction.getDriverId());
-        assertEquals(billingPaymentPrePaidCreate.getGroupId(), driverPaymentTransaction.getGroupId());
 
         assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), responseBillingPayment.getAmount());
     }

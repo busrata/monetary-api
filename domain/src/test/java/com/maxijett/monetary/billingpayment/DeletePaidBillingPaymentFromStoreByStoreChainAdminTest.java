@@ -8,11 +8,7 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
-import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
-import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,11 +21,7 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminTest {
 
   StoreCollectionFakeDataAdapter storeCollectionPort;
 
-  StorePaymentTransactionFakeDataAdapter storePaymentTransactionPort;
-
   CashBoxFakeDataAdapter cashBoxPort;
-
-  CashBoxTransactionFakeDataAdapter cashBoxTransactionPort;
 
 
   @BeforeEach
@@ -37,13 +29,9 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminTest {
 
     storeCollectionPort = new StoreCollectionFakeDataAdapter();
 
-    storePaymentTransactionPort = new StorePaymentTransactionFakeDataAdapter();
-
     cashBoxPort = new CashBoxFakeDataAdapter();
 
-    cashBoxTransactionPort = new CashBoxTransactionFakeDataAdapter();
-
-    handler = new DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(billingPaymentPort,storePaymentTransactionPort, storeCollectionPort,cashBoxPort, cashBoxTransactionPort);
+    handler = new DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(billingPaymentPort, storeCollectionPort,cashBoxPort);
   }
 
 
@@ -85,12 +73,8 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminTest {
 
     assertEquals(BigDecimal.valueOf(65), storeCollectionPort.storeCollectionList.get(0).getCash());
 
-    assertEquals(StoreEventType.REFUND_OF_PAYMENT, storePaymentTransactionPort.transactionList.get(0).getEventType());
-    assertEquals(responseBilling.getAmount(), storePaymentTransactionPort.transactionList.get(0).getCash());
+    assertEquals(BigDecimal.valueOf(260), cashBoxPort.boxes.get(0).getCash());
 
-   assertEquals(BigDecimal.valueOf(260), cashBoxPort.boxes.get(0).getCash());
-   assertEquals(responseBilling.getAmount(), cashBoxTransactionPort.getCashBoxTransactions().get(0).getAmount());
-   assertEquals(CashBoxEventType.REFUND_OF_PAYMENT, cashBoxTransactionPort.getCashBoxTransactions().get(0).getCashBoxEventType());
   }
 
 }

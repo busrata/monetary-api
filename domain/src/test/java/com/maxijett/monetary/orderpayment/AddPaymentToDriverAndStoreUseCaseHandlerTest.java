@@ -22,11 +22,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
 
   DriverCashFakeDataAdapter driverCashPort;
 
-  DriverPaymentTransactionFakeDataAdapter driverPaymentTransactionPort;
-
   StoreCollectionFakeDataAdapter storeCollectionPort;
-
-  StorePaymentTransactionFakeDataAdapter storePaymentTransactionPort;
 
   AddPaymentToDriverAndStoreUseCaseHandler handler;
 
@@ -34,10 +30,8 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
   @BeforeEach
   public void setUp(){
     driverCashPort = new DriverCashFakeDataAdapter();
-    driverPaymentTransactionPort = new DriverPaymentTransactionFakeDataAdapter();
     storeCollectionPort = new StoreCollectionFakeDataAdapter();
-    storePaymentTransactionPort = new StorePaymentTransactionFakeDataAdapter();
-    handler = new AddPaymentToDriverAndStoreUseCaseHandler(driverPaymentTransactionPort,driverCashPort,storePaymentTransactionPort,storeCollectionPort);
+    handler = new AddPaymentToDriverAndStoreUseCaseHandler(driverCashPort,storeCollectionPort);
   }
 
   @Test
@@ -69,13 +63,6 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build()
     );
 
-    var driverTransactionResponse = driverPaymentTransactionPort.getDriverPaymentTransactions().get(0);
-
-    assertEquals(DriverEventType.PACKAGE_DELIVERED, driverTransactionResponse.getEventType());
-    assertEquals(orderPayment.getCash(), driverTransactionResponse.getPaymentCash());
-    assertEquals(orderPayment.getDriverId(), driverTransactionResponse.getDriverId());
-    assertEquals(orderPayment.getPos(), BigDecimal.ZERO);
-    assertEquals(orderPayment.getOrderNumber(), driverTransactionResponse.getOrderNumber());
 
 
     storeCollectionPort.assertContains(StoreCollection.builder()
@@ -87,14 +74,6 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .tariffType(TariffType.TAXIMETER_HOT)
         .build()
     );
-
-    var storeTransactionResponse = storePaymentTransactionPort.transactionList.get(0);
-
-    assertEquals(StoreEventType.PACKAGE_DELIVERED, storeTransactionResponse.getEventType());
-    assertEquals(orderPayment.getCash(), storeTransactionResponse.getCash());
-    assertEquals(orderPayment.getPos(), storeTransactionResponse.getPos());
-    assertEquals(orderPayment.getOrderNumber(), storeTransactionResponse.getOrderNumber());
-    assertEquals(orderPayment.getStoreId(), storeTransactionResponse.getStoreId());
 
   }
 
@@ -127,13 +106,6 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build()
     );
 
-    var storeTransactionResponse = storePaymentTransactionPort.transactionList.get(0);
-
-    assertEquals(orderPayment.getOrderNumber(), storeTransactionResponse.getOrderNumber());
-    assertEquals(StoreEventType.PACKAGE_DELIVERED, storeTransactionResponse.getEventType());
-    assertEquals(BigDecimal.ZERO, storeTransactionResponse.getCash());
-    assertEquals(orderPayment.getPos(), storeTransactionResponse.getPos());
-    assertEquals(orderPayment.getStoreId(), storeTransactionResponse.getStoreId());
 
   }
 
@@ -166,13 +138,6 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build()
     );
 
-    var driverTransactionResponse = driverPaymentTransactionPort.getDriverPaymentTransactions().get(0);
-
-    assertEquals(orderPayment.getOrderNumber(), driverTransactionResponse.getOrderNumber());
-    assertEquals(orderPayment.getCash(), driverTransactionResponse.getPaymentCash());
-    assertEquals(DriverEventType.PACKAGE_DELIVERED, driverTransactionResponse.getEventType());
-    assertEquals(orderPayment.getDriverId(), driverTransactionResponse.getDriverId());
-    assertEquals(orderPayment.getGroupId(), driverTransactionResponse.getGroupId());
 
     storeCollectionPort.assertContains(StoreCollection.builder()
         .storeId(3L)
@@ -183,14 +148,6 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .tariffType(TariffType.TAXIMETER_HOT)
         .build()
     );
-
-    var storePaymentTransaction = storePaymentTransactionPort.transactionList.get(0);
-
-    assertEquals(orderPayment.getOrderNumber(), storePaymentTransaction.getOrderNumber());
-    assertEquals(orderPayment.getCash(), storePaymentTransaction.getCash());
-    assertEquals(orderPayment.getPos(), storePaymentTransaction.getPos());
-    assertEquals(orderPayment.getStoreId(), storePaymentTransaction.getStoreId());
-    assertEquals(StoreEventType.PACKAGE_DELIVERED, storePaymentTransaction.getEventType());
 
   }
 

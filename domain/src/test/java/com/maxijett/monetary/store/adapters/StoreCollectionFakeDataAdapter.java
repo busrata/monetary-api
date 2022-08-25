@@ -1,6 +1,7 @@
 package com.maxijett.monetary.store.adapters;
 
 import com.maxijett.monetary.store.model.StoreCollection;
+import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
 import java.math.BigDecimal;
@@ -27,7 +28,7 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
   }
 
   @Override
-  public StoreCollection update(StoreCollection storeCollection){
+  public StoreCollection update(StoreCollection storeCollection, StorePaymentTransaction storePaymentTransaction){
     storeCollectionList.add(storeCollection);
     return storeCollection;
   }

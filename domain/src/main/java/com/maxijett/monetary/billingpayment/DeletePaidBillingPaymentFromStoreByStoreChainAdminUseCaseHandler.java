@@ -29,13 +29,9 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler im
 
   private final BillingPaymentPort billingPaymentPort;
 
-  private final StorePaymentTransactionPort storePaymentTransactionPort;
-
   private final StoreCollectionPort storeCollectionPort;
 
   private final CashBoxPort cashBoxPort;
-
-  private final CashBoxTransactionPort  cashBoxTransactionPort;
 
   @Override
   public BillingPayment handle(BillingPaymentDelete useCase) {
@@ -53,24 +49,31 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler im
       if(billingPayment.getPaymentType().equals(PaymentType.CASH)) {
         storeCollection.setCash(storeCollection.getCash().add(billingPayment.getAmount()));
 
-        storePaymentTransactionPort.create(buildStorePaymentTransaction(billingPayment, billingPayment.getAmount(), BigDecimal.ZERO));
 
         CashBox cashBox = cashBoxPort.retrieve(storeCollection.getGroupId());
         cashBox.setCash(cashBox.getCash().add(billingPayment.getAmount()));
-        cashBoxPort.update(cashBox);
-
-        cashBoxTransactionPort.createTransaction(buildCashBoxTransaction(billingPayment.getAmount(),
-            useCase.getPayingAccount()));
+        cashBoxPort.update(cashBox, CashBoxTransaction.builder()
+                .amount(billingPayment.getAmount())
+                .cashBoxEventType(CashBoxEventType.REFUND_OF_PAYMENT)
+                .payingAccount(useCase.getPayingAccount())
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+            .build());
 
       }
 
       else if(billingPayment.getPaymentType().equals(PaymentType.CREDIT_CARD)) {
         storeCollection.setPos(storeCollection.getPos().add(billingPayment.getAmount()));
 
-        storePaymentTransactionPort.create(buildStorePaymentTransaction(billingPayment, BigDecimal.ZERO, billingPayment.getAmount()));
       }
 
-      storeCollectionPort.update(storeCollection);
+      storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
+              .storeId(billingPayment.getStoreId())
+              .cash(billingPayment.getPaymentType() == PaymentType.CASH ? billingPayment.getAmount() : BigDecimal.ZERO)
+              .pos(billingPayment.getPaymentType() == PaymentType.CREDIT_CARD ? billingPayment.getAmount() : BigDecimal.ZERO)
+              .clientId(billingPayment.getClientId())
+              .eventType(StoreEventType.REFUND_OF_PAYMENT)
+              .date(ZonedDateTime.now(ZoneId.of("UTC")))
+          .build());
 
 
 
@@ -80,23 +83,4 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler im
 
   }
 
-  private StorePaymentTransaction buildStorePaymentTransaction(BillingPayment billingPayment, BigDecimal cash, BigDecimal pos){
-    return StorePaymentTransaction.builder()
-        .storeId(billingPayment.getStoreId())
-        .clientId(billingPayment.getClientId())
-        .pos(pos)
-        .cash(cash)
-        .eventType(StoreEventType.REFUND_OF_PAYMENT)
-        .date(ZonedDateTime.now(ZoneId.of("UTC")))
-        .build();
-
-  }
-
-  private CashBoxTransaction buildCashBoxTransaction(BigDecimal amount, String payingAccount){
-    return CashBoxTransaction.builder()
-        .amount(amount)
-        .cashBoxEventType(CashBoxEventType.REFUND_OF_PAYMENT)
-        .payingAccount(payingAccount)
-        .build();
-  }
 }

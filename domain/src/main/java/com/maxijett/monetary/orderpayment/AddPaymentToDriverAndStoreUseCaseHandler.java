@@ -25,11 +25,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements UseCaseHandler<
 
 
 
-  private final DriverPaymentTransactionPort driverPaymentTransactionPort;
-
   private final DriverCashPort driverCashPort;
-
-  private final StorePaymentTransactionPort storePaymentTransactionPort;
 
   private final StoreCollectionPort storeCollectionPort;
 
@@ -46,9 +42,14 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements UseCaseHandler<
 
         driverCash.setCash(driverCash.getCash().add(useCase.getCash()));
 
-        driverCashPort.update(driverCash);
-
-        driverPaymentTransactionPort.createTransaction(buildDriverPaymentTransaction(useCase));
+        driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                .paymentCash(useCase.getCash())
+                .driverId(useCase.getDriverId())
+                .groupId(useCase.getGroupId())
+                .orderNumber(useCase.getOrderNumber())
+                .eventType(DriverEventType.PACKAGE_DELIVERED)
+            .build());
 
         storeCollection.setCash(storeCollection.getCash().add(useCase.getCash()));
 
@@ -59,35 +60,19 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements UseCaseHandler<
         storeCollection.setPos(storeCollection.getPos().add(useCase.getPos()));
       }
 
-      storePaymentTransactionPort.create(buildStorePaymentTransaction(useCase));
-
-      storeCollectionPort.update(storeCollection);
+      storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
+              .storeId(useCase.getStoreId())
+              .driverId(useCase.getDriverId())
+              .pos(useCase.getPos())
+              .cash(useCase.getCash())
+              .clientId(useCase.getClientId())
+              .eventType(StoreEventType.PACKAGE_DELIVERED)
+              .orderNumber(useCase.getOrderNumber())
+              .date(ZonedDateTime.now(ZoneId.of("UTC")))
+          .build());
 
       return true;
 
   }
 
-  private DriverPaymentTransaction buildDriverPaymentTransaction(OrderPayment useCase){
-    return DriverPaymentTransaction.builder()
-        .groupId(useCase.getGroupId())
-        .driverId(useCase.getDriverId())
-        .paymentCash(useCase.getCash())
-        .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-        .eventType(DriverEventType.PACKAGE_DELIVERED)
-        .orderNumber(useCase.getOrderNumber())
-        .build();
-
-  }
-
-  private StorePaymentTransaction buildStorePaymentTransaction(OrderPayment useCase){
-    return StorePaymentTransaction.builder()
-        .storeId(useCase.getStoreId())
-        .clientId(useCase.getClientId())
-        .pos(useCase.getPos())
-        .cash(useCase.getCash())
-        .date(ZonedDateTime.now(ZoneId.of("UTC")))
-        .orderNumber(useCase.getOrderNumber())
-        .eventType(StoreEventType.PACKAGE_DELIVERED)
-        .build();
-  }
 }

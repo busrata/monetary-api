@@ -1,6 +1,7 @@
 package com.maxijett.monetary.cashbox.adapters;
 
 import com.maxijett.monetary.cashbox.model.CashBox;
+import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 
 import java.math.BigDecimal;
@@ -17,7 +18,7 @@ public class CashBoxFakeDataAdapter implements CashBoxPort {
     }
 
     @Override
-    public CashBox update(CashBox cashBox) {
+    public CashBox update(CashBox cashBox, CashBoxTransaction cashBoxTransaction) {
         boxes.add(cashBox);
         return cashBox;
     }

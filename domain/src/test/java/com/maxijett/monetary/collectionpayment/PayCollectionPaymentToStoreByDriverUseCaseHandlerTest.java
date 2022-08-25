@@ -23,11 +23,7 @@ import org.junit.jupiter.api.Test;
 public class PayCollectionPaymentToStoreByDriverUseCaseHandlerTest {
 
   DriverCashFakeDataAdapter driverCashFakeDataAdapter;
-  DriverPaymentTransactionFakeDataAdapter driverPaymentTransactionFakeDataAdapter;
-
   StoreCollectionFakeDataAdapter storeCollectionFakeDataAdapter;
-
-  StorePaymentTransactionFakeDataAdapter storePaymentTransactionFakeDataAdapter;
 
   CollectionPaymentPort collectionPaymentPort = new CollectionPaymentFakeDataAdapter();
   PayCollectionPaymentToStoreByDriverUseCaseHandler handler;
@@ -36,10 +32,8 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandlerTest {
   @BeforeEach
   public void setUp(){
     driverCashFakeDataAdapter = new DriverCashFakeDataAdapter();
-    driverPaymentTransactionFakeDataAdapter = new DriverPaymentTransactionFakeDataAdapter();
     storeCollectionFakeDataAdapter = new StoreCollectionFakeDataAdapter();
-    storePaymentTransactionFakeDataAdapter = new StorePaymentTransactionFakeDataAdapter();
-    handler = new PayCollectionPaymentToStoreByDriverUseCaseHandler(collectionPaymentPort, driverCashFakeDataAdapter, storeCollectionFakeDataAdapter,driverPaymentTransactionFakeDataAdapter,storePaymentTransactionFakeDataAdapter);
+    handler = new PayCollectionPaymentToStoreByDriverUseCaseHandler(collectionPaymentPort, driverCashFakeDataAdapter, storeCollectionFakeDataAdapter);
   }
 
   @Test
@@ -114,40 +108,5 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandlerTest {
 
   }
 
-  @Test
-  public void shouldBeSaveDriverAndStoreTransactions(){
-
-    //Given
-    CollectionPaymentCreate collectionPaymentUseCase = CollectionPaymentCreate.builder()
-        .driverId(2L)
-        .storeId(12L)
-        .cash(BigDecimal.TEN)
-        .pos(BigDecimal.ZERO)
-        .date(ZonedDateTime.now(ZoneId.of("UTC")))
-        .clientId(20L)
-        .groupId(1L).build();
-
-    //When
-    CollectionPayment response = handler.handle(collectionPaymentUseCase);
-
-    //Then
-    Assertions.assertNotNull(response.getId());
-
-    var driverPaymentTransaction = driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0);
-
-    Assertions.assertEquals(collectionPaymentUseCase.getCash(), driverPaymentTransaction.getPaymentCash());
-    Assertions.assertEquals(collectionPaymentUseCase.getDriverId(), driverPaymentTransaction.getDriverId());
-    Assertions.assertEquals(DriverEventType.DRIVER_PAY, driverPaymentTransaction.getEventType());
-    Assertions.assertEquals(collectionPaymentUseCase.getGroupId(), driverPaymentTransaction.getGroupId());
-
-
-    var storePaymentTransaction = storePaymentTransactionFakeDataAdapter.transactionList.get(0);
-
-    Assertions.assertEquals(collectionPaymentUseCase.getCash(), storePaymentTransaction.getCash());
-    Assertions.assertEquals(collectionPaymentUseCase.getStoreId(), storePaymentTransaction.getStoreId());
-    Assertions.assertEquals(collectionPaymentUseCase.getClientId(), storePaymentTransaction.getClientId());
-    Assertions.assertEquals(StoreEventType.DRIVER_PAY, storePaymentTransaction.getEventType());
-
-  }
 
 }

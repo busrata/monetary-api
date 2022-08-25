@@ -24,26 +24,21 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler implements
 
     private final DriverCashPort driverCashPort;
 
-    private final DriverPaymentTransactionPort driverPaymentTransactionPort;
 
     @Override
     public BillingPayment handle(BillingPaymentPrePaidCreate useCase) {
         DriverCash driverCash = driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
         driverCash.setPrepaidCollectionCash(driverCash.getPrepaidCollectionCash().add(useCase.getPrePaidBillingAmount()));
-        driverCashPort.update(driverCash);
+        driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
+                .driverId(useCase.getDriverId())
+                .paymentCash(useCase.getPrePaidBillingAmount())
+                .eventType(DriverEventType.COLD_STORE_COLLECTION)
+                .groupId(useCase.getGroupId())
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+            .build());
 
-        driverPaymentTransactionPort.createTransaction(buildDriverPaymentTransaction(useCase));
 
         return billingPaymentPort.create(useCase);
     }
 
-    private DriverPaymentTransaction buildDriverPaymentTransaction(BillingPaymentPrePaidCreate billingPaymentPrePaidCreate) {
-        return DriverPaymentTransaction.builder()
-                .driverId(billingPaymentPrePaidCreate.getDriverId())
-                .paymentCash(billingPaymentPrePaidCreate.getPrePaidBillingAmount())
-                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-                .eventType(DriverEventType.COLD_STORE_COLLECTION)
-                .groupId(billingPaymentPrePaidCreate.getGroupId())
-                .build();
-    }
 }

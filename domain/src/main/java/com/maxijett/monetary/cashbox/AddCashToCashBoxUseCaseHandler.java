@@ -12,6 +12,7 @@ import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.driver.port.DriverCashPort;
 import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
+import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
@@ -24,8 +25,6 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
 
     private final CashBoxPort cashBoxPort;
     private final DriverCashPort driverCashPort;
-    private final DriverPaymentTransactionPort driverPaymentTransactionPort;
-    private final CashBoxTransactionPort cashBoxTransactionPort;
 
     private static final String CASHBOX = "cashBox";
 
@@ -41,25 +40,34 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
             BigDecimal increaseAmount = useCase.getAmount().subtract(driverCash.getPrepaidCollectionCash());
             driverCash.setCash(driverCash.getCash().subtract(useCase.getAmount()));
 
-            driverPaymentTransactionPort.createTransaction(buildDriverTransaction(useCase, DriverEventType.ADMIN_GET_PAID));
 
             cashBox.setCash(cashBox.getCash().add(increaseAmount));
 
             driverCash.setPrepaidCollectionCash(BigDecimal.valueOf(0));
 
-            cashBoxPort.update(cashBox);
+            cashBoxPort.update(cashBox, CashBoxTransaction.builder()
+                    .amount(useCase.getAmount())
+                    .cashBoxEventType(CashBoxEventType.DRIVER_PAY)
+                    .payingAccount(useCase.getPayingAccount())
+                    .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                    .driverId(useCase.getDriverId())
+                .build());
 
-            cashBoxTransactionPort.createTransaction(buildCashBoxTransaction(useCase, increaseAmount));
 
 
         } else {
             driverCash.setPrepaidCollectionCash(driverCash.getPrepaidCollectionCash().subtract(useCase.getAmount()));
             driverCash.setCash(driverCash.getCash().subtract(useCase.getAmount()));
-            driverPaymentTransactionPort.createTransaction(buildDriverTransaction(useCase, DriverEventType.COLD_STORE_COLLECTION));
         }
 
 
-        driverCashPort.update(driverCash);
+        driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
+                .eventType(DriverEventType.ADMIN_GET_PAID)
+                .driverId(useCase.getDriverId())
+                .groupId(useCase.getGroupId())
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                .paymentCash(useCase.getAmount())
+            .build());
 
         return cashBox;
     }

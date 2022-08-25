@@ -21,8 +21,6 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandlerTest {
 
     StoreCollectionFakeDataAdapter storeCollectionFakeDataAdapter;
 
-    StorePaymentTransactionFakeDataAdapter storePaymentTransactionFakeDataAdapter;
-
     CollectionPaymentPort collectionPaymentPort = new CollectionPaymentFakeDataAdapter();
     PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler handler;
 
@@ -30,8 +28,7 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandlerTest {
     @BeforeEach
     public void setUp() {
         storeCollectionFakeDataAdapter = new StoreCollectionFakeDataAdapter();
-        storePaymentTransactionFakeDataAdapter = new StorePaymentTransactionFakeDataAdapter();
-        handler = new PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler(collectionPaymentPort, storeCollectionFakeDataAdapter, storePaymentTransactionFakeDataAdapter);
+        handler = new PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler(collectionPaymentPort, storeCollectionFakeDataAdapter);
     }
 
     @Test
@@ -89,33 +86,5 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandlerTest {
 
     }
 
-    @Test
-    public void shouldBeSaveStoreTransactions() {
-
-        //Given
-        CollectionPaymentCreate collectionPaymentUseCase = CollectionPaymentCreate.builder()
-                .storeId(12L)
-                .cash(BigDecimal.ZERO)
-                .pos(BigDecimal.valueOf(85))
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
-                .clientId(20L)
-                .groupId(21L).build();
-
-        //When
-        CollectionPayment response = handler.handle(collectionPaymentUseCase);
-
-        //Then
-        Assertions.assertNotNull(response.getId());
-
-
-        var storePaymentTransaction = storePaymentTransactionFakeDataAdapter.transactionList.get(0);
-
-        Assertions.assertEquals(collectionPaymentUseCase.getPos(), storePaymentTransaction.getPos());
-        Assertions.assertEquals(collectionPaymentUseCase.getStoreId(), storePaymentTransaction.getStoreId());
-        Assertions.assertEquals(collectionPaymentUseCase.getClientId(), storePaymentTransaction.getClientId());
-        Assertions.assertEquals(StoreEventType.ADMIN_GET_PAID, storePaymentTransaction.getEventType());
-        Assertions.assertEquals(BigDecimal.ZERO, storePaymentTransaction.getCash());
-
-    }
 
 }

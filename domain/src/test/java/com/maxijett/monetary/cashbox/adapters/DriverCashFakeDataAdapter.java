@@ -1,9 +1,11 @@
 package com.maxijett.monetary.cashbox.adapters;
 
 import com.maxijett.monetary.driver.model.DriverCash;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.port.DriverCashPort;
 
 import java.math.BigDecimal;
+import java.sql.Driver;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class DriverCashFakeDataAdapter implements DriverCashPort {
     }
 
     @Override
-    public DriverCash update(DriverCash driverCash) {
+    public DriverCash update(DriverCash driverCash, DriverPaymentTransaction driverPaymentTransaction) {
         cashes.add(driverCash);
         return driverCash;
     }

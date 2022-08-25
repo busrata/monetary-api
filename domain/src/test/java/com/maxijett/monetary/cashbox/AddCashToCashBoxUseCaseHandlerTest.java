@@ -22,17 +22,14 @@ public class AddCashToCashBoxUseCaseHandlerTest {
 
     CashBoxPort mockCashBoxPort;
     DriverCashFakeDataAdapter driverCashFakeDataAdapter;
-    DriverPaymentTransactionFakeDataAdapter driverPaymentTransactionFakeDataAdapter;
-    CashBoxTransactionFakeDataAdapter cashBoxTransactionFakeDataAdapter;
     AddCashToCashBoxUseCaseHandler addCashToCashBoxUseCaseHandler;
 
     @BeforeEach
     public void setUp() {
         mockCashBoxPort = new CashBoxFakeDataAdapter();
         driverCashFakeDataAdapter = new DriverCashFakeDataAdapter();
-        cashBoxTransactionFakeDataAdapter = new CashBoxTransactionFakeDataAdapter();
-        driverPaymentTransactionFakeDataAdapter = new DriverPaymentTransactionFakeDataAdapter();
-        addCashToCashBoxUseCaseHandler = new AddCashToCashBoxUseCaseHandler(mockCashBoxPort, driverCashFakeDataAdapter, driverPaymentTransactionFakeDataAdapter, cashBoxTransactionFakeDataAdapter);
+
+        addCashToCashBoxUseCaseHandler = new AddCashToCashBoxUseCaseHandler(mockCashBoxPort, driverCashFakeDataAdapter);
     }
 
     @Test
@@ -51,10 +48,6 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         //Then
         assertEquals(BigDecimal.valueOf(275), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
-        assertEquals("cashBox",cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getPayingAccount());
-        assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
-        assertEquals(BigDecimal.valueOf(25), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
-        assertEquals(CashBoxEventType.DRIVER_PAY, cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getCashBoxEventType());
 
     }
 
@@ -74,10 +67,6 @@ public class AddCashToCashBoxUseCaseHandlerTest {
         //Then
         assertEquals(BigDecimal.valueOf(265), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
-        assertEquals("storeChainAdmin",cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getPayingAccount());
-        assertEquals(cashBoxAdd.getDriverId(), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getDriverId());
-        assertEquals(BigDecimal.valueOf(15), cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getAmount());
-        assertEquals(CashBoxEventType.ADMIN_PAY, cashBoxTransactionFakeDataAdapter.getCashBoxTransactions().get(0).getCashBoxEventType());
 
     }
 
@@ -138,9 +127,5 @@ public class AddCashToCashBoxUseCaseHandlerTest {
 
         assertEquals(BigDecimal.valueOf(250), cashBox.getCash());
         assertEquals(cashBox.getGroupId(), cashBoxAdd.getGroupId());
-        assertEquals(cashBoxAdd.getDriverId(), driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0).getDriverId());
-        assertEquals(BigDecimal.valueOf(60), driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0).getPaymentCash());
-        assertEquals(DriverEventType.COLD_STORE_COLLECTION, driverPaymentTransactionFakeDataAdapter.getDriverPaymentTransactions().get(0).getEventType());
-
     }
 }
