@@ -99,7 +99,7 @@ public class BillingControllerTest  extends AbstractIT {
 
     //Given
     BillingPaymentDeleteDTO billingPaymentDeleteDTO = BillingPaymentDeleteDTO.builder()
-        .id(3L)
+        .id(35L)
         .payingAccount("storeChainAdmin")
         .payloadType(PayloadType.NETTING)
         .build();
