@@ -4,7 +4,7 @@ import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.orderpayment.kafka.OrderPaymentEventConsumer;
 import com.maxijett.monetary.adapters.orderpayment.kafka.event.OrderPaymentEvent;
-import com.maxijett.monetary.common.useCase.FakeAddPaymentToDriverAndStoreUseCaseHandler;
+import com.maxijett.monetary.common.usecase.FakeAddPaymentToDriverAndStoreUseCaseHandler;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
