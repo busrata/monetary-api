@@ -76,7 +76,7 @@ public class DriverCashFakeDataAdapter implements DriverCashPort {
                 .build(),
             DriverCash.builder()
                 .driverId(3L)
-                .groupId(20L)
+                .groupId(15L)
                 .cash(BigDecimal.valueOf(15.06))
                 .prepaidCollectionCash(BigDecimal.valueOf(24))
                 .clientId(20000L)
@@ -90,7 +90,7 @@ public class DriverCashFakeDataAdapter implements DriverCashPort {
                 .build(),
             DriverCash.builder()
                 .driverId(4L)
-                .groupId(20L)
+                .groupId(18L)
                 .cash(BigDecimal.valueOf(23))
                 .prepaidCollectionCash(BigDecimal.valueOf(64))
                 .clientId(20000L)
