@@ -7,7 +7,9 @@ import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.driver.model.DriverCash;
 import java.math.BigDecimal;
-import org.junit.jupiter.api.Assertions;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
@@ -33,9 +35,9 @@ public class DriverCashControllerTest extends AbstractIT {
         new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
     });
 
-    Assertions.assertNotNull(response);
-    Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    Assertions.assertNotNull(response.getBody());
+    assertNotNull(response);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
 
     List<DriverCash> responseList = response.getBody();
 
@@ -52,21 +54,21 @@ public class DriverCashControllerTest extends AbstractIT {
   }
 
   @Test
-  public void getInstantCashesGraterThanZeroByClientId(){
+  public void getInstantCashesGraterThanZeroByClientId() {
 
     Long clientId = 20000L;
 
-    ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange("/api/v1/driver-cash/instant-list?groupId=&clientId="+ clientId,
+    ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange(
+        "/api/v1/driver-cash/instant-list?groupId=&clientId=" + clientId,
         HttpMethod.GET,
         new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
         });
 
-    Assertions.assertNotNull(response);
-    Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
-    Assertions.assertNotNull(response.getBody());
+    assertNotNull(response);
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertNotNull(response.getBody());
 
     List<DriverCash> responseList = response.getBody();
-
 
     assertThat(responseList).isNotNull().hasSize(4)
         .extracting("driverId", "clientId", "cash")
@@ -76,6 +78,31 @@ public class DriverCashControllerTest extends AbstractIT {
             tuple(13L, 20000L, BigDecimal.valueOf(66.32)),
             tuple(14L, 20000L, BigDecimal.valueOf(34.65))
         );
+
+  }
+
+  @Test
+  public void getDriverCashAndPrepaidAmountByDriverIdAndGroupId() {
+    //Given
+    Long driverId = 1L;
+    Long groupId = 20L;
+
+    //When
+    ResponseEntity<DriverCash> response = testRestTemplate.exchange(
+        "/api/v1/driver/" + driverId + "/amount?groupId=" + groupId,
+        HttpMethod.GET, new HttpEntity<>(groupId, null),
+        new ParameterizedTypeReference<DriverCash>() {
+        });
+
+    //Then
+    DriverCash actualResponse = response.getBody();
+
+    assertEquals(HttpStatus.OK, response.getStatusCode());
+    assertEquals(driverId, actualResponse.getDriverId());
+    assertEquals(groupId, actualResponse.getGroupId());
+    assertEquals(20000L, actualResponse.getClientId());
+    assertEquals(new BigDecimal("100.00"), actualResponse.getCash());
+    assertEquals(new BigDecimal("50.00"), actualResponse.getPrepaidCollectionCash());
 
   }
 }

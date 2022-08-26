@@ -1,6 +1,5 @@
-package com.maxijett.monetary.common.useCase;
+package com.maxijett.monetary.common.usecase;
 
-import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.orderpayment.useCase.OrderPayment;
 
 
