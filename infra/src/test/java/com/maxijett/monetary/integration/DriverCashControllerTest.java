@@ -89,7 +89,7 @@ public class DriverCashControllerTest extends AbstractIT {
 
     //When
     ResponseEntity<DriverCash> response = testRestTemplate.exchange(
-        "/api/v1/driver/" + driverId + "/amount?groupId=" + groupId,
+        "/api/v1/driver-cash/" + driverId + "/amount?groupId=" + groupId,
         HttpMethod.GET, new HttpEntity<>(groupId, null),
         new ParameterizedTypeReference<DriverCash>() {
         });
@@ -101,7 +101,7 @@ public class DriverCashControllerTest extends AbstractIT {
     assertEquals(driverId, actualResponse.getDriverId());
     assertEquals(groupId, actualResponse.getGroupId());
     assertEquals(20000L, actualResponse.getClientId());
-    assertEquals(new BigDecimal("100.00"), actualResponse.getCash());
+    assertEquals(new BigDecimal("100.12"), actualResponse.getCash());
     assertEquals(new BigDecimal("50.00"), actualResponse.getPrepaidCollectionCash());
 
   }

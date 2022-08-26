@@ -1,8 +1,8 @@
 package com.maxijett.monetary.driver;
 
-import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
+import com.maxijett.monetary.driver.adapters.DriverCashFakeDataAdapter;
 import com.maxijett.monetary.driver.model.DriverCash;
-import com.maxijett.monetary.driver.usecase.DriverCashGet;
+import com.maxijett.monetary.driver.useCase.DriverCashRetrieve;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +19,7 @@ public class GetDriverAmountFromDriverCashUseCaseHandlerTest {
   @Test
   public void shouldBeGetDriverAmountByDriverIdAndGroupId() {
     //Given
-    DriverCashGet driverCashUseCase = DriverCashGet.builder()
+    DriverCashRetrieve driverCashUseCase = DriverCashRetrieve.builder()
         .driverId(2L)
         .groupId(1L)
         .build();

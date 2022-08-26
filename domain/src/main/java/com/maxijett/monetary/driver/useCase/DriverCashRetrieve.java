@@ -1,7 +1,6 @@
-package com.maxijett.monetary.driver.usecase;
+package com.maxijett.monetary.driver.useCase;
 
 import com.maxijett.monetary.common.model.UseCase;
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,13 +10,14 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DriverCashGet implements UseCase {
+public class DriverCashRetrieve implements UseCase {
 
-  private Long id;
   private Long driverId;
-  private Long groupId;
-  private BigDecimal cash;
-  private Long clientId;
-  private BigDecimal prepaidCollectionCash;
 
+  private Long groupId;
+
+  public static DriverCashRetrieve fromModel(Long driverId, Long groupId) {
+    return DriverCashRetrieve.builder().driverId(driverId).groupId(groupId).build();
+
+  }
 }
