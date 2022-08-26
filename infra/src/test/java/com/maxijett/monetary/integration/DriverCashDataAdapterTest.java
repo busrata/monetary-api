@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverCashRepository;
-import com.maxijett.monetary.adapters.driver.jpa.DriverCashDataAdapter;
+import com.maxijett.monetary.adapters.driver.rest.jpa.DriverCashDataAdapter;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;

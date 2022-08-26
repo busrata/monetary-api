@@ -5,11 +5,8 @@ import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
-import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.DriverPaymentTransactionFakeDataAdapter;
+import com.maxijett.monetary.driver.adapters.DriverCashFakeDataAdapter;
 import com.maxijett.monetary.driver.model.DriverCash;
-import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
-import com.maxijett.monetary.driver.port.DriverCashPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

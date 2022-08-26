@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.driver.jpa;
+package com.maxijett.monetary.adapters.driver.rest.jpa;
 
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverCashEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
@@ -7,6 +7,8 @@ import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentT
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.port.DriverCashPort;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,17 @@ public class DriverCashDataAdapter implements DriverCashPort {
 
         driverPaymentTransactionRepository.save(fromModel(driverPaymentTransaction));
         return driverCashRepository.save(fromModel(driverCash)).toModel();
+    }
+
+    public List<DriverCash> getListByClientIdGreaterThanZero(Long clientId){
+        return driverCashRepository.findByClientIdAndCashGreaterThan(clientId, BigDecimal.ZERO).stream().map(DriverCashEntity::toModel).collect(
+            Collectors.toList());
+    }
+
+    public List<DriverCash> getListByGroupIdGreaterThanZero(Long groupId){
+        return driverCashRepository.findByGroupIdAndCashGreaterThan(groupId , BigDecimal.ZERO).stream().map(DriverCashEntity::toModel).collect(
+            Collectors.toList());
+
     }
 
     private DriverCashEntity fromModel(DriverCash driverCash) {

@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.driver.jpa;
+package com.maxijett.monetary.adapters.driver.rest.jpa;
 
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;

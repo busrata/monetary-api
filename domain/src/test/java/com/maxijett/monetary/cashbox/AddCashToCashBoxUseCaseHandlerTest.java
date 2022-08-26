@@ -1,15 +1,11 @@
 package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.DriverPaymentTransactionFakeDataAdapter;
+import com.maxijett.monetary.driver.adapters.DriverCashFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
-import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import com.maxijett.monetary.driver.model.DriverCash;
-import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -2,15 +2,11 @@ package com.maxijett.monetary.orderpayment;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.maxijett.monetary.cashbox.adapters.DriverCashFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.DriverPaymentTransactionFakeDataAdapter;
+import com.maxijett.monetary.driver.adapters.DriverCashFakeDataAdapter;
 import com.maxijett.monetary.driver.model.DriverCash;
-import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.orderpayment.useCase.OrderPayment;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.store.model.StoreCollection;
-import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
