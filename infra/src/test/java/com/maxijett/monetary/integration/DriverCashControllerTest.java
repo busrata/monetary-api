@@ -141,11 +141,11 @@ public class DriverCashControllerTest extends AbstractIT {
 
 
         assertThat(responseTransactions).isNotNull().hasSize(3)
-                .extracting("driverId", "groupId", "paymentCash")
+                .extracting("driverId", "groupId", "paymentCash", "eventType")
                 .containsExactlyInAnyOrder(
-                        tuple(1L, 20L, new BigDecimal("45.25")),
-                        tuple(1L, 20L, new BigDecimal("40.50")),
-                        tuple(1L, 20L, new BigDecimal("100.00"))
+                        tuple(1L, 20L, new BigDecimal("45.25"), DriverEventType.PACKAGE_DELIVERED),
+                        tuple(1L, 20L, new BigDecimal("40.50"), DriverEventType.PACKAGE_DELIVERED),
+                        tuple(1L, 20L, new BigDecimal("100.00"), DriverEventType.SUPPORT_ACCEPTED)
                 );
 
 
