@@ -33,9 +33,6 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class DriverCashControllerTest extends AbstractIT {
 
-    @Autowired
-    DriverPaymentTransactionRepository  driverPaymentTransactionRepository;
-
 
   @Test
   public void getInstantCashesGraterThanZeroByGroupId(){
@@ -150,17 +147,5 @@ public class DriverCashControllerTest extends AbstractIT {
                 );
 
 
-    }
-
-    private void createDriverPaymentTransactionRecord(Long driverId, Long groupId, BigDecimal cashAmount, DriverEventType eventType) {
-        DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
-        entity.setDriverId(driverId);
-        entity.setOrderNumber(RandomStringUtils.random(10));
-        entity.setGroupId(groupId);
-        entity.setDateTime(ZonedDateTime.now());
-        entity.setEventType(eventType);
-        entity.setPaymentCash(cashAmount);
-
-        driverPaymentTransactionRepository.save(entity);
     }
 }
