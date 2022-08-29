@@ -1,6 +1,8 @@
 package com.maxijett.monetary.adapters.driver.rest;
 
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.useCase.CollectedCashRetrieve;
 import com.maxijett.monetary.driver.useCase.DriverCashRetrieve;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.useCase.DriverCashListRetrieve;
@@ -25,6 +27,8 @@ public class DriverCashController {
 
   private final UseCaseHandler<DriverCash, DriverCashRetrieve> getDriverAmountFromDriver;
 
+  private final UseCaseHandler<List<DriverPaymentTransaction>, CollectedCashRetrieve> collectedCashRetrieveUseCaseHandler;
+
   @GetMapping("/instant-list")
   public ResponseEntity<List<DriverCash>> getInstantCashGreaterThanZeroByGroupId(
       @RequestParam(required = false) Long groupId, @RequestParam(required = false) Long clientId) {
@@ -47,5 +51,11 @@ public class DriverCashController {
     return ResponseEntity.ok(response);
 
   }
+
+    @GetMapping("/{driverId}/collected")
+    public ResponseEntity<List<DriverPaymentTransaction>> getCollectedDriverCash(@PathVariable Long driverId, @RequestParam Long groupId) {
+        log.info("Rest request to get getCollectedDriverCash by driverId: {}, groupId: {}", driverId, groupId);
+       return ResponseEntity.ok(collectedCashRetrieveUseCaseHandler.handle(CollectedCashRetrieve.builder().driverId(driverId).groupId(groupId).build())) ;
+    }
 
 }

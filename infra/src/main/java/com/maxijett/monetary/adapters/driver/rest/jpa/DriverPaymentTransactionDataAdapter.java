@@ -8,6 +8,9 @@ import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransactionPort {
@@ -24,5 +27,13 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
         driverPaymentTransactionEntity.setGroupId(from.getGroupId());
 
         return driverPaymentTransactionRepository.save(driverPaymentTransactionEntity).getId();
+    }
+
+    @Override
+    public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, List<DriverEventType> driverEventTypes) {
+        return driverPaymentTransactionRepository.findAllByDriverIdAndGroupIdAndEventTypeIn(driverId, groupId, driverEventTypes)
+                .stream()
+                .map(DriverPaymentTransactionEntity::toModel)
+                .collect(Collectors.toList());
     }
 }

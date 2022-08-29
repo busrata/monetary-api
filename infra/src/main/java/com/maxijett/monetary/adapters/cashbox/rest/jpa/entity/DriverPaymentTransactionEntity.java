@@ -1,5 +1,6 @@
 package com.maxijett.monetary.adapters.cashbox.rest.jpa.entity;
 
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,4 +45,18 @@ public class DriverPaymentTransactionEntity {
 
     @Column(name = "group_id")
     private Long groupId;
+
+    public DriverPaymentTransaction toModel() {
+        return DriverPaymentTransaction.builder()
+                .groupId(getGroupId())
+                .paymentCash(getPaymentCash())
+                .driverId(getDriverId())
+                .eventType(getEventType())
+                .dateTime(getDateTime())
+                .id(getId())
+                .orderNumber(getOrderNumber())
+                .userId(getUserId())
+                .parentTransactionId(getParentTransactionId())
+                .build();
+    }
 }

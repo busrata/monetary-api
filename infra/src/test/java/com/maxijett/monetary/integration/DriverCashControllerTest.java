@@ -5,13 +5,22 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.driver.model.DriverCash;
 import java.math.BigDecimal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
+
+import java.time.ZonedDateTime;
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,6 +32,9 @@ import org.springframework.test.context.jdbc.Sql;
 @Sql(scripts = "classpath:sql/driver-cash.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class DriverCashControllerTest extends AbstractIT {
+
+    @Autowired
+    DriverPaymentTransactionRepository  driverPaymentTransactionRepository;
 
 
   @Test
@@ -105,4 +117,50 @@ public class DriverCashControllerTest extends AbstractIT {
     assertEquals(new BigDecimal("50.00"), actualResponse.getPrepaidCollectionCash());
 
   }
+
+
+    @Test
+    public void getDriverCollectedCashWithGroup() {
+
+        //Given
+        Long driverId = 1L;
+        Long groupId = 20L;
+
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("45.25"), DriverEventType.PACKAGE_DELIVERED);
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("40.50"), DriverEventType.PACKAGE_DELIVERED);
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("100.00"), DriverEventType.SUPPORT_ACCEPTED);
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("98.00"), DriverEventType.ADMIN_GET_PAID);
+
+        //When
+        ResponseEntity<List<DriverPaymentTransaction>> response = testRestTemplate.exchange(
+                "/api/v1/driver-cash/" + driverId + "/collected?groupId=" + groupId,
+                HttpMethod.GET, new HttpEntity<>(groupId, null),
+                new ParameterizedTypeReference<List<DriverPaymentTransaction>>() {
+                });
+
+        List<DriverPaymentTransaction> responseTransactions = response.getBody();
+
+
+        assertThat(responseTransactions).isNotNull().hasSize(3)
+                .extracting("driverId", "groupId", "paymentCash")
+                .containsExactlyInAnyOrder(
+                        tuple(1L, 20L, new BigDecimal("45.25")),
+                        tuple(1L, 20L, new BigDecimal("40.50")),
+                        tuple(1L, 20L, new BigDecimal("100.00"))
+                );
+
+
+    }
+
+    private void createDriverPaymentTransactionRecord(Long driverId, Long groupId, BigDecimal cashAmount, DriverEventType eventType) {
+        DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
+        entity.setDriverId(driverId);
+        entity.setOrderNumber(RandomStringUtils.random(10));
+        entity.setGroupId(groupId);
+        entity.setDateTime(ZonedDateTime.now());
+        entity.setEventType(eventType);
+        entity.setPaymentCash(cashAmount);
+
+        driverPaymentTransactionRepository.save(entity);
+    }
 }
