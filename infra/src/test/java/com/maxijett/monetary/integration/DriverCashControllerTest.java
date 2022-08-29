@@ -8,7 +8,9 @@ import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.driver.model.DriverCash;
+
 import java.math.BigDecimal;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -34,86 +36,86 @@ import org.springframework.test.context.jdbc.Sql;
 public class DriverCashControllerTest extends AbstractIT {
 
 
-  @Test
-  public void getInstantCashesGraterThanZeroByGroupId(){
+    @Test
+    public void getInstantCashesGraterThanZeroByGroupId() {
 
-    Long groupId = 20L;
+        Long groupId = 20L;
 
-    ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange("/api/v1/driver-cash/instant-list?groupId="+ groupId + "&clientId=",
-        HttpMethod.GET,
-        new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
-    });
+        ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange("/api/v1/driver-cash/instant-list?groupId=" + groupId + "&clientId=",
+                HttpMethod.GET,
+                new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
+                });
 
-    assertNotNull(response);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertNotNull(response.getBody());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
-    List<DriverCash> responseList = response.getBody();
+        List<DriverCash> responseList = response.getBody();
 
 
-    assertThat(responseList).isNotNull().hasSize(4)
-        .extracting("driverId", "groupId", "cash")
-        .containsExactlyInAnyOrder(
-            tuple(1L, 20L, BigDecimal.valueOf(100.12)),
-            tuple(12L, 20L, BigDecimal.valueOf(55.25)),
-            tuple(13L, 20L, BigDecimal.valueOf(66.32)),
-            tuple(14L, 20L, BigDecimal.valueOf(34.65))
-        );
+        assertThat(responseList).isNotNull().hasSize(4)
+                .extracting("driverId", "groupId", "cash")
+                .containsExactlyInAnyOrder(
+                        tuple(1L, 20L, BigDecimal.valueOf(100.12)),
+                        tuple(12L, 20L, BigDecimal.valueOf(55.25)),
+                        tuple(13L, 20L, BigDecimal.valueOf(66.32)),
+                        tuple(14L, 20L, BigDecimal.valueOf(34.65))
+                );
 
-  }
+    }
 
-  @Test
-  public void getInstantCashesGraterThanZeroByClientId() {
+    @Test
+    public void getInstantCashesGraterThanZeroByClientId() {
 
-    Long clientId = 20000L;
+        Long clientId = 20000L;
 
-    ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange(
-        "/api/v1/driver-cash/instant-list?groupId=&clientId=" + clientId,
-        HttpMethod.GET,
-        new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
-        });
+        ResponseEntity<List<DriverCash>> response = testRestTemplate.exchange(
+                "/api/v1/driver-cash/instant-list?groupId=&clientId=" + clientId,
+                HttpMethod.GET,
+                new HttpEntity<>(null, null), new ParameterizedTypeReference<List<DriverCash>>() {
+                });
 
-    assertNotNull(response);
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertNotNull(response.getBody());
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
 
-    List<DriverCash> responseList = response.getBody();
+        List<DriverCash> responseList = response.getBody();
 
-    assertThat(responseList).isNotNull().hasSize(4)
-        .extracting("driverId", "clientId", "cash")
-        .containsExactlyInAnyOrder(
-            tuple(1L, 20000L, BigDecimal.valueOf(100.12)),
-            tuple(12L, 20000L, BigDecimal.valueOf(55.25)),
-            tuple(13L, 20000L, BigDecimal.valueOf(66.32)),
-            tuple(14L, 20000L, BigDecimal.valueOf(34.65))
-        );
+        assertThat(responseList).isNotNull().hasSize(4)
+                .extracting("driverId", "clientId", "cash")
+                .containsExactlyInAnyOrder(
+                        tuple(1L, 20000L, BigDecimal.valueOf(100.12)),
+                        tuple(12L, 20000L, BigDecimal.valueOf(55.25)),
+                        tuple(13L, 20000L, BigDecimal.valueOf(66.32)),
+                        tuple(14L, 20000L, BigDecimal.valueOf(34.65))
+                );
 
-  }
+    }
 
-  @Test
-  public void getDriverCashAndPrepaidAmountByDriverIdAndGroupId() {
-    //Given
-    Long driverId = 1L;
-    Long groupId = 20L;
+    @Test
+    public void getDriverCashAndPrepaidAmountByDriverIdAndGroupId() {
+        //Given
+        Long driverId = 1L;
+        Long groupId = 20L;
 
-    //When
-    ResponseEntity<DriverCash> response = testRestTemplate.exchange(
-        "/api/v1/driver-cash/" + driverId + "/amount?groupId=" + groupId,
-        HttpMethod.GET, new HttpEntity<>(groupId, null),
-        new ParameterizedTypeReference<DriverCash>() {
-        });
+        //When
+        ResponseEntity<DriverCash> response = testRestTemplate.exchange(
+                "/api/v1/driver-cash/" + driverId + "/amount?groupId=" + groupId,
+                HttpMethod.GET, new HttpEntity<>(groupId, null),
+                new ParameterizedTypeReference<DriverCash>() {
+                });
 
-    //Then
-    DriverCash actualResponse = response.getBody();
+        //Then
+        DriverCash actualResponse = response.getBody();
 
-    assertEquals(HttpStatus.OK, response.getStatusCode());
-    assertEquals(driverId, actualResponse.getDriverId());
-    assertEquals(groupId, actualResponse.getGroupId());
-    assertEquals(20000L, actualResponse.getClientId());
-    assertEquals(new BigDecimal("100.12"), actualResponse.getCash());
-    assertEquals(new BigDecimal("50.00"), actualResponse.getPrepaidCollectionCash());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(driverId, actualResponse.getDriverId());
+        assertEquals(groupId, actualResponse.getGroupId());
+        assertEquals(20000L, actualResponse.getClientId());
+        assertEquals(new BigDecimal("100.12"), actualResponse.getCash());
+        assertEquals(new BigDecimal("50.00"), actualResponse.getPrepaidCollectionCash());
 
-  }
+    }
 
 
     @Test
