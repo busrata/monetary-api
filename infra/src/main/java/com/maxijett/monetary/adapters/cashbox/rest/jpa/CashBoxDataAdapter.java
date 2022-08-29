@@ -10,6 +10,9 @@ import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CashBoxDataAdapter implements CashBoxPort {
@@ -29,6 +32,11 @@ public class CashBoxDataAdapter implements CashBoxPort {
         cashBoxTransactionRepository.save(fromModel(cashBoxTransaction));
 
         return cashBoxRepository.save(fromModel(cashBox)).toModel();
+    }
+
+    public List<CashBox> getListByClientId(Long clientId) {
+        return cashBoxRepository.findAllByClientId(clientId).stream().map(CashBoxEntity::toModel).collect(
+                Collectors.toList());
     }
 
     private CashBoxEntity fromModel(CashBox cashBox) {

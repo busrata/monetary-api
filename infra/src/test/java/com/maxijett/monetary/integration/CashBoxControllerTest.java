@@ -72,6 +72,60 @@ public class CashBoxControllerTest extends AbstractIT {
         assertEquals(new BigDecimal("15.00"), response.getBody().getCash());
         assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
 
+    }
+    @Test
+    public void getAmountFromCashBoxByGroupId() throws Exception {
+
+        //Given
+        Long groupId = 30L;
+
+        //When
+        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?groupId="+ groupId,
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
+                });
+
+        CashBoxDTO cashBox = response.getBody();
+        //Then
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(groupId, cashBox.getGroupId());
+        assertEquals(new BigDecimal("30.00"), cashBox.getCash());
+
+    }
+
+    @Test
+    public void getAmountFromCashBoxByClientId() throws Exception {
+
+        //Given
+        Long clientId = 20000L;
+
+        //When
+        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?clientId="+ clientId,
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
+                });
+
+        CashBoxDTO cashBox = response.getBody();
+
+        //Then
+        BigDecimal expectedTotalClientAmount = new BigDecimal("160.00");
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(clientId, cashBox.getClientId());
+        assertEquals(expectedTotalClientAmount, cashBox.getCash());
+
+    }
+
+    @Test
+    public void getAmountFromCashBoxWithNullVariables() throws Exception {
+
+        //When
+        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner",
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
+                });
+
+        //Then
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
 
     }
 }

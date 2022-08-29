@@ -18,6 +18,24 @@ public class CashBoxFakeDataAdapter implements CashBoxPort {
     }
 
     @Override
+    public List<CashBox> getListByClientId(Long clientId) {
+        return List.of(
+                CashBox.builder()
+                        .clientId(20000L)
+                        .cash(BigDecimal.valueOf(50))
+                        .build(),
+                CashBox.builder()
+                        .clientId(20000L)
+                        .cash(BigDecimal.valueOf(80))
+                        .build(),
+                CashBox.builder()
+                        .clientId(20000L)
+                        .cash(BigDecimal.valueOf(30))
+                        .build()
+        );
+    }
+
+    @Override
     public CashBox update(CashBox cashBox, CashBoxTransaction cashBoxTransaction) {
         boxes.add(cashBox);
         return cashBox;
