@@ -22,12 +22,12 @@ public abstract class AbstractIT {
     @LocalServerPort
     protected Integer port;
 
-    protected void createDriverPaymentTransactionRecord(Long driverId, Long groupId, BigDecimal cashAmount, DriverEventType eventType) {
+    protected void createDriverPaymentTransactionRecord(Long driverId, Long groupId, BigDecimal cashAmount, DriverEventType eventType, ZonedDateTime dateTime) {
         DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
         entity.setDriverId(driverId);
         entity.setOrderNumber(RandomStringUtils.random(10));
         entity.setGroupId(groupId);
-        entity.setDateTime(ZonedDateTime.now());
+        entity.setDateTime(dateTime);
         entity.setEventType(eventType);
         entity.setPaymentCash(cashAmount);
 

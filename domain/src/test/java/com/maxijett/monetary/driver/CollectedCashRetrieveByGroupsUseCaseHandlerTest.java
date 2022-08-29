@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,6 +32,8 @@ public class CollectedCashRetrieveByGroupsUseCaseHandlerTest {
         CollectedCashRetrieve collectedCashRetrieve = CollectedCashRetrieve.builder()
                 .groupId(20L)
                 .driverId(1L)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now())
                 .build();
 
         //When

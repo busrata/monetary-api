@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -13,4 +15,6 @@ import lombok.NoArgsConstructor;
 public class CollectedCashRetrieve implements UseCase {
     private Long driverId;
     private Long groupId;
+    private LocalDate startDate;
+    private LocalDate endDate;
 }

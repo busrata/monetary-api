@@ -8,6 +8,7 @@ import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +31,8 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
     }
 
     @Override
-    public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, List<DriverEventType> driverEventTypes) {
-        return driverPaymentTransactionRepository.findAllByDriverIdAndGroupIdAndEventTypeIn(driverId, groupId, driverEventTypes)
+    public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime, List<DriverEventType> driverEventTypes) {
+        return driverPaymentTransactionRepository.findAllByDriverIdAndGroupIdAndDateTimeAfterAndDateTimeBeforeAndEventTypeIn(driverId, groupId, startTime, endTime, driverEventTypes)
                 .stream()
                 .map(DriverPaymentTransactionEntity::toModel)
                 .collect(Collectors.toList());

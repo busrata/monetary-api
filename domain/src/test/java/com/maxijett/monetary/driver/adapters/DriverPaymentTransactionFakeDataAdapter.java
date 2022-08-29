@@ -8,6 +8,7 @@ import org.apache.commons.lang3.RandomUtils;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -37,7 +38,8 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
     }
 
     @Override
-    public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, List<DriverEventType> eventTypes) {
+    public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime, List<DriverEventType> eventTypes) {
+
         return Stream.of(
                 DriverPaymentTransaction.builder()
                         .driverId(driverId)
@@ -63,7 +65,10 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                         .paymentCash(BigDecimal.valueOf(76))
                         .groupId(groupId)
                         .build()
-        ).filter(driverPaymentTransaction -> eventTypes.contains(driverPaymentTransaction.getEventType())).collect(Collectors.toList());
+        ).filter(driverPaymentTransaction -> eventTypes.contains(driverPaymentTransaction.getEventType()) &&
+                driverPaymentTransaction.getDateTime().isAfter(startTime) &&
+                driverPaymentTransaction.getDateTime().isBefore(endTime)
+        ).collect(Collectors.toList());
     }
 
     public List<DriverPaymentTransaction> getDriverPaymentTransactions() {

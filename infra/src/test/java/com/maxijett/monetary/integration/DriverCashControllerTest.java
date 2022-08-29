@@ -19,7 +19,9 @@ import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,16 +126,19 @@ public class DriverCashControllerTest extends AbstractIT {
         //Given
         Long driverId = 1L;
         Long groupId = 20L;
+        LocalDate startDate = LocalDate.now();
+        LocalDate endDate = LocalDate.now();
 
-        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("45.25"), DriverEventType.PACKAGE_DELIVERED);
-        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("40.50"), DriverEventType.PACKAGE_DELIVERED);
-        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("100.00"), DriverEventType.SUPPORT_ACCEPTED);
-        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("98.00"), DriverEventType.ADMIN_GET_PAID);
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("45.25"), DriverEventType.PACKAGE_DELIVERED, ZonedDateTime.now());
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("40.50"), DriverEventType.PACKAGE_DELIVERED, ZonedDateTime.now());
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("54.50"), DriverEventType.PACKAGE_DELIVERED, ZonedDateTime.now().minusDays(1));
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("100.00"), DriverEventType.SUPPORT_ACCEPTED, ZonedDateTime.now());
+        createDriverPaymentTransactionRecord(driverId, groupId, new BigDecimal("98.00"), DriverEventType.ADMIN_GET_PAID, ZonedDateTime.now());
 
         //When
         ResponseEntity<List<DriverPaymentTransaction>> response = testRestTemplate.exchange(
-                "/api/v1/driver-cash/" + driverId + "/collected?groupId=" + groupId,
-                HttpMethod.GET, new HttpEntity<>(groupId, null),
+                "/api/v1/driver-cash/" + driverId + "/collected?groupId=" + groupId + "&startDate=" + startDate + "&endDate=" + endDate,
+                HttpMethod.GET, new HttpEntity<>(null, null),
                 new ParameterizedTypeReference<List<DriverPaymentTransaction>>() {
                 });
 
