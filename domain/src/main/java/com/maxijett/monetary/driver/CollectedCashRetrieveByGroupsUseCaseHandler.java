@@ -7,7 +7,6 @@ import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import com.maxijett.monetary.driver.useCase.CollectedCashRetrieve;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Comparator;
@@ -27,7 +26,7 @@ public class CollectedCashRetrieveByGroupsUseCaseHandler implements UseCaseHandl
     public List<DriverPaymentTransaction> handle(CollectedCashRetrieve useCase) {
 
         ZonedDateTime startTime = useCase.getStartDate().atStartOfDay(ZoneId.of("UTC"));
-        ZonedDateTime endTime = LocalDate.now().atTime(23, 59, 59, 999999999).atZone(ZoneId.of("UTC"));
+        ZonedDateTime endTime = useCase.getEndDate().atTime(23, 59, 59, 999999999).atZone(ZoneId.of("UTC"));
 
         return driverPaymentTransactionPort.retrieveTransactions(useCase.getDriverId(), useCase.getGroupId(), startTime, endTime, List.of(PACKAGE_DELIVERED, SUPPORT_ACCEPTED))
                 .stream()

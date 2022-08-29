@@ -1,27 +1,20 @@
 package com.maxijett.monetary.adapters.driver.rest;
 
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.useCase.CollectedCashRetrieve;
-import com.maxijett.monetary.driver.useCase.DriverCashRetrieve;
-import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.useCase.DriverCashListRetrieve;
+import com.maxijett.monetary.driver.useCase.DriverCashRetrieve;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @RestController
@@ -61,14 +54,13 @@ public class DriverCashController {
     @GetMapping("/{driverId}/collected")
     public ResponseEntity<List<DriverPaymentTransaction>> getCollectedDriverCash(@PathVariable Long driverId, @RequestParam Long groupId,
                                                                                  @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") Optional<LocalDate> endDate) {
+                                                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         log.info("Rest request to get getCollectedDriverCash by driverId: {}, groupId: {}, startDate: {}, endDate: {}", driverId, groupId, startDate, endDate);
         return ResponseEntity.ok(collectedCashRetrieveUseCaseHandler.handle(CollectedCashRetrieve.builder()
                 .driverId(driverId)
                 .groupId(groupId)
                 .startDate(startDate)
-                .endDate(endDate.orElse(LocalDate.now()))
-                .build()));
+                .endDate(endDate).build()));
     }
 
 }
