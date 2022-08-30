@@ -5,9 +5,6 @@ import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -89,6 +86,22 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         assertEquals(collectionPaymentDTO.getGroupId(), collectionPayment.getGroupId());
         assertNotNull(collectionPayment.getId());
 
+    }
+
+    @Test
+        public void deleteCollectionPaymentByStoreChainAdmin(){
+        //Given
+        Long id = 5L;
+
+        //When
+        ResponseEntity<CollectionPayment> response = testRestTemplate.exchange("/api/v1/collection-payment/delete?id="+id,
+                HttpMethod.PUT, new HttpEntity<>(null, null), new ParameterizedTypeReference<CollectionPayment>() {
+                });
+
+        //Then
+        CollectionPayment collectionPayment = response.getBody();
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertEquals(5L,collectionPayment.getId());
     }
 
 }

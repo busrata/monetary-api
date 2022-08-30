@@ -6,6 +6,9 @@ import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -31,4 +34,20 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
 
         return collectionPaymentRepository.save(entity).toModel();
     }
+
+    @Override
+    public CollectionPayment retrieve(Long id){
+
+        return collectionPaymentRepository.findById(id).orElseThrow(NullPointerException::new).toModel();
+
+    }
+
+    @Override
+    public CollectionPayment update(Long id){
+
+        collectionPaymentRepository.updateCollectionPaymentIsDeleted(id);
+        return retrieve(id);
+
+    }
+
 }

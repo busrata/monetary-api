@@ -3,15 +3,13 @@ package com.maxijett.monetary.adapters.collectionpayment.rest;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
+import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -23,6 +21,7 @@ public class CollectionPaymentController {
 
     private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler;
 
+    private final UseCaseHandler<CollectionPayment, CollectionPaymentDelete> deleteCollectionPaymentByStoreChainAdminUseCaseHandler;
 
     @PostMapping("/by-driver")
     public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
@@ -36,5 +35,9 @@ public class CollectionPaymentController {
                 HttpStatus.OK);
     }
 
+    @PutMapping("/delete")
+    public  ResponseEntity<CollectionPayment> deleteCollectionPaymentByStoreChainAdmin(@RequestParam Long id){
+        return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)),HttpStatus.OK );
+    }
 
 }

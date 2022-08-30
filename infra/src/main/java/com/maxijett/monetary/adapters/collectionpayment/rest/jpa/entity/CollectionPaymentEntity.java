@@ -42,6 +42,9 @@ public class CollectionPaymentEntity {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     public CollectionPayment toModel() {
         return CollectionPayment.builder()
                 .id(getId())
@@ -52,6 +55,7 @@ public class CollectionPaymentEntity {
                 .driverId(getDriverId())
                 .pos(getPos())
                 .storeId(getStoreId())
+                .isDeleted(getIsDeleted())
                 .build();
     }
 }

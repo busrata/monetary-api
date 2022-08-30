@@ -21,5 +21,6 @@ public class CollectionPayment {
   private ZonedDateTime date;
   private Long groupId;
   private Long clientId;
+  private Boolean isDeleted;
 
 }

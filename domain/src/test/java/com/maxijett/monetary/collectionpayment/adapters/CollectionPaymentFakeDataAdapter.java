@@ -19,6 +19,19 @@ public class CollectionPaymentFakeDataAdapter implements CollectionPaymentPort {
         .groupId(collectionPaymentCreate.getGroupId())
         .clientId(collectionPaymentCreate.getClientId())
         .storeId(collectionPaymentCreate.getStoreId())
+        .isDeleted(false)
         .driverId(collectionPaymentCreate.getDriverId()).build();
   }
+
+  @Override
+  public CollectionPayment retrieve(Long id) {
+    return null;
+  }
+
+  @Override
+  public CollectionPayment update(Long id) {
+    return null;
+  }
+
+
 }
