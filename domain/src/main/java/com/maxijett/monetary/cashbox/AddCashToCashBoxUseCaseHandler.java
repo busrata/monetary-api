@@ -71,25 +71,4 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
 
         return cashBox;
     }
-
-    private DriverPaymentTransaction buildDriverTransaction(CashBoxAdd useCase, DriverEventType eventType) {
-        return DriverPaymentTransaction.builder()
-                .driverId(useCase.getDriverId())
-                .paymentCash(useCase.getAmount())
-                .dateTime(ZonedDateTime.now())
-                .eventType(eventType)
-                .build();
-    }
-
-    private CashBoxTransaction buildCashBoxTransaction(CashBoxAdd useCase, BigDecimal increaseAmount) {
-
-        return CashBoxTransaction.builder()
-                .driverId(useCase.getDriverId())
-                .dateTime(ZonedDateTime.now())
-                .payingAccount(useCase.getPayingAccount())
-                .amount(increaseAmount)
-                .cashBoxEventType(useCase.getPayingAccount().equals(CASHBOX) ? CashBoxEventType.DRIVER_PAY : CashBoxEventType.ADMIN_PAY)
-                .build();
-
-    }
 }
