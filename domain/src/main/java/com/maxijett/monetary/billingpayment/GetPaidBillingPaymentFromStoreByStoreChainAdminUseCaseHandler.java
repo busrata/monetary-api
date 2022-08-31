@@ -21,14 +21,13 @@ import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
 @DomainComponent
 @RequiredArgsConstructor
 public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler implements
         UseCaseHandler<BillingPayment, BillingPaymentCreate> {
-
-    private static final ZoneId ISTANBUL_ZONE_ID = ZoneId.of("Europe/Istanbul");
 
     private final CashBoxPort cashBoxPort;
 
@@ -50,7 +49,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
                 storeCollection.setCash(storeCollection.getCash().subtract(useCase.getAmount()));
 
                 cashBoxPort.update(cashBox, CashBoxTransaction.builder()
-                        .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                        .dateTime(ZonedDateTime.now(ZoneOffset.UTC))
                         .cashBoxEventType(CashBoxEventType.ADMIN_PAY)
                         .payingAccount(useCase.getPayingAccount())
                         .amount(useCase.getAmount())
@@ -65,7 +64,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
 
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .date(ZonedDateTime.now(ZoneOffset.UTC))
                 .pos(useCase.getPaymentType() == PaymentType.CREDIT_CARD ? useCase.getAmount(): BigDecimal.ZERO )
                 .cash(useCase.getPaymentType() == PaymentType.CASH ? useCase.getAmount(): BigDecimal.ZERO)
                 .eventType(StoreEventType.ADMIN_GET_PAID)
