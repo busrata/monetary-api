@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CollectionPaymentRepository extends JpaRepository<CollectionPaymentEntity, Long> {
+
     @Modifying(flushAutomatically = true, clearAutomatically = true)
     @Query("update CollectionPaymentEntity c set c.isDeleted = true where c.id =:id")
     int updateCollectionPaymentIsDeleted(@Param("id") Long id);

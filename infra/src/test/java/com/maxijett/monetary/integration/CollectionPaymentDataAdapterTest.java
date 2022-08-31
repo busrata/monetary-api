@@ -27,12 +27,22 @@ public class CollectionPaymentDataAdapterTest extends AbstractIT {
     CollectionPaymentRepository collectionPaymentRepository;
 
     @Test
-    public void shouldRetrieveCollectionPayment(){
+    public void shouldRetrieveCollectionPayment() {
 
-    CollectionPayment response = collectionPaymentDataAdapter.retrieve(5L);
-    assertNotNull(response);
-    assertEquals(new BigDecimal("50"),response.getPos());
-    assertEquals(20L,response.getStoreId());
+        CollectionPayment response = collectionPaymentDataAdapter.retrieve(1L);
+        assertNotNull(response);
+        assertEquals(new BigDecimal("50.00"), response.getPos());
+        assertEquals(200L, response.getStoreId());
+        assertEquals(false, response.getIsDeleted());
+    }
+
+    @Test
+    public void shouldUpdateCollectionPayment() {
+
+        CollectionPayment response = collectionPaymentDataAdapter.update(1L);
+        assertNotNull(response);
+        assertEquals(true, response.getIsDeleted());
+
     }
 
 }

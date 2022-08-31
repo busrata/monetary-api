@@ -37,6 +37,7 @@ public class CollectionPaymentController {
 
     @PutMapping("/delete")
     public  ResponseEntity<CollectionPayment> deleteCollectionPaymentByStoreChainAdmin(@RequestParam Long id){
+        log.info("REST request delete to deleteCollectionPaymentByStoreChainAdmin with storeChainId : {}", id);
         return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)),HttpStatus.OK );
     }
 

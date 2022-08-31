@@ -1,4 +1,4 @@
-package com.maxijett.monetary.billingpayment;
+package com.maxijett.monetary.collectionpayment;
 
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
@@ -11,6 +11,7 @@ import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
 import lombok.RequiredArgsConstructor;
 
+import javax.transaction.Transactional;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -19,10 +20,11 @@ import java.time.ZonedDateTime;
 @RequiredArgsConstructor
 public class DeleteCollectionPaymentByStoreChainAdminUseCaseHandler implements UseCaseHandler<CollectionPayment, CollectionPaymentDelete> {
 
-    CollectionPaymentPort collectionPaymentPort;
-    StoreCollectionPort storeCollectionPort;
+    private final CollectionPaymentPort collectionPaymentPort;
+    private final StoreCollectionPort storeCollectionPort;
 
     @Override
+    @Transactional
     public CollectionPayment handle(CollectionPaymentDelete useCase) {
 
         CollectionPayment collectionPayment = collectionPaymentPort.retrieve(useCase.getId());
