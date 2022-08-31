@@ -18,6 +18,6 @@ public interface CollectionPaymentRepository extends JpaRepository<CollectionPay
     int updateCollectionPaymentIsDeleted(@Param("id") Long id);
 
 
-    List<CollectionPaymentEntity> findAllByDriverIdAndGroupIdAndDateBetween(Long driverId, Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
+    List<CollectionPaymentEntity> findAllByDriverIdAndGroupIdAndCreateOnBetween(Long driverId, Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
 
 }
