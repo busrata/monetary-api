@@ -44,10 +44,11 @@ public abstract class AbstractIT {
         entity.setDriverId(driverId);
         entity.setClientId(clientId);
         entity.setStoreId(storeId);
-        entity.setDate(dateTime);
+        entity.setCreateOn(dateTime);
         entity.setCash(cash);
         entity.setPos(pos);
         entity.setGroupId(groupId);
+        entity.setIsDeleted(false);
 
         collectionPaymentRepository.save(entity);
     }

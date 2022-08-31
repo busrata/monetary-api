@@ -31,6 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @IT
 @Sql(scripts = "classpath:sql/driver-cash.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/collection-payment.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/store-collection.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CollectionPaymentControllerTest extends AbstractIT {
@@ -128,6 +129,22 @@ public class CollectionPaymentControllerTest extends AbstractIT {
                         tuple(1L, 20L, 24L, new BigDecimal("75.00"), new BigDecimal("0.00"), 20000L),
                         tuple(1L, 20L, 25L, new BigDecimal("134.00"), new BigDecimal("0.00"), 20000L)
                 );
+    }
+
+    @Test
+    public void deleteCollectionPaymentByStoreChainAdmin() {
+        //Given
+        Long id = 1L;
+
+        //When
+        ResponseEntity<CollectionPayment> response = testRestTemplate.exchange("/api/v1/collection-payment/delete?id=" + id,
+                HttpMethod.PUT, new HttpEntity<>(null, null), new ParameterizedTypeReference<CollectionPayment>() {
+                });
+
+        //Then
+        CollectionPayment collectionPayment = response.getBody();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(1L, collectionPayment.getId());
     }
 
 }

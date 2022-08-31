@@ -4,6 +4,7 @@ import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPayme
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
+import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class CollectionPaymentController {
 
     private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler;
 
+    private final UseCaseHandler<CollectionPayment, CollectionPaymentDelete> deleteCollectionPaymentByStoreChainAdminUseCaseHandler;
     private final UseCaseHandler<List<CollectionPayment>, PaidToTheStoreCollectionPaymentRetrieve> paidToTheStoreCollectionPaymentRetrieveUseCaseHandler;
 
 
@@ -51,5 +53,10 @@ public class CollectionPaymentController {
                 HttpStatus.OK);
     }
 
+    @PutMapping("/delete")
+    public  ResponseEntity<CollectionPayment> deleteCollectionPaymentByStoreChainAdmin(@RequestParam Long id){
+        log.info("REST request delete to deleteCollectionPaymentByStoreChainAdmin with storeChainId : {}", id);
+        return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)),HttpStatus.OK );
+    }
 
 }

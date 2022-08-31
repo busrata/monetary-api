@@ -18,8 +18,9 @@ public class CollectionPayment {
   private Long driverId;
   private BigDecimal cash;
   private BigDecimal pos;
-  private ZonedDateTime date;
+  private ZonedDateTime createOn;
   private Long groupId;
   private Long clientId;
+  private Boolean isDeleted;
 
 }

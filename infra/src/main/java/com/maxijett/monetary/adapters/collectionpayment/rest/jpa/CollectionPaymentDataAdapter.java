@@ -8,6 +8,7 @@ import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -30,14 +31,32 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
         entity.setCash(Objects.isNull(from.getCash()) ? BigDecimal.valueOf(0.00) : from.getCash());
         entity.setStoreId(from.getStoreId());
         entity.setPos(Objects.isNull(from.getPos()) ? BigDecimal.valueOf(0.00) : from.getPos());
-        entity.setDate(from.getDate());
+        entity.setCreateOn(from.getDate());
+        entity.setIsDeleted(false);
 
         return collectionPaymentRepository.save(entity).toModel();
     }
 
     @Override
+    public CollectionPayment retrieve(Long id){
+
+        return collectionPaymentRepository.findById(id).orElseThrow(NullPointerException::new).toModel();
+
+    }
+
+    @Override
+    @Transactional
+    public CollectionPayment update(Long id){
+
+        collectionPaymentRepository.updateCollectionPaymentIsDeleted(id);
+        return retrieve(id);
+
+    }
+
+
+    @Override
     public List<CollectionPayment> retrieveCollectionPayments(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
-        return collectionPaymentRepository.findAllByDriverIdAndGroupIdAndDateBetween(driverId, groupId, startTime, endTime)
+        return collectionPaymentRepository.findAllByDriverIdAndGroupIdAndCreateOnBetween(driverId, groupId, startTime, endTime)
                 .stream()
                 .map(CollectionPaymentEntity::toModel)
                 .collect(Collectors.toList());

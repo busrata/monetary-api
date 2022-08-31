@@ -33,8 +33,8 @@ public class CollectionPaymentEntity {
     @Column(name = "pos", nullable = false, columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal pos;
 
-    @Column(name = "date", nullable = false)
-    private ZonedDateTime date;
+    @Column(name = "create_on", nullable = false)
+    private ZonedDateTime createOn;
 
     @Column(name = "group_id", nullable = false)
     private Long groupId;
@@ -42,16 +42,20 @@ public class CollectionPaymentEntity {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted;
+
     public CollectionPayment toModel() {
         return CollectionPayment.builder()
                 .id(getId())
                 .cash(getCash())
                 .clientId(getClientId())
-                .date(getDate())
+                .createOn(getCreateOn())
                 .groupId(getGroupId())
                 .driverId(getDriverId())
                 .pos(getPos())
                 .storeId(getStoreId())
+                .isDeleted(getIsDeleted())
                 .build();
     }
 }

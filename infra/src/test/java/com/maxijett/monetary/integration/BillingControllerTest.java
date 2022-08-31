@@ -137,14 +137,15 @@ public class BillingControllerTest  extends AbstractIT {
             });
 
     BillingPayment actualBilling = response.getBody();
-    //Then
 
+    //Then
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertNotNull(actualBilling.getId());
     assertEquals(billingPaymentPrePaidDTO.getStoreId(), actualBilling.getStoreId());
     assertEquals(billingPaymentPrePaidDTO.getPaymentType(), actualBilling.getPaymentType());
     assertEquals(billingPaymentPrePaidDTO.getClientId(), actualBilling.getClientId());
     assertEquals(billingPaymentPrePaidDTO.getPayloadType(), actualBilling.getPayloadType());
+
   }
 
 }

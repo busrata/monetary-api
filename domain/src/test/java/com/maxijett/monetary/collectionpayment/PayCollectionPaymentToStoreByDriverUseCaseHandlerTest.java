@@ -79,7 +79,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandlerTest {
     Assertions.assertEquals(collectionPaymentUseCase.getStoreId(), response.getStoreId());
     Assertions.assertEquals(collectionPaymentUseCase.getCash(), response.getCash());
     Assertions.assertEquals(collectionPaymentUseCase.getGroupId(), response.getGroupId());
-    Assertions.assertNotNull(response.getDate());
+      Assertions.assertNotNull(response.getCreateOn());
 
     driverCashFakeDataAdapter.assertContains(
         DriverCash.builder()
