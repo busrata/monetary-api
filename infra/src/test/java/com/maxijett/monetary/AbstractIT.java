@@ -2,6 +2,8 @@ package com.maxijett.monetary;
 
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
+import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.entity.CollectionPaymentEntity;
+import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.CollectionPaymentRepository;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,9 @@ public abstract class AbstractIT {
     @Autowired
     protected DriverPaymentTransactionRepository driverPaymentTransactionRepository;
 
+    @Autowired
+    protected CollectionPaymentRepository collectionPaymentRepository;
+
     @LocalServerPort
     protected Integer port;
 
@@ -32,6 +37,19 @@ public abstract class AbstractIT {
         entity.setPaymentCash(cashAmount);
 
         driverPaymentTransactionRepository.save(entity);
+    }
+
+    protected void createCollectionPaymentRecord(Long driverId, Long storeId, Long clientId, Long groupId, BigDecimal cash, BigDecimal pos, ZonedDateTime dateTime) {
+        CollectionPaymentEntity entity = new CollectionPaymentEntity();
+        entity.setDriverId(driverId);
+        entity.setClientId(clientId);
+        entity.setStoreId(storeId);
+        entity.setDate(dateTime);
+        entity.setCash(cash);
+        entity.setPos(pos);
+        entity.setGroupId(groupId);
+
+        collectionPaymentRepository.save(entity);
     }
 
 }

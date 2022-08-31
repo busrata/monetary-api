@@ -10,7 +10,10 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,4 +53,12 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
 
     }
 
+
+    @Override
+    public List<CollectionPayment> retrieveCollectionPayments(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
+        return collectionPaymentRepository.findAllByDriverIdAndGroupIdAndDateBetween(driverId, groupId, startTime, endTime)
+                .stream()
+                .map(CollectionPaymentEntity::toModel)
+                .collect(Collectors.toList());
+    }
 }

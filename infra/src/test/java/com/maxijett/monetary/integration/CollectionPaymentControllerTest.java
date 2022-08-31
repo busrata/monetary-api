@@ -5,6 +5,11 @@ import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
+import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
+import com.maxijett.monetary.driver.useCase.CollectedCashRetrieve;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -14,8 +19,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -87,6 +96,39 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         assertEquals(collectionPaymentDTO.getGroupId(), collectionPayment.getGroupId());
         assertNotNull(collectionPayment.getId());
 
+    }
+
+    @Test
+    public void retrieveDriverCollectionPaymentPaidToStore() {
+        //Given
+        Long driverId = 1L;
+        Long groupId = 20L;
+        String startDate = LocalDate.now().toString();
+        String endDate = LocalDate.now().toString();
+
+        createCollectionPaymentRecord(driverId, 23L, 20000L, groupId, BigDecimal.valueOf(34.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 24L, 20000L, groupId, BigDecimal.valueOf(75.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(134.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(134.00), BigDecimal.ZERO, ZonedDateTime.now().minusDays(1));
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(134.00), BigDecimal.ZERO, ZonedDateTime.now().plusDays(1));
+
+
+        //When
+        ResponseEntity<List<CollectionPayment>> response =
+                testRestTemplate.exchange("/api/v1/collection-payment/by-driver/{driverId}?groupId={groupId}&startDate={startDate}&endDate={endDate}",
+                        HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
+                        }, driverId, groupId, startDate, endDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertThat(response.getBody()).isNotNull().hasSize(3)
+                .extracting("driverId", "groupId", "storeId", "cash", "pos", "clientId")
+                .containsExactlyInAnyOrder(
+                        tuple(1L, 20L, 23L, new BigDecimal("34.00"), new BigDecimal("0.00"), 20000L),
+                        tuple(1L, 20L, 24L, new BigDecimal("75.00"), new BigDecimal("0.00"), 20000L),
+                        tuple(1L, 20L, 25L, new BigDecimal("134.00"), new BigDecimal("0.00"), 20000L)
+                );
     }
 
     @Test

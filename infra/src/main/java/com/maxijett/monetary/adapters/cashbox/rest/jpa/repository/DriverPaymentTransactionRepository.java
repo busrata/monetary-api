@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface DriverPaymentTransactionRepository extends JpaRepository<DriverPaymentTransactionEntity, Long> {
 
-    List<DriverPaymentTransactionEntity> findAllByDriverIdAndGroupIdAndDateTimeAfterAndDateTimeBeforeAndEventTypeIn(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime, List<DriverEventType> eventTypes);
+    List<DriverPaymentTransactionEntity> findAllByDriverIdAndGroupIdAndDateTimeBetweenAndEventTypeIn(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime, List<DriverEventType> eventTypes);
 
 }
