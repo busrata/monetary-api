@@ -2,12 +2,10 @@ package com.maxijett.monetary.collectionpayment;
 
 import com.maxijett.monetary.collectionpayment.adapters.CollectionPaymentFakeDataAdapter;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import com.maxijett.monetary.store.model.StoreCollection;
-import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

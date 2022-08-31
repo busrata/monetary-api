@@ -32,7 +32,7 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
 
     @Override
     public List<DriverPaymentTransaction> retrieveTransactions(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime, List<DriverEventType> driverEventTypes) {
-        return driverPaymentTransactionRepository.findAllByDriverIdAndGroupIdAndDateTimeAfterAndDateTimeBeforeAndEventTypeIn(driverId, groupId, startTime, endTime, driverEventTypes)
+        return driverPaymentTransactionRepository.findAllByDriverIdAndGroupIdAndDateTimeBetweenAndEventTypeIn(driverId, groupId, startTime, endTime, driverEventTypes)
                 .stream()
                 .map(DriverPaymentTransactionEntity::toModel)
                 .collect(Collectors.toList());
