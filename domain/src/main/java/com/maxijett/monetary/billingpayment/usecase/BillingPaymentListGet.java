@@ -20,7 +20,4 @@ public class BillingPaymentListGet implements UseCase {
 
     private Long groupId;
 
-    public static BillingPaymentListGet fromModel(Long groupId, ZonedDateTime createOn){
-        return BillingPaymentListGet.builder().groupId(groupId).createOn(createOn).build();
-    }
 }

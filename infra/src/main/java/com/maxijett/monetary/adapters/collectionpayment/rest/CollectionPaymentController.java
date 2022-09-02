@@ -65,6 +65,9 @@ public class CollectionPaymentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CollectionPayment>> retrieveCollectionPaymentsByDateAndGroupId(@RequestParam Long groupId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate){
-        return new ResponseEntity<>(getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler.handle(CollectionPaymentListGet.fromModel(groupId, requestDate)), HttpStatus.OK);
+        return new ResponseEntity<>(getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler.handle(CollectionPaymentListGet.builder()
+            .groupId(groupId)
+            .createOn(requestDate)
+            .build()), HttpStatus.OK);
     }
 }
