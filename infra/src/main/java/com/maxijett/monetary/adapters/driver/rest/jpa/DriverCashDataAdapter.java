@@ -4,6 +4,7 @@ import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverCashEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverCashRepository;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.port.DriverCashPort;
@@ -25,7 +26,8 @@ public class DriverCashDataAdapter implements DriverCashPort {
 
     @Override
     public DriverCash retrieve(Long driverId, Long groupId) {
-        return driverCashRepository.findByDriverIdAndGroupId(driverId, groupId).toModel();
+        return driverCashRepository.findByDriverIdAndGroupId(driverId, groupId).map(DriverCashEntity::toModel)
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.drivercash.notFound", String.valueOf(driverId), String.valueOf(groupId)));
     }
 
     @Override

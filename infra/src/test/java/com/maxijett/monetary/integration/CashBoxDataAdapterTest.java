@@ -1,25 +1,28 @@
 package com.maxijett.monetary.integration;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.CashBoxDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
-import java.math.BigDecimal;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @IT
 @Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-public class CashBoxAdapterTest extends AbstractIT {
+public class CashBoxDataAdapterTest extends AbstractIT {
 
   @Autowired
   CashBoxDataAdapter cashBoxDataAdapter;
@@ -32,6 +35,19 @@ public class CashBoxAdapterTest extends AbstractIT {
     Assertions.assertNotNull(response);
     assertEquals(20L, response.getGroupId());
   }
+
+
+    @Test
+    public void shouldNotFoundCashBoxWhenWrongGroupId() {
+        //Given
+        Long invalidGroupId = 123456789L;
+
+        //When & Then
+        assertThatExceptionOfType(MonetaryApiBusinessException.class)
+                .isThrownBy(() -> cashBoxDataAdapter.retrieve(invalidGroupId))
+                .withMessage("monetaryapi.cashbox.notFound");
+
+    }
 
 
   @Test

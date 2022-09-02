@@ -5,8 +5,11 @@ import com.maxijett.monetary.adapters.billingpayment.rest.jpa.repository.Billing
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
+
 import javax.transaction.Transactional;
+
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,8 +44,8 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
 
     @Override
     public BillingPayment retrieve(Long id) {
-
-        return billingPaymentRepository.findById(id).orElseThrow(NullPointerException::new).toModel();
+        return billingPaymentRepository.findById(id).map(BillingPaymentEntity::toModel)
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.billingpayment.notFound"));
     }
 
     @Transactional

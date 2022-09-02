@@ -5,6 +5,7 @@ import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.Coll
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,10 +39,9 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
     }
 
     @Override
-    public CollectionPayment retrieve(Long id){
-
-        return collectionPaymentRepository.findById(id).orElseThrow(NullPointerException::new).toModel();
-
+    public CollectionPayment retrieve(Long id) {
+        return collectionPaymentRepository.findById(id).map(CollectionPaymentEntity::toModel)
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.collectionpayment.notFound", String.valueOf(id)));
     }
 
     @Override

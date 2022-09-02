@@ -2,12 +2,14 @@ package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAmountGet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetAmountFromCashBoxByClientIdOrGroupIdUseCaseHandlerTest {
@@ -50,6 +52,18 @@ public class GetAmountFromCashBoxByClientIdOrGroupIdUseCaseHandlerTest {
         //Then
         assertEquals(20000L, actualResponse.getClientId());
         assertEquals(BigDecimal.valueOf(160), actualResponse.getCash());
+    }
+
+    @Test
+    public void failclientIdAndGroupIdCanNotBeNull() {
+        //Given
+        CashBoxAmountGet cashBoxAmountGet = CashBoxAmountGet.builder().build();
+
+
+        //When & Then
+        assertThatExceptionOfType(MonetaryApiBusinessException.class)
+                .isThrownBy(() -> handler.handle(cashBoxAmountGet))
+                .withMessage("monetaryapi.cashbox.clientIdAndGroupIdCanNotBeNull");
     }
 
 }
