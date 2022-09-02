@@ -184,7 +184,7 @@ public class BillingPaymentControllerTest extends AbstractIT {
                 .extracting("amount", "paymentType", "groupId")
                 .containsExactlyInAnyOrder(
                         tuple(BigDecimal.valueOf(50.05), PaymentType.CASH, groupId),
-                        tuple(BigDecimal.valueOf(55.05), PaymentType.POS, groupId)
+                        tuple(BigDecimal.valueOf(55.05), PaymentType.CREDIT_CARD, groupId)
                 );
         assertThat(body.get(0).getCreateOn().toString().contains("2022-09-02"));
         assertThat(body.get(1).getCreateOn().toString().contains("2022-09-02"));
