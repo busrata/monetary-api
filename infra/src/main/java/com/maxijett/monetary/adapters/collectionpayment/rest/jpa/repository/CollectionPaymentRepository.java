@@ -20,4 +20,5 @@ public interface CollectionPaymentRepository extends JpaRepository<CollectionPay
 
     List<CollectionPaymentEntity> findAllByDriverIdAndGroupIdAndCreateOnBetween(Long driverId, Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
 
+    List<CollectionPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
 }

@@ -13,8 +13,10 @@ public interface CollectionPaymentPort {
 
     List<CollectionPayment> retrieveCollectionPayments(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
-  CollectionPayment retrieve(Long id);
+    CollectionPayment retrieve(Long id);
 
-  CollectionPayment update(Long id);
+    CollectionPayment update(Long id);
+
+    List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
 }

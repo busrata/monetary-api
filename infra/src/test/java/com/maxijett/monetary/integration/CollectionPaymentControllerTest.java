@@ -4,12 +4,9 @@ package com.maxijett.monetary.integration;
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
+import com.maxijett.monetary.billingpayment.model.BillingPayment;
+import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
-import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
-import com.maxijett.monetary.driver.useCase.CollectedCashRetrieve;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -134,7 +131,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
     @Test
     public void deleteCollectionPaymentByStoreChainAdmin() {
         //Given
-        Long id = 1L;
+        Long id = 100L;
 
         //When
         ResponseEntity<CollectionPayment> response = testRestTemplate.exchange("/api/v1/collection-payment/delete?id=" + id,
@@ -144,7 +141,35 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         //Then
         CollectionPayment collectionPayment = response.getBody();
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(1L, collectionPayment.getId());
+        assertEquals(id, collectionPayment.getId());
+    }
+
+    @Test
+    public void getAllCollectionPaymentByGroupIdAndDate() {
+        //Given
+        Long groupId = 20L;
+        String requestDate = "2022-09-02T12:00:00.000+03:00";
+
+
+        //When
+        ResponseEntity<List<CollectionPayment>> response = testRestTemplate.exchange(
+            "/api/v1/collection-payment/all?groupId={groupId}&requestDate={requestDate}",
+            HttpMethod.GET, new HttpEntity<>(null, null),
+            new ParameterizedTypeReference<List<CollectionPayment>>() {
+            }, groupId, requestDate
+        );
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<CollectionPayment> body = response.getBody();
+        assertThat(body).isNotNull().hasSize(1)
+            .extracting("pos", "groupId")
+            .containsExactlyInAnyOrder(
+                tuple(BigDecimal.valueOf(50.05), groupId)
+            );
+
+        assertThat(body.get(0).getCreateOn().toString().contains("2022-09-02"));
+
     }
 
 }

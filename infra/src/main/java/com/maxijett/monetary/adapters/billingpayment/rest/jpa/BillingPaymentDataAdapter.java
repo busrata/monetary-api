@@ -13,6 +13,11 @@ import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,7 +36,8 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
         entity.setIsDeleted(false);
-
+        entity.setCreateOn(useCase.getCreateOn());
+        entity.setGroupId(useCase.getGroupId());
         return billingPaymentRepository.save(entity).toModel();
 
     }
@@ -61,9 +67,15 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
         entity.setPayingAccount(useCase.getDriverId().toString());
+        entity.setCreateOn(useCase.getCreateOn());
+        entity.setGroupId(useCase.getGroupId());
         entity.setIsDeleted(false);
 
         return billingPaymentRepository.save(entity).toModel();
     }
 
+    @Override
+    public List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
+        return billingPaymentRepository.findAllByGroupIdAndCreateOnBetween(groupId, startTime, endTime).stream().map(BillingPaymentEntity::toModel).collect(Collectors.toList());
+    }
 }
