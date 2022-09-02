@@ -7,6 +7,8 @@ import com.maxijett.monetary.adapters.store.jpa.repository.StorePaymentTransacti
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,22 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
     }
 
     @Override
-    public StoreCollection update(StoreCollection storeCollection ,StorePaymentTransaction storePaymentTransaction) {
+    public List<StoreCollection> getListByClientId(Long clientId) {
+        return storeCollectionRepository.findAllByClientId(clientId).stream()
+                .map(StoreCollectionEntity::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<StoreCollection> getListByGroupId(Long groupId) {
+        return storeCollectionRepository.findAllByGroupId(groupId).stream()
+                .map(StoreCollectionEntity::toModel)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public StoreCollection update(StoreCollection storeCollection,
+            StorePaymentTransaction storePaymentTransaction) {
 
         var entity = new StoreCollectionEntity();
 
@@ -36,12 +53,14 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
         entity.setTariffType(storeCollection.getTariffType());
         entity.setGroupId(storeCollection.getGroupId());
 
-        storePaymentTransactionRepository.save(buildStorePaymentTransactionEntity(storePaymentTransaction));
+        storePaymentTransactionRepository.save(
+                buildStorePaymentTransactionEntity(storePaymentTransaction));
 
         return storeCollectionRepository.save(entity).toModel();
     }
 
-    private StorePaymentTransactionEntity buildStorePaymentTransactionEntity(StorePaymentTransaction storePaymentTransaction){
+    private StorePaymentTransactionEntity buildStorePaymentTransactionEntity(
+            StorePaymentTransaction storePaymentTransaction) {
         StorePaymentTransactionEntity storePaymentTransactionEntity = new StorePaymentTransactionEntity();
 
         storePaymentTransactionEntity.setStoreId(storePaymentTransaction.getStoreId());
