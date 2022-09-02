@@ -4,11 +4,13 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Data
 @NoArgsConstructor
@@ -28,6 +30,10 @@ public class BillingPaymentDTO {
 
   private Long clientId;
 
+  private ZonedDateTime createOn;
+
+  private Long groupId;
+
   public BillingPaymentCreate toUseCase(){
       return BillingPaymentCreate.builder()
           .amount(getAmount())
@@ -36,6 +42,8 @@ public class BillingPaymentDTO {
           .payingAccount(getPayingAccount())
           .clientId(getClientId())
           .storeId(getStoreId())
+          .createOn(getCreateOn())
+          .groupId(getGroupId())
           .build();
   }
 

@@ -10,6 +10,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @Data
 @Builder
@@ -31,6 +33,8 @@ public class BillingPaymentPrePaidDTO {
 
     private BigDecimal prePaidBillingAmount;
 
+    private ZonedDateTime createOn;
+
     public BillingPaymentPrePaidCreate toUseCase(){
         return BillingPaymentPrePaidCreate.builder()
                 .paymentType(getPaymentType())
@@ -40,6 +44,7 @@ public class BillingPaymentPrePaidDTO {
                 .groupId(getGroupId())
                 .driverId(getDriverId())
                 .prePaidBillingAmount(getPrePaidBillingAmount())
+                .createOn(getCreateOn())
                 .build();
     }
 }

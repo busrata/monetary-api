@@ -6,16 +6,17 @@ import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentPreP
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
+import com.maxijett.monetary.billingpayment.usecase.BillingPaymentListGet;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.extern.slf4j.Slf4j;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.time.ZonedDateTime;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -26,7 +27,7 @@ public class BillingPaymentController {
   private final UseCaseHandler<BillingPayment, BillingPaymentCreate> getPaidBillingPaymentFromStoreByStoreChainAdmin;
 
   private final UseCaseHandler<BillingPayment, BillingPaymentDelete> deletePaidBillingPaymentFromStoreByStoreChainAdmin;
-
+  private final UseCaseHandler<List<BillingPayment>, BillingPaymentListGet> getBillingPaymentListByDateAndGroupId;
   private final UseCaseHandler<BillingPayment, BillingPaymentPrePaidCreate> getPaidBillingPaymentFromColdStoreByDriver;
   @PostMapping("/by-admin")
   public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO){
@@ -45,6 +46,12 @@ public class BillingPaymentController {
   public ResponseEntity<BillingPayment> deleteBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDeleteDTO billingPaymentDeleteDTO){
     log.info("REST request delete to deleteBillingPayment with billingPaymentDeleteDTO: {}", billingPaymentDeleteDTO);
     return new ResponseEntity<BillingPayment>(deletePaidBillingPaymentFromStoreByStoreChainAdmin.handle(billingPaymentDeleteDTO.toUseCase()), HttpStatus.OK);
+  }
+
+  @GetMapping("/all")
+  public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentsByDateAndGroupId(@RequestParam Long groupId,
+                                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow){
+    return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.fromModel(groupId,dateNow)), HttpStatus.OK);
   }
 
 

@@ -29,7 +29,7 @@ public class CollectionPaymentDataAdapterTest extends AbstractIT {
     @Test
     public void shouldRetrieveCollectionPayment() {
 
-        CollectionPayment response = collectionPaymentDataAdapter.retrieve(1L);
+        CollectionPayment response = collectionPaymentDataAdapter.retrieve(100L);
         assertNotNull(response);
         assertEquals(new BigDecimal("50.00"), response.getPos());
         assertEquals(200L, response.getStoreId());
@@ -39,7 +39,7 @@ public class CollectionPaymentDataAdapterTest extends AbstractIT {
     @Test
     public void shouldUpdateCollectionPayment() {
 
-        CollectionPayment response = collectionPaymentDataAdapter.update(1L);
+        CollectionPayment response = collectionPaymentDataAdapter.update(100L);
         assertNotNull(response);
         assertEquals(true, response.getIsDeleted());
 

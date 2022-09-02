@@ -8,7 +8,10 @@ import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -63,7 +66,21 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
         return billingPayment;
     }
 
-
+    @Override
+    public List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime){
+        billings.add(BillingPayment.builder()
+                .id(4L)
+                .isDeleted(false)
+                .paymentType(PaymentType.CASH)
+                .storeId(30L)
+                .amount(BigDecimal.TEN)
+                .clientId(20L)
+                .payingAccount("storeChainAdmin")
+                .createOn(ZonedDateTime.parse("2022-09-02T05:00:00.000Z"))
+                .groupId(groupId)
+                .build());
+        return billings;
+    }
     public void assertContains(BillingPayment billingPayment) {
         assertThat(billings).containsAnyElementsOf(List.of(billingPayment));
     }

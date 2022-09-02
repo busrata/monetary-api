@@ -4,6 +4,9 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.common.model.UseCase;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,5 +29,9 @@ public class BillingPaymentCreate implements UseCase {
   private PayloadType payloadType;
 
   private Long clientId;
+
+  private ZonedDateTime createOn;
+
+  private Long groupId;
 
 }

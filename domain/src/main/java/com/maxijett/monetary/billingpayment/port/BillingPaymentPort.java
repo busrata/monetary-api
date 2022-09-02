@@ -4,6 +4,9 @@ import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 
+import java.time.ZonedDateTime;
+import java.util.List;
+
 public interface BillingPaymentPort {
 
     BillingPayment create(BillingPaymentCreate useCase);
@@ -13,4 +16,6 @@ public interface BillingPaymentPort {
     BillingPayment update(Long id);
 
     BillingPayment create(BillingPaymentPrePaidCreate useCase);
+
+    List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 }

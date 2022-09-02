@@ -8,6 +8,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -45,6 +47,12 @@ public class BillingPaymentEntity {
     @Column(name ="is_deleted", nullable = false)
     private Boolean isDeleted;
 
+    @Column(name ="create_on", nullable = false)
+    private ZonedDateTime createOn;
+
+    @Column(name ="group_id", nullable = false)
+    private Long groupId;
+
     public BillingPayment toModel() {
         return BillingPayment.builder()
                 .id(getId())
@@ -54,6 +62,8 @@ public class BillingPaymentEntity {
                 .amount(getAmount())
                 .payloadType(getPayloadType())
                 .isDeleted(getIsDeleted())
-                .payingAccount(getPayingAccount()).build();
+                .payingAccount(getPayingAccount())
+                .createOn(getCreateOn())
+                .groupId(getGroupId()).build();
     }
 }

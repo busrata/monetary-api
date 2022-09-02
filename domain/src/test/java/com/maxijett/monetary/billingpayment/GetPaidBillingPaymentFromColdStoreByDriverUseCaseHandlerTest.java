@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -38,6 +39,8 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
                 .clientId(20L)
                 .driverId(12L)
                 .prePaidBillingAmount(BigDecimal.valueOf(40))
+                .createOn(ZonedDateTime.now())
+                .groupId(21L)
                 .build();
 
         //When
