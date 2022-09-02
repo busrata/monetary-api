@@ -1,11 +1,13 @@
 package com.maxijett.monetary.integration;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverCashRepository;
 import com.maxijett.monetary.adapters.driver.rest.jpa.DriverCashDataAdapter;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
@@ -37,6 +39,18 @@ public class DriverCashDataAdapterTest extends AbstractIT {
     Assertions.assertNotNull(response);
     assertEquals(1L, response.getDriverId());
     assertEquals(20L, response.getGroupId());
+  }
+
+  @Test
+  public void shouldFailDriverCashWhenWrongDriverIdOrWrongGroupId(){
+    //Given
+    Long wrongDriverId = 1234567890L;
+    Long wrongGroupId = 1234567890L;
+
+    //When & Then
+    assertThatExceptionOfType(MonetaryApiBusinessException.class)
+            .isThrownBy(() -> driverCashDataAdapter.retrieve(wrongDriverId, wrongGroupId))
+            .withMessage("monetaryapi.drivercash.notFound");
   }
 
   @Test

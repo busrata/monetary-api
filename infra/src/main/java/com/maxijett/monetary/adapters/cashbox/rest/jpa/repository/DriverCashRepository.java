@@ -5,10 +5,11 @@ import java.math.BigDecimal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DriverCashRepository extends JpaRepository<DriverCashEntity, Long> {
-    DriverCashEntity findByDriverIdAndGroupId(Long driverId, Long groupId);
+    Optional<DriverCashEntity> findByDriverIdAndGroupId(Long driverId, Long groupId);
 
     List<DriverCashEntity> findByGroupIdAndCashGreaterThan(Long groupId, BigDecimal value);
 

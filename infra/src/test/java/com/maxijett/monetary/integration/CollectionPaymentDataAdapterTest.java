@@ -5,12 +5,14 @@ import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.CollectionPaymentDataAdapter;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.CollectionPaymentRepository;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -43,6 +45,17 @@ public class CollectionPaymentDataAdapterTest extends AbstractIT {
         assertNotNull(response);
         assertEquals(true, response.getIsDeleted());
 
+    }
+
+    @Test
+    public void shouldFailCollectionPaymentNotExistsWithId() {
+        //Given
+        Long wrongId = 1234567890L;
+
+        //When & Then
+        assertThatExceptionOfType(MonetaryApiBusinessException.class)
+                .isThrownBy(() -> collectionPaymentDataAdapter.retrieve(wrongId))
+                .withMessage("monetaryapi.collectionpayment.notFound");
     }
 
 }

@@ -25,7 +25,7 @@ public class CashBoxDataAdapter implements CashBoxPort {
     @Override
     public CashBox retrieve(Long groupId) {
         return cashBoxRepository.findByGroupId(groupId).map(CashBoxEntity::toModel)
-                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.cashbox.notFound", groupId.toString()));
+                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.cashbox.notFound", String.valueOf(groupId)));
     }
 
     @Override
