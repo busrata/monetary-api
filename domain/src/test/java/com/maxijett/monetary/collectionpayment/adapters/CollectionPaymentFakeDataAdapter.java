@@ -78,5 +78,27 @@ public class CollectionPaymentFakeDataAdapter implements CollectionPaymentPort {
     );
   }
 
+  @Override
+  public List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
+      return List.of(
+          CollectionPayment.builder()
+              .groupId(groupId)
+              .storeId(23L)
+              .clientId(20000L)
+              .pos(BigDecimal.valueOf(50L))
+              .cash(BigDecimal.valueOf(34))
+              .createOn(ZonedDateTime.now())
+              .build(),
+          CollectionPayment.builder()
+              .groupId(groupId)
+              .storeId(24L)
+              .clientId(20000L)
+              .pos(BigDecimal.valueOf(50L))
+              .cash(BigDecimal.valueOf(45))
+              .createOn(ZonedDateTime.now())
+              .build()
+      );
+  }
+
 
 }

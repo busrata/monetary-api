@@ -12,10 +12,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class GetBillingPaymentsByDateAndGroupIdHandlerTest {
+public class GetBillingPaymentsByDateAndGroupIdUseCaseHandlerTest {
 
     BillingPaymentPort billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
-    GetBillingPaymentsByDateAndGroupIdHandler useCaseHandler = new GetBillingPaymentsByDateAndGroupIdHandler(billingPaymentPort);
+    GetBillingPaymentsByDateAndGroupIdUseCaseHandler useCaseHandler = new GetBillingPaymentsByDateAndGroupIdUseCaseHandler(billingPaymentPort);
 
     @Test
     public void shouldBeReturnAllBillingPaymentByDateAndGroupId(){

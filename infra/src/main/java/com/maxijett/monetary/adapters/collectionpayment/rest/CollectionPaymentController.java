@@ -3,9 +3,11 @@ package com.maxijett.monetary.adapters.collectionpayment.rest;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
+import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
 import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -28,6 +30,8 @@ public class CollectionPaymentController {
 
     private final UseCaseHandler<CollectionPayment, CollectionPaymentDelete> deleteCollectionPaymentByStoreChainAdminUseCaseHandler;
     private final UseCaseHandler<List<CollectionPayment>, PaidToTheStoreCollectionPaymentRetrieve> paidToTheStoreCollectionPaymentRetrieveUseCaseHandler;
+
+    private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentListGet> getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler;
 
 
     @PostMapping("/by-driver")
@@ -59,4 +63,8 @@ public class CollectionPaymentController {
         return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)),HttpStatus.OK );
     }
 
+    @GetMapping("/all")
+    public ResponseEntity<List<CollectionPayment>> retrieveCollectionPaymentsByDateAndGroupId(@RequestParam Long groupId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate){
+        return new ResponseEntity<>(getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler.handle(CollectionPaymentListGet.fromModel(groupId, requestDate)), HttpStatus.OK);
+    }
 }

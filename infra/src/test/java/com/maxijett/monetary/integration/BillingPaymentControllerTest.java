@@ -173,11 +173,12 @@ public class BillingPaymentControllerTest extends AbstractIT {
         ResponseEntity<List<BillingPayment>> response = testRestTemplate.exchange(
                 "/api/v1/billing-payment/all?groupId={groupId}&dateNow={dateNow}",
                 HttpMethod.GET, new HttpEntity<>(null, null),
-                new ParameterizedTypeReference<>() {
+                new ParameterizedTypeReference<List<BillingPayment>>() {
                 }, groupId, requestDate
         );
 
         //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
         List<BillingPayment> body = response.getBody();
         assertThat(body).isNotNull().hasSize(2)
                 .extracting("amount", "paymentType", "groupId")

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @DomainComponent
-public class GetBillingPaymentsByDateAndGroupIdHandler implements UseCaseHandler<List<BillingPayment>, BillingPaymentListGet> {
+public class GetBillingPaymentsByDateAndGroupIdUseCaseHandler implements UseCaseHandler<List<BillingPayment>, BillingPaymentListGet> {
 
     private final BillingPaymentPort billingPaymentPort;
 

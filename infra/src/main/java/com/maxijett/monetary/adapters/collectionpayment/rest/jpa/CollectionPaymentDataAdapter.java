@@ -53,6 +53,14 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
 
     }
 
+    @Override
+    public List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
+        return collectionPaymentRepository.findAllByGroupIdAndCreateOnBetween(groupId, startTime, endTime)
+            .stream()
+            .map(CollectionPaymentEntity::toModel)
+            .collect(Collectors.toList());
+    }
+
 
     @Override
     public List<CollectionPayment> retrieveCollectionPayments(Long driverId, Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
