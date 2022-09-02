@@ -28,7 +28,7 @@ public class GetAllCollectionPaymentsByGroupIdAndDateUseCaseHandlerTest {
 
         //Then
         assertEquals(useCase.getGroupId(), collectionPaymentList.get(0).getGroupId());
-        assertThat(collectionPaymentList.get(0).getCreateOn().toString().contains(useCase.getCreateOn().toString()));
+        assertThat(collectionPaymentList.get(0).getCreateOn()).isBetween(useCase.getCreateOn(),useCase.getCreateOn().plusDays(1L));
 
     }
 }

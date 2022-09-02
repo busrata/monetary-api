@@ -29,7 +29,8 @@ public class GetBillingPaymentsByDateAndGroupIdUseCaseHandlerTest {
 
         //Then
         assertEquals(useCase.getGroupId(), billingPaymentList.get(0).getGroupId());
-        assertThat(billingPaymentList.get(0).getCreateOn().toString().contains(useCase.getCreateOn().toString()));
+
+        assertThat(billingPaymentList.get(0).getCreateOn()).isBetween(useCase.getCreateOn(),useCase.getCreateOn().plusDays(1L));
 
     }
 
