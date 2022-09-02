@@ -4,6 +4,7 @@ import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxAddDTO;
 import com.maxijett.monetary.adapters.cashbox.rest.dto.CashBoxDTO;
+import com.maxijett.monetary.common.rest.ErrorResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -15,7 +16,9 @@ import org.springframework.test.context.jdbc.Sql;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.from;
 
 @IT
 @Sql(scripts = "classpath:sql/cash-box.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
@@ -39,7 +42,7 @@ public class CashBoxControllerTest extends AbstractIT {
 
 
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox",
+        var response = testRestTemplate.exchange("/api/v1/cashbox",
                 HttpMethod.POST, new HttpEntity<>(cashBoxDTO, null), new ParameterizedTypeReference<CashBoxDTO>() {
                 });
 
@@ -50,7 +53,33 @@ public class CashBoxControllerTest extends AbstractIT {
     }
 
     @Test
-    public void addCashToCashBoxByAdmin(){
+    public void failAddCashBoxByDriverWhenWrongGroupId() {
+
+        Long wrongGroupId = 987654321L;
+        //Given
+        CashBoxAddDTO cashBoxDTO = CashBoxAddDTO.builder()
+                .driverId(1L)
+                .clientId(20000L)
+                .groupId(wrongGroupId)
+                .payingAccount("cashBox")
+                .prePaidAmount(BigDecimal.ZERO)
+                .amount(BigDecimal.valueOf(100))
+                .createOn(ZonedDateTime.now()).build();
+
+
+        //When
+        var response = testRestTemplate.exchange("/api/v1/cashbox",
+                HttpMethod.POST, new HttpEntity<>(cashBoxDTO, null), new ParameterizedTypeReference<ErrorResponse>() {
+                });
+
+        //Then
+        assertThat(response).isNotNull()
+                        .returns(HttpStatus.UNPROCESSABLE_ENTITY, from(ResponseEntity::getStatusCode));
+
+    }
+
+    @Test
+    public void addCashToCashBoxByAdmin() {
 
         //Given
         CashBoxAddDTO cashBoxDTO = CashBoxAddDTO.builder()
@@ -63,7 +92,7 @@ public class CashBoxControllerTest extends AbstractIT {
                 .createOn(ZonedDateTime.now()).build();
 
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox",
+        var response = testRestTemplate.exchange("/api/v1/cashbox",
                 HttpMethod.POST, new HttpEntity<>(cashBoxDTO, null), new ParameterizedTypeReference<CashBoxDTO>() {
                 });
 
@@ -73,6 +102,7 @@ public class CashBoxControllerTest extends AbstractIT {
         assertEquals(cashBoxDTO.getGroupId(), response.getBody().getGroupId());
 
     }
+
     @Test
     public void getAmountFromCashBoxByGroupId() throws Exception {
 
@@ -80,7 +110,7 @@ public class CashBoxControllerTest extends AbstractIT {
         Long groupId = 30L;
 
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?groupId="+ groupId,
+        var response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?groupId=" + groupId,
                 HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
                 });
 
@@ -100,7 +130,7 @@ public class CashBoxControllerTest extends AbstractIT {
         Long clientId = 20000L;
 
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?clientId="+ clientId,
+        var response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner?clientId=" + clientId,
                 HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
                 });
 
@@ -118,14 +148,18 @@ public class CashBoxControllerTest extends AbstractIT {
     @Test
     public void getAmountFromCashBoxWithNullVariables() throws Exception {
 
+        String groupId = "";
+        String clientId = "";
+
         //When
-        ResponseEntity<CashBoxDTO> response = testRestTemplate.exchange("/api/v1/cashbox/amount-by-owner",
-                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<CashBoxDTO>() {
-                });
+        var response = testRestTemplate.exchange(
+                "/api/v1/cashbox/amount-by-owner?clientId={clientId}&groupId={groupId}",
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<ErrorResponse>() {
+                }, clientId, groupId);
 
         //Then
 
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-
+        assertThat(response).isNotNull()
+                .returns(HttpStatus.UNPROCESSABLE_ENTITY, from(ResponseEntity::getStatusCode));
     }
 }

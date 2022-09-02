@@ -7,6 +7,7 @@ import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.CashBoxTransac
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,8 @@ public class CashBoxDataAdapter implements CashBoxPort {
 
     @Override
     public CashBox retrieve(Long groupId) {
-        return cashBoxRepository.findByGroupId(groupId).toModel();
+        return cashBoxRepository.findByGroupId(groupId).map(CashBoxEntity::toModel)
+                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.cashbox.notFound", groupId.toString()));
     }
 
     @Override
