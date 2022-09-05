@@ -6,6 +6,7 @@ import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
 import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
+import com.maxijett.monetary.collectionpayment.useCase.StoreCollectionPaymentRetrieve;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
@@ -29,13 +30,17 @@ public class CollectionPaymentController {
     private final UseCaseHandler<CollectionPayment, CollectionPaymentCreate> payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler;
 
     private final UseCaseHandler<CollectionPayment, CollectionPaymentDelete> deleteCollectionPaymentByStoreChainAdminUseCaseHandler;
+
     private final UseCaseHandler<List<CollectionPayment>, PaidToTheStoreCollectionPaymentRetrieve> paidToTheStoreCollectionPaymentRetrieveUseCaseHandler;
+
+    private final UseCaseHandler<List<CollectionPayment>, StoreCollectionPaymentRetrieve> retrieveCollectionPaymentMonthlyByStoreUseCaseHandler;
 
     private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentListGet> getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler;
 
 
     @PostMapping("/by-driver")
     public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
+        log.info("REST request saveCollectionPaymentByDriver collectionPaymentDTO: {}", collectionPaymentDTO);
         return new ResponseEntity<>(payCollectionPaymentToStoreByDriverUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
                 HttpStatus.OK);
     }
@@ -43,8 +48,7 @@ public class CollectionPaymentController {
     @GetMapping("by-driver/{driverId}")
     public ResponseEntity<List<CollectionPayment>> getPayTheStoreCollectionPaymentByDriver(@PathVariable Long driverId, @RequestParam Long groupId,
                                                                                            @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate
-    ) {
+                                                                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         log.info("Rest request to get getPayTheStoreCollectionPaymentByDriver by driverId: {}, groupId: {}, startDate: {}, endDate: {}", driverId, groupId, startDate, endDate);
         return ResponseEntity.ok(paidToTheStoreCollectionPaymentRetrieveUseCaseHandler.handle(PaidToTheStoreCollectionPaymentRetrieve.builder()
                 .driverId(driverId).groupId(groupId).startDate(startDate).endDate(endDate).build()));
@@ -53,21 +57,34 @@ public class CollectionPaymentController {
 
     @PostMapping("/by-store-chain-admin")
     public ResponseEntity<CollectionPayment> saveCollectionPaymentByStoreChainAdmin(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
+        log.info("REST request saveCollectionPaymentByStoreChainAdmin collectionPaymentDTO: {}", collectionPaymentDTO);
         return new ResponseEntity<>(payCollectionPaymentToStoreByStoreChainAdminUseCaseHandler.handle(collectionPaymentDTO.toUseCase()),
                 HttpStatus.OK);
     }
 
     @PutMapping("/delete")
-    public  ResponseEntity<CollectionPayment> deleteCollectionPaymentByStoreChainAdmin(@RequestParam Long id){
-        log.info("REST request delete to deleteCollectionPaymentByStoreChainAdmin with storeChainId : {}", id);
-        return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)),HttpStatus.OK );
+    public ResponseEntity<CollectionPayment> deleteCollectionPaymentByStoreChainAdmin(@RequestParam Long id) {
+        log.info("REST request delete to deleteCollectionPaymentByStoreChainAdmin with storeChainId: {}", id);
+        return new ResponseEntity<>(deleteCollectionPaymentByStoreChainAdminUseCaseHandler.handle(CollectionPaymentDelete.fromModel(id)), HttpStatus.OK);
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<CollectionPayment>> retrieveCollectionPaymentsByDateAndGroupId(@RequestParam Long groupId, @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate){
+    public ResponseEntity<List<CollectionPayment>> retrieveCollectionPaymentsByDateAndGroupId(@RequestParam Long groupId,
+                                                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate) {
+        log.info("Rest request to retrieveCollectionPaymentsByDateAndGroupId by groupId: {}, requestDate: {}", groupId, requestDate);
         return new ResponseEntity<>(getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler.handle(CollectionPaymentListGet.builder()
-            .groupId(groupId)
-            .createOn(requestDate)
-            .build()), HttpStatus.OK);
+                .groupId(groupId)
+                .createOn(requestDate)
+                .build()), HttpStatus.OK);
     }
+
+    @GetMapping("by-store/{storeId}/monthly")
+    public ResponseEntity<List<CollectionPayment>> getCollectionPaymentMonthlyByStore(@PathVariable Long storeId,
+                                                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+        log.info("Rest request to getCollectionPaymentMonthlyByStore by storeId: {}, requestDate: {}", storeId, requestDate);
+
+        return new ResponseEntity<>(retrieveCollectionPaymentMonthlyByStoreUseCaseHandler.handle(StoreCollectionPaymentRetrieve.fromModel(storeId, requestDate)), HttpStatus.OK);
+
+    }
+
 }

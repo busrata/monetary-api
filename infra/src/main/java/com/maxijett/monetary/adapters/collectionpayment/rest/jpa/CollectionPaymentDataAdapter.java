@@ -69,4 +69,12 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
                 .map(CollectionPaymentEntity::toModel)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<CollectionPayment> retrieveCollectionPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate) {
+        return collectionPaymentRepository.getAllMonthlyByStore(storeId, requestDate.getYear(), requestDate.getMonthValue())
+                .stream()
+                .map(CollectionPaymentEntity::toModel)
+                .collect(Collectors.toList());
+    }
 }

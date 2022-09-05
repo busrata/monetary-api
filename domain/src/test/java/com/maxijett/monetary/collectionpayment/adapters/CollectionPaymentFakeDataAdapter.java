@@ -82,23 +82,47 @@ public class CollectionPaymentFakeDataAdapter implements CollectionPaymentPort {
   public List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
       return List.of(
           CollectionPayment.builder()
-              .groupId(groupId)
-              .storeId(23L)
-              .clientId(20000L)
-              .pos(BigDecimal.valueOf(50L))
-              .cash(BigDecimal.valueOf(34))
-              .createOn(ZonedDateTime.now())
-              .build(),
-          CollectionPayment.builder()
-              .groupId(groupId)
-              .storeId(24L)
-              .clientId(20000L)
-              .pos(BigDecimal.valueOf(50L))
-              .cash(BigDecimal.valueOf(45))
-              .createOn(ZonedDateTime.now())
-              .build()
+                  .groupId(groupId)
+                  .storeId(23L)
+                  .clientId(20000L)
+                  .pos(BigDecimal.valueOf(50L))
+                  .cash(BigDecimal.valueOf(34))
+                  .createOn(ZonedDateTime.parse("2022-09-02T09:00:00.000Z"))
+                  .build(),
+              CollectionPayment.builder()
+                      .groupId(groupId)
+                      .storeId(24L)
+                      .clientId(20000L)
+                      .pos(BigDecimal.valueOf(50L))
+                      .cash(BigDecimal.valueOf(45))
+                      .createOn(ZonedDateTime.parse("2022-09-02T11:00:00.000Z"))
+                      .build()
       );
   }
+
+    @Override
+    public List<CollectionPayment> retrieveCollectionPaymentMonthlyByStore(Long storeId, ZonedDateTime startTime) {
+        return List.of(
+                CollectionPayment.builder()
+                        .driverId(315L)
+                        .groupId(50L)
+                        .storeId(storeId)
+                        .clientId(20000L)
+                        .pos(BigDecimal.ZERO)
+                        .cash(BigDecimal.valueOf(34))
+                        .createOn(ZonedDateTime.now())
+                        .build(),
+                CollectionPayment.builder()
+                        .driverId(315L)
+                        .groupId(50L)
+                        .storeId(storeId)
+                        .clientId(20000L)
+                        .pos(BigDecimal.ZERO)
+                        .cash(BigDecimal.valueOf(45))
+                        .createOn(ZonedDateTime.now())
+                        .build()
+        );
+    }
 
 
 }

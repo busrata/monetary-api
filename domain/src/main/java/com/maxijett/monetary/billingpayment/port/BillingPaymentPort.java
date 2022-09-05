@@ -18,4 +18,6 @@ public interface BillingPaymentPort {
     BillingPayment create(BillingPaymentPrePaidCreate useCase);
 
     List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
+
+    List<BillingPayment> retrieveBillingPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate);
 }

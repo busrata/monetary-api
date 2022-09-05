@@ -1,13 +1,16 @@
 package com.maxijett.monetary;
 
+import com.maxijett.monetary.adapters.billingpayment.rest.jpa.entity.BillingPaymentEntity;
+import com.maxijett.monetary.adapters.billingpayment.rest.jpa.repository.BillingPaymentRepository;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.entity.CollectionPaymentEntity;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.CollectionPaymentRepository;
 import com.maxijett.monetary.adapters.store.jpa.entity.StoreCollectionEntity;
 import com.maxijett.monetary.adapters.store.jpa.repository.StoreCollectionRepository;
+import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
+import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
-import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +34,14 @@ public abstract class AbstractIT {
     @Autowired
     protected StoreCollectionRepository storeCollectionRepository;
 
+    @Autowired
+    protected BillingPaymentRepository billingPaymentRepository;
+
     @LocalServerPort
     protected Integer port;
 
     protected void createDriverPaymentTransactionRecord(Long driverId, Long groupId,
-            BigDecimal cashAmount, DriverEventType eventType, ZonedDateTime dateTime) {
+                                                        BigDecimal cashAmount, DriverEventType eventType, ZonedDateTime dateTime) {
         DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
         entity.setDriverId(driverId);
         entity.setOrderNumber(RandomStringUtils.random(10));
@@ -73,6 +79,23 @@ public abstract class AbstractIT {
         entity.setClientId(clientId);
 
         storeCollectionRepository.save(entity);
+    }
+
+    protected void createBillingPaymentRecord(Long storeId, Long clientId, Long groupId, BigDecimal amount,
+                                              ZonedDateTime dateTime, String payingAccount, PayloadType payloadType, PaymentType paymentType) {
+
+        BillingPaymentEntity entity = new BillingPaymentEntity();
+        entity.setClientId(clientId);
+        entity.setStoreId(storeId);
+        entity.setCreateOn(dateTime);
+        entity.setAmount(amount);
+        entity.setGroupId(groupId);
+        entity.setPayingAccount(payingAccount);
+        entity.setPayloadType(payloadType);
+        entity.setPaymentType(paymentType);
+        entity.setIsDeleted(false);
+
+        billingPaymentRepository.save(entity);
     }
 
 }

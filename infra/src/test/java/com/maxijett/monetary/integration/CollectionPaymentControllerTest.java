@@ -4,8 +4,6 @@ package com.maxijett.monetary.integration;
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
-import com.maxijett.monetary.billingpayment.model.BillingPayment;
-import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -163,13 +161,46 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<CollectionPayment> body = response.getBody();
         assertThat(body).isNotNull().hasSize(1)
-            .extracting("pos", "groupId")
-            .containsExactlyInAnyOrder(
-                tuple(BigDecimal.valueOf(50.05), groupId)
-            );
+                .extracting("pos", "groupId")
+                .containsExactlyInAnyOrder(
+                        tuple(BigDecimal.valueOf(50.05), groupId)
+                );
 
         assertThat(body.get(0).getCreateOn().toString().contains("2022-09-02"));
 
     }
 
+    @Test
+    public void retrieveCollectionPaymentMonthlyByStore() {
+        //Given
+        Long storeId = 25L;
+        Long driverId = 315L;
+        Long groupId = 20L;
+        String requestDate = LocalDate.now().toString();
+
+        createCollectionPaymentRecord(driverId, 23L, 20000L, groupId, BigDecimal.valueOf(34.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 24L, 20000L, groupId, BigDecimal.valueOf(75.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(34.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(75.00), BigDecimal.ZERO, ZonedDateTime.now().minusMonths(2));
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(134.00), BigDecimal.ZERO, ZonedDateTime.now());
+        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(234.00), BigDecimal.ZERO, ZonedDateTime.now().minusYears(2));
+
+
+        //When
+        ResponseEntity<List<CollectionPayment>> response =
+                testRestTemplate.exchange("/api/v1/collection-payment/by-store/{storeId}/monthly?requestDate={requestDate}",
+                        HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
+                        }, storeId, requestDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertThat(response.getBody()).isNotNull().hasSize(2)
+                .extracting("driverId", "groupId", "storeId", "cash", "pos", "clientId")
+                .containsExactlyInAnyOrder(
+                        tuple(315L, 20L, 25L, new BigDecimal("34.00"), new BigDecimal("0.00"), 20000L),
+                        tuple(315L, 20L, 25L, new BigDecimal("134.00"), new BigDecimal("0.00"), 20000L)
+                );
+
+    }
 }

@@ -13,8 +13,6 @@ import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,4 +76,10 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
     public List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
         return billingPaymentRepository.findAllByGroupIdAndCreateOnBetween(groupId, startTime, endTime).stream().map(BillingPaymentEntity::toModel).collect(Collectors.toList());
     }
+
+    @Override
+    public List<BillingPayment> retrieveBillingPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate) {
+        return billingPaymentRepository.getAllMonthlyByStore(storeId, requestDate.getYear(), requestDate.getMonthValue()).stream().map(BillingPaymentEntity::toModel).collect(Collectors.toList());
+    }
+
 }

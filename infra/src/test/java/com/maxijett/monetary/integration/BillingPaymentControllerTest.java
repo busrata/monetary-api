@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -188,6 +187,34 @@ public class BillingPaymentControllerTest extends AbstractIT {
                 );
         assertThat(body.get(0).getCreateOn().toString().contains("2022-09-02"));
         assertThat(body.get(1).getCreateOn().toString().contains("2022-09-02"));
+
+    }
+
+    @Test
+    void retrieveBillingPaymentMonthlyByStore() {
+        //Given
+        Long storeId = 222L;
+        String requestDate = LocalDate.now().toString();
+
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.parse("2022-08-02T12:00:00.000Z"), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
+        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+
+
+        //When
+        ResponseEntity<List<BillingPayment>> response = testRestTemplate.exchange("/api/v1/billing-payment/by-store/{storeId}/monthly?requestDate={requestDate}",
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
+                }, storeId, requestDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getBody()).isNotNull().hasSize(2)
+                .extracting("storeId", "amount")
+                .containsExactlyInAnyOrder(
+                        tuple(storeId, BigDecimal.valueOf(55.05)),
+                        tuple(storeId, BigDecimal.valueOf(50.05))
+                );
 
     }
 

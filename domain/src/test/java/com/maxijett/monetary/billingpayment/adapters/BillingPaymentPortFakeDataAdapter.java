@@ -5,13 +5,10 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
-import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -81,6 +78,20 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
                 .build());
         return billings;
     }
+
+    @Override
+    public List<BillingPayment> retrieveBillingPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate) {
+        billings.add(BillingPayment.builder()
+                .storeId(storeId)
+                .amount(BigDecimal.valueOf(20.05))
+                .build());
+        billings.add(BillingPayment.builder()
+                .storeId(storeId)
+                .amount(BigDecimal.valueOf(30.05))
+                .build());
+        return billings;
+    }
+
     public void assertContains(BillingPayment billingPayment) {
         assertThat(billings).containsAnyElementsOf(List.of(billingPayment));
     }
