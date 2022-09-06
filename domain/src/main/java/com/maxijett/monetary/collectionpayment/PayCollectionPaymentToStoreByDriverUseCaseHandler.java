@@ -9,12 +9,10 @@ import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverCashPort;
-import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
 
 import java.math.BigDecimal;
 import java.time.ZoneId;

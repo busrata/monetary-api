@@ -9,7 +9,6 @@ import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverCashPort;
-import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZoneId;

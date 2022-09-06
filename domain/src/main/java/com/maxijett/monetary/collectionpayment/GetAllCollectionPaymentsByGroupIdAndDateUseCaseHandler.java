@@ -5,7 +5,6 @@ import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
 import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
-import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;

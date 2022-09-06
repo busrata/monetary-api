@@ -1,7 +1,6 @@
 package com.maxijett.monetary.driver.useCase;
 
 import com.maxijett.monetary.common.model.UseCase;
-import com.maxijett.monetary.driver.model.DriverCash;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

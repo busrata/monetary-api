@@ -2,7 +2,6 @@ package com.maxijett.monetary.driver.port;
 
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
-import com.maxijett.monetary.driver.useCase.DriverCashListRetrieve;
 import java.util.List;
 
 public interface DriverCashPort {

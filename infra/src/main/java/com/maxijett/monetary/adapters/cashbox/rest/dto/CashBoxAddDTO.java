@@ -3,7 +3,6 @@ package com.maxijett.monetary.adapters.cashbox.rest.dto;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
 import lombok.*;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 

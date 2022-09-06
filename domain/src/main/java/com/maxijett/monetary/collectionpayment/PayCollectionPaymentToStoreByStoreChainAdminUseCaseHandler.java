@@ -9,11 +9,9 @@ import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
