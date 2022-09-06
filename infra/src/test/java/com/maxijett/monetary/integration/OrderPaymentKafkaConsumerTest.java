@@ -32,11 +32,10 @@ public class OrderPaymentKafkaConsumerTest extends AbstractIT {
 
     //When
 
-      Boolean isEventListened = orderPaymentEventConsumer.orderPaymentEventListener(orderPaymentEvent);
+    orderPaymentEventConsumer.orderPaymentEventListener(orderPaymentEvent);
 
-    //Then
+    //Then TODO
 
-    Assertions.assertEquals(true, isEventListened);
   }
 
 }
