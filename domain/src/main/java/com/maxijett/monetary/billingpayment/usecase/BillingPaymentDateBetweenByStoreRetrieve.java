@@ -1,22 +1,21 @@
 package com.maxijett.monetary.billingpayment.usecase;
 
 import com.maxijett.monetary.common.model.UseCase;
-
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BillingPaymentListGet implements UseCase {
+public class BillingPaymentDateBetweenByStoreRetrieve implements UseCase {
 
-    private ZonedDateTime createOn;
+    Long storeId;
 
-    private Long groupId;
+    LocalDate startDate;
 
+    LocalDate endDate;
 }

@@ -218,4 +218,37 @@ public class BillingPaymentControllerTest extends AbstractIT {
 
     }
 
+    @Test
+    void retrieveBillingPaymentListByDateAndStoreId(){
+
+        //Given
+        Long storeId = 111L;
+        String startDate = LocalDate.now().minusDays(5L).toString();
+        String endDate = LocalDate.now().toString();
+
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now().minusDays(2L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now().minusDays(1L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
+
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.now().plusDays(1L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
+        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+
+
+        //When
+        ResponseEntity<List<BillingPayment>> response = testRestTemplate.exchange("/api/v1/billing-payment/by-store/{storeId}/date-between?startDate={startDate}&endDate={endDate}",
+            HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
+            }, storeId, startDate, endDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertThat(response.getBody()).isNotNull().hasSize(3)
+            .extracting("storeId", "amount")
+            .containsExactlyInAnyOrder(
+                tuple(storeId, BigDecimal.valueOf(55.05)),
+                tuple(storeId, BigDecimal.valueOf(50.05)),
+                tuple(storeId, new BigDecimal("10.00"))
+            );
+        assertThat(response.getBody().get(0).getCreateOn().toLocalDate()).isBetween(startDate, endDate);
+    }
+
 }

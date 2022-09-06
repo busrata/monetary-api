@@ -23,25 +23,27 @@ import java.util.List;
 @RequestMapping("api/v1/billing-payment")
 public class BillingPaymentController {
 
-  private final UseCaseHandler<BillingPayment, BillingPaymentCreate> getPaidBillingPaymentFromStoreByStoreChainAdmin;
+    private final UseCaseHandler<BillingPayment, BillingPaymentCreate> getPaidBillingPaymentFromStoreByStoreChainAdmin;
 
-  private final UseCaseHandler<BillingPayment, BillingPaymentDelete> deletePaidBillingPaymentFromStoreByStoreChainAdmin;
+    private final UseCaseHandler<BillingPayment, BillingPaymentDelete> deletePaidBillingPaymentFromStoreByStoreChainAdmin;
 
-  private final UseCaseHandler<List<BillingPayment>, BillingPaymentListGet> getBillingPaymentListByDateAndGroupId;
+    private final UseCaseHandler<List<BillingPayment>, BillingPaymentListGet> getBillingPaymentListByDateAndGroupId;
 
-  private final UseCaseHandler<BillingPayment, BillingPaymentPrePaidCreate> getPaidBillingPaymentFromColdStoreByDriver;
+    private final UseCaseHandler<BillingPayment, BillingPaymentPrePaidCreate> getPaidBillingPaymentFromColdStoreByDriver;
 
-  private final UseCaseHandler<List<BillingPayment>, BillingPaymentMonthlyByStoreRetrieve> retrieveBillingPaymentMonthlyByStore;
+    private final UseCaseHandler<List<BillingPayment>, BillingPaymentMonthlyByStoreRetrieve> retrieveBillingPaymentMonthlyByStore;
 
-  @PostMapping("/by-admin")
-  public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO) {
-    log.info("REST request post to createBillingPaymentByStoreChainAdmin with billingPaymentDTO : {}", billingPaymentDTO);
-    return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromStoreByStoreChainAdmin.handle(billingPaymentDTO.toUseCase()), HttpStatus.CREATED);
+    private final UseCaseHandler<List<BillingPayment>, BillingPaymentDateBetweenByStoreRetrieve> retrieveBillingPaymentListByDateAndStoreId;
 
-  }
+    @PostMapping("/by-admin")
+    public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO) {
+        log.info("REST request post to createBillingPaymentByStoreChainAdmin with billingPaymentDTO : {}", billingPaymentDTO);
+        return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromStoreByStoreChainAdmin.handle(billingPaymentDTO.toUseCase()), HttpStatus.CREATED);
 
-  @PostMapping("/cold-store-by-driver")
-  public ResponseEntity<BillingPayment> createBillingPaymentFromColdStoreByDriver(@RequestBody BillingPaymentPrePaidDTO billingPaymentPrePaidDTO) {
+    }
+
+    @PostMapping("/cold-store-by-driver")
+    public ResponseEntity<BillingPayment> createBillingPaymentFromColdStoreByDriver(@RequestBody BillingPaymentPrePaidDTO billingPaymentPrePaidDTO) {
     log.info("REST request post to createBillingPaymentFromColdStoreByDriver with billingPaymentPrePaidDTO : {}", billingPaymentPrePaidDTO);
     return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromColdStoreByDriver.handle(billingPaymentPrePaidDTO.toUseCase()), HttpStatus.CREATED);
   }
@@ -55,18 +57,29 @@ public class BillingPaymentController {
   @GetMapping("/all")
   public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentsByDateAndGroupId(@RequestParam Long groupId,
                                                                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow) {
-    return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.builder()
+        log.info("Rest request to retrieveBillingPaymentsByDateAndGroupId by group id: {} and date: {}", groupId, dateNow);
+        return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.builder()
             .groupId(groupId)
             .createOn(dateNow)
             .build()), HttpStatus.OK);
   }
 
-  @GetMapping("/by-store/{storeId}/monthly")
-  public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentMonthlyByStore(@PathVariable Long storeId,
-                                                                                   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
-    return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentMonthlyByStore.handle(BillingPaymentMonthlyByStoreRetrieve.builder()
+    @GetMapping("/by-store/{storeId}/monthly")
+    public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentMonthlyByStore(@PathVariable Long storeId,
+                                                                                     @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+        log.info("Rest request to retrieveBillingPaymentMonthlyByStore by store id: {} and date: {}", storeId, requestDate);
+        return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentMonthlyByStore.handle(BillingPaymentMonthlyByStoreRetrieve.builder()
             .storeId(storeId)
             .requestDate(requestDate).build()), HttpStatus.OK);
-  }
+    }
 
+    @GetMapping("/by-store/{storeId}/date-between")
+    public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentListByDateBetweenAndStore(@PathVariable Long storeId,
+                                                                                                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        log.info("Rest request to retrieveBillingPaymentListByDateBetweenAndStore by store id: {} and date between: {} - {}", storeId, startDate, endDate);
+        return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentListByDateAndStoreId.handle(BillingPaymentDateBetweenByStoreRetrieve.builder()
+            .storeId(storeId)
+            .startDate(startDate)
+            .endDate(endDate).build()), HttpStatus.OK);
+    }
 }
