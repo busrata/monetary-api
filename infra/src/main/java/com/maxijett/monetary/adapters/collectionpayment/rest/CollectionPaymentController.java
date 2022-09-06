@@ -2,13 +2,12 @@ package com.maxijett.monetary.adapters.collectionpayment.rest;
 
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
-import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
-import com.maxijett.monetary.collectionpayment.useCase.StoreCollectionPaymentRetrieve;
+import com.maxijett.monetary.collectionpayment.useCase.*;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+
+import java.math.BigDecimal;
 import java.time.ZonedDateTime;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -37,6 +36,8 @@ public class CollectionPaymentController {
 
     private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentListGet> getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler;
 
+
+    private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentRetrieveByDateRangeAndStore> getAllCollectionPaymentsByStoreIdAndDateUseCaseHandler;
 
     @PostMapping("/by-driver")
     public ResponseEntity<CollectionPayment> saveCollectionPaymentByDriver(@RequestBody CollectionPaymentDTO collectionPaymentDTO) {
@@ -85,6 +86,18 @@ public class CollectionPaymentController {
 
         return new ResponseEntity<>(retrieveCollectionPaymentMonthlyByStoreUseCaseHandler.handle(StoreCollectionPaymentRetrieve.fromModel(storeId, requestDate)), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/all/{storeId}")
+    public ResponseEntity<List<CollectionPayment>> getCollectionPaymentByDateAndStoreId(@PathVariable Long storeId,
+                                                                                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate lastDate) {
+        log.info("Rest request to getCollectionPaymentByDateAndStoreId by storeId: {}, firstDate: {}, lastDate: {}", storeId, firstDate, lastDate);
+
+        return new ResponseEntity<>(getAllCollectionPaymentsByStoreIdAndDateUseCaseHandler.handle(CollectionPaymentRetrieveByDateRangeAndStore.builder()
+                .storeId(storeId)
+                .firstDate(firstDate)
+                .lastDate(lastDate)
+                .build()), HttpStatus.OK);
     }
 
 }

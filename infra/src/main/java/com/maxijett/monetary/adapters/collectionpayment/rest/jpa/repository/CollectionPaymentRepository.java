@@ -23,4 +23,6 @@ public interface CollectionPaymentRepository extends JpaRepository<CollectionPay
     List<CollectionPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
 
     List<CollectionPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
+
+    List<CollectionPaymentEntity> findAllByStoreIdAndCreateOnBetween(Long storeId, ZonedDateTime firstDate, ZonedDateTime lastDate);
 }
