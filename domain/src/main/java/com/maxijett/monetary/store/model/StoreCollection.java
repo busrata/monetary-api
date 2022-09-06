@@ -20,5 +20,13 @@ public class StoreCollection {
   private BigDecimal pos;
   private TariffType tariffType;
   private Long clientId;
+  private BigDecimal balanceLimit;
 
+  public StoreCashAndBalanceLimit toStoreCashAndBalanceLimit() {
+    return StoreCashAndBalanceLimit.builder()
+            .storeId(getStoreId())
+            .cash(getCash())
+            .balanceLimit(getBalanceLimit())
+            .build();
+  }
 }

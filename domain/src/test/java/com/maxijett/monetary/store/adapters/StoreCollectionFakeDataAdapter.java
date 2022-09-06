@@ -63,6 +63,7 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
             .clientId(20L)
             .groupId(1L)
             .tariffType(TariffType.TAXIMETER_HOT)
+            .balanceLimit(new BigDecimal(45))
             .build(),
         StoreCollection.builder()
             .storeId(2L)
@@ -71,6 +72,7 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
             .clientId(20L)
             .groupId(1L)
             .tariffType(TariffType.TAXIMETER_HOT)
+            .balanceLimit(new BigDecimal(55))
             .build(),
         StoreCollection.builder()
             .storeId(3L)
@@ -79,6 +81,7 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
             .clientId(20L)
             .groupId(1L)
             .tariffType(TariffType.TAXIMETER_HOT)
+            .balanceLimit(new BigDecimal(65))
             .build());
   }
 

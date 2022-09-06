@@ -69,7 +69,7 @@ public abstract class AbstractIT {
     }
 
     protected void createStoreCollectionRecord(Long storeId, Long groupId, BigDecimal cash,
-            BigDecimal pos, TariffType tariffType, Long clientId) {
+            BigDecimal pos, TariffType tariffType, Long clientId, BigDecimal balanceLimit) {
         StoreCollectionEntity entity = new StoreCollectionEntity();
         entity.setStoreId(storeId);
         entity.setGroupId(groupId);
@@ -77,6 +77,7 @@ public abstract class AbstractIT {
         entity.setPos(pos);
         entity.setTariffType(tariffType);
         entity.setClientId(clientId);
+        entity.setBalanceLimit(balanceLimit);
 
         storeCollectionRepository.save(entity);
     }

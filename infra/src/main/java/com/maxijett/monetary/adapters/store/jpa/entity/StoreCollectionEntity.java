@@ -40,6 +40,9 @@ public class StoreCollectionEntity {
     @Column(name = "client_id")
     private Long clientId;
 
+    @Column(name = "balance_limit", columnDefinition = "Decimal(10,2) default '0.00'")
+    private BigDecimal balanceLimit;
+
     public StoreCollection toModel() {
         return StoreCollection.builder()
                 .id(getId())
@@ -48,6 +51,7 @@ public class StoreCollectionEntity {
                 .groupId(getGroupId())
                 .clientId(getClientId())
                 .pos(getPos())
-                .tariffType(getTariffType()).build();
+                .tariffType(getTariffType())
+                .balanceLimit(getBalanceLimit()).build();
     }
 }

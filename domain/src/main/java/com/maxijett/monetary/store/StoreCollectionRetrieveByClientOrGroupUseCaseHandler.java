@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class StoreCollectionRetrieveByStoreIdUseCaseHandler implements
+public class StoreCollectionRetrieveByClientOrGroupUseCaseHandler implements
         UseCaseHandler<List<StoreCollection>, StoreCollectionRetrieve> {
 
     private final StoreCollectionPort storeCollectionPort;

@@ -3,9 +3,11 @@ package com.maxijett.monetary.integration;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.from;
 import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
+import com.maxijett.monetary.store.model.StoreCashAndBalanceLimit;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import java.math.BigDecimal;
@@ -25,15 +27,16 @@ public class StoreCollectionControllerTest extends AbstractIT {
 
     @Test
     public void getStoreCollectionByClientId() {
+
         //Given
         Long clientId = 20000L;
 
         createStoreCollectionRecord(200L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
-                TariffType.TAXIMETER_HOT, 20000L);
+                TariffType.TAXIMETER_HOT, 20000L, BigDecimal.valueOf(250));
         createStoreCollectionRecord(300L, 20L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
-                TariffType.TAXIMETER_HOT, 20000L);
+                TariffType.TAXIMETER_HOT, 20000L, BigDecimal.valueOf(350));
         createStoreCollectionRecord(400L, 20L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
-                TariffType.TAXIMETER_HOT, 20000L);
+                TariffType.TAXIMETER_HOT, 20000L, BigDecimal.valueOf(450));
 
         //When
         ResponseEntity<List<StoreCollection>> response = testRestTemplate.exchange(
@@ -46,31 +49,33 @@ public class StoreCollectionControllerTest extends AbstractIT {
         List<StoreCollection> responseList = response.getBody();
 
         assertThat(responseList).isNotNull().hasSize(3)
-                .extracting("storeId", "groupId", "cash", "pos", "tariffType", "clientId")
+                .extracting("storeId", "groupId", "cash", "pos", "tariffType", "clientId",
+                        "balanceLimit")
                 .containsExactlyInAnyOrder(
                         tuple(200L, 20L, new BigDecimal("0.00"), new BigDecimal("140.00"),
                                 TariffType.TAXIMETER_HOT,
-                                20000L),
+                                20000L, new BigDecimal("250.00")),
                         tuple(300L, 20L, new BigDecimal("60.00"), new BigDecimal("80.00"),
                                 TariffType.TAXIMETER_HOT,
-                                20000L),
+                                20000L, new BigDecimal("350.00")),
                         tuple(400L, 20L, new BigDecimal("90.00"), new BigDecimal("100.00"),
                                 TariffType.TAXIMETER_HOT,
-                                20000L)
+                                20000L, new BigDecimal("450.00"))
                 );
     }
 
     @Test
     public void getStoreCollectionByGroupId() {
+
         //Given
         Long groupId = 30L;
 
         createStoreCollectionRecord(200L, 30L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
-                TariffType.TAXIMETER_HOT, 30000L);
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(250));
         createStoreCollectionRecord(300L, 30L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
-                TariffType.TAXIMETER_HOT, 30000L);
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(350));
         createStoreCollectionRecord(400L, 30L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
-                TariffType.TAXIMETER_HOT, 30000L);
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(450));
 
         //When
         ResponseEntity<List<StoreCollection>> response = testRestTemplate.exchange(
@@ -83,22 +88,24 @@ public class StoreCollectionControllerTest extends AbstractIT {
         List<StoreCollection> responseList = response.getBody();
 
         assertThat(responseList).isNotNull().hasSize(3)
-                .extracting("storeId", "groupId", "cash", "pos", "tariffType", "clientId")
+                .extracting("storeId", "groupId", "cash", "pos", "tariffType", "clientId",
+                        "balanceLimit")
                 .containsExactlyInAnyOrder(
                         tuple(200L, 30L, new BigDecimal("0.00"), new BigDecimal("140.00"),
                                 TariffType.TAXIMETER_HOT,
-                                30000L),
+                                30000L, new BigDecimal("250.00")),
                         tuple(300L, 30L, new BigDecimal("60.00"), new BigDecimal("80.00"),
                                 TariffType.TAXIMETER_HOT,
-                                30000L),
+                                30000L, new BigDecimal("350.00")),
                         tuple(400L, 30L, new BigDecimal("90.00"), new BigDecimal("100.00"),
                                 TariffType.TAXIMETER_HOT,
-                                30000L)
+                                30000L, new BigDecimal("450.00"))
                 );
     }
 
     @Test
-    public void getStoreCollectionWithNullVariables() throws Exception {
+    public void getStoreCollectionWithNullVariables(){
+
         //When
         var response = testRestTemplate.exchange(
                 "/api/v1/store-collection",
@@ -110,6 +117,40 @@ public class StoreCollectionControllerTest extends AbstractIT {
         AssertionsForClassTypes.assertThat(response).isNotNull()
                 .returns(HttpStatus.UNPROCESSABLE_ENTITY, from(ResponseEntity::getStatusCode));
 
+    }
+
+    @Test
+    public void getCashAndBalanceLimitByGroupId() {
+
+        //Given
+        Long groupId = 40L;
+
+        createStoreCollectionRecord(200L, 40L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(250));
+        createStoreCollectionRecord(300L, 40L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(350));
+        createStoreCollectionRecord(400L, 40L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(450));
+
+        //When
+        ResponseEntity<List<StoreCashAndBalanceLimit>> response = testRestTemplate.exchange(
+                "/api/v1/store-collection/cash-and-balance-limit?groupId=" + groupId,
+                HttpMethod.GET, new HttpEntity<>(null, null),
+                new ParameterizedTypeReference<>() {
+                });
+
+        //Then
+        List<StoreCashAndBalanceLimit> responseList = response.getBody();
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertThat(responseList).isNotNull().hasSize(3)
+                .extracting("storeId", "cash", "balanceLimit")
+                .containsExactlyInAnyOrder(
+                        tuple(200L, new BigDecimal("0.00"), new BigDecimal("250.00")),
+                        tuple(300L, new BigDecimal("60.00"), new BigDecimal("350.00")),
+                        tuple(400L, new BigDecimal("90.00"), new BigDecimal("450.00"))
+                );
     }
 
 }

@@ -14,16 +14,16 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.Assertions.tuple;
 
-public class StoreCollectionRetrieveByStoreIdUseCaseHandlerTest {
+public class StoreCollectionRetrieveByClientOrGroupUseCaseHandlerTest {
 
     StoreCollectionFakeDataAdapter storeCollectionPort;
 
-    StoreCollectionRetrieveByStoreIdUseCaseHandler handler;
+    StoreCollectionRetrieveByClientOrGroupUseCaseHandler handler;
 
     @BeforeEach
     public void setUp() {
         storeCollectionPort = new StoreCollectionFakeDataAdapter();
-        handler = new StoreCollectionRetrieveByStoreIdUseCaseHandler(storeCollectionPort);
+        handler = new StoreCollectionRetrieveByClientOrGroupUseCaseHandler(storeCollectionPort);
 
     }
 
