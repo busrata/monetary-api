@@ -4,6 +4,7 @@ import com.maxijett.monetary.adapters.store.jpa.entity.StoreCollectionEntity;
 import com.maxijett.monetary.adapters.store.jpa.entity.StorePaymentTransactionEntity;
 import com.maxijett.monetary.adapters.store.jpa.repository.StoreCollectionRepository;
 import com.maxijett.monetary.adapters.store.jpa.repository.StorePaymentTransactionRepository;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
@@ -22,7 +23,8 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
 
     @Override
     public StoreCollection retrieve(Long storeId) {
-        return storeCollectionRepository.findByStoreId(storeId).toModel();
+        return storeCollectionRepository.findByStoreId(storeId).map(StoreCollectionEntity::toModel)
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.storecollection.notFound", String.valueOf(storeId)));
     }
 
     @Override
@@ -43,9 +45,9 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
     public StoreCollection update(StoreCollection storeCollection,
             StorePaymentTransaction storePaymentTransaction) {
 
-        var entity = new StoreCollectionEntity();
+        StoreCollectionEntity entity = storeCollectionRepository.findById(storeCollection.getId())
+                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.storecollection.notFoundById", String.valueOf(storeCollection.getId())));
 
-        entity.setId(storeCollection.getId());
         entity.setStoreId(storeCollection.getStoreId());
         entity.setCash(storeCollection.getCash());
         entity.setClientId(entity.getClientId());
@@ -56,7 +58,7 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
         storePaymentTransactionRepository.save(
                 buildStorePaymentTransactionEntity(storePaymentTransaction));
 
-        return storeCollectionRepository.save(entity).toModel();
+        return storeCollectionRepository.saveAndFlush(entity).toModel();
     }
 
     private StorePaymentTransactionEntity buildStorePaymentTransactionEntity(
