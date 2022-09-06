@@ -14,4 +14,8 @@ public class StoreCollectionRetrieve implements UseCase {
 
     private Long id;
 
+    private Long groupId;
+
+    private Long clientId;
+
 }

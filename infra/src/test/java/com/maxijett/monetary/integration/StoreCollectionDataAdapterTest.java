@@ -75,7 +75,7 @@ public class StoreCollectionDataAdapterTest extends AbstractIT {
     public void shouldUpdateStoreCollectionPayment() {
 
         StoreCollection storeCollection = StoreCollection.builder()
-                .id(1L)
+                .id(11L)
                 .storeId(200L)
                 .groupId(20L)
                 .cash(BigDecimal.valueOf(30))

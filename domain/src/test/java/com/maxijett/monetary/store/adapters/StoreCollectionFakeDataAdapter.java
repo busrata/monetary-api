@@ -4,7 +4,6 @@ import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -66,7 +65,8 @@ public class StoreCollectionFakeDataAdapter implements StoreCollectionPort {
                         .groupId(1L)
                         .tariffType(TariffType.TAXIMETER_HOT)
                         .balanceLimit(new BigDecimal(45))
-                        .build(),
+                        .balanceLimit(new BigDecimal(45))
+            .build(),
                 StoreCollection.builder()
                         .storeId(2L)
                         .cash(new BigDecimal(65))

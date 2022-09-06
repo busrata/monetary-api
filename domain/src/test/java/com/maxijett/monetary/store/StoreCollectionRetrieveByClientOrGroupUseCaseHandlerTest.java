@@ -3,7 +3,7 @@ package com.maxijett.monetary.store;
 import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
 import com.maxijett.monetary.store.model.StoreCollection;
-import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
+import com.maxijett.monetary.store.usecase.StoreCollectionRetrieve;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

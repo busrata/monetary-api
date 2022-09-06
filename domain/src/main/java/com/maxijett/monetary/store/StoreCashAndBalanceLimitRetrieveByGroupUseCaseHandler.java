@@ -5,7 +5,7 @@ import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.store.model.StoreCashAndBalanceLimit;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
+import com.maxijett.monetary.store.usecase.StoreCollectionRetrieve;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
