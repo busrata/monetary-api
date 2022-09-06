@@ -162,4 +162,40 @@ public class CashBoxControllerTest extends AbstractIT {
         assertThat(response).isNotNull()
                 .returns(HttpStatus.UNPROCESSABLE_ENTITY, from(ResponseEntity::getStatusCode));
     }
+
+    @Test
+    public void invalidRequestMethodNotAllowedException() throws Exception {
+
+        String groupId = "";
+        String clientId = "";
+
+        //When
+        var response = testRestTemplate.exchange(
+                "/api/v1/cashbox/amount-by-owner?clientId={clientId}&groupId={groupId}",
+                HttpMethod.POST, new HttpEntity<>(null, null), new ParameterizedTypeReference<ErrorResponse>() {
+                }, clientId, groupId);
+
+        //Then
+
+        assertThat(response).isNotNull()
+                .returns(HttpStatus.METHOD_NOT_ALLOWED, from(ResponseEntity::getStatusCode));
+    }
+
+    @Test
+    public void invalidRequestMethodParamsUnprocessableEntityException() throws Exception {
+
+        Double groupId = 12345.45;
+        String clientId = "";
+
+        //When
+        var response = testRestTemplate.exchange(
+                "/api/v1/cashbox/amount-by-owner?clientId={clientId}&groupId={groupId}",
+                HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<ErrorResponse>() {
+                }, clientId, groupId);
+
+        //Then
+
+        assertThat(response).isNotNull()
+                .returns(HttpStatus.UNPROCESSABLE_ENTITY, from(ResponseEntity::getStatusCode));
+    }
 }
