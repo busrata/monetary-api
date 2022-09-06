@@ -44,11 +44,9 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build();
 
     //When
-    Boolean response = handler.handle(orderPayment);
+    handler.handle(orderPayment);
 
     //Then
-    Assertions.assertTrue(response);
-
     driverCashPort.assertContains(DriverCash.builder()
             .id(1L)
         .driverId(2L)
@@ -87,11 +85,9 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build();
 
     //When
-    Boolean response = handler.handle(orderPayment);
+    handler.handle(orderPayment);
 
     //Then
-    Assertions.assertTrue(response);
-
     storeCollectionPort.assertContains(StoreCollection.builder()
         .pos(BigDecimal.valueOf(140))
         .storeId(3L)
@@ -119,11 +115,9 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         .build();
 
     //When
-    Boolean response = handler.handle(orderPayment);
+    handler.handle(orderPayment);
 
     //Then
-    Assertions.assertTrue(response);
-
     driverCashPort.assertContains(DriverCash.builder()
         .id(1L)
         .cash(BigDecimal.valueOf(145))

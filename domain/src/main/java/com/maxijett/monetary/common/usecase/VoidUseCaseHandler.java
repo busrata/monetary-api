@@ -1,5 +1,7 @@
 package com.maxijett.monetary.common.usecase;
 
-public interface VoidUseCaseHandler  {
-    void handle();
+import com.maxijett.monetary.common.model.UseCase;
+
+public interface VoidUseCaseHandler<T extends UseCase> {
+    void handle(T useCase);
 }
