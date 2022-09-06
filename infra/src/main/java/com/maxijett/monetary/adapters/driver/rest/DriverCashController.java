@@ -53,8 +53,8 @@ public class DriverCashController {
 
     @GetMapping("/{driverId}/collected")
     public ResponseEntity<List<DriverPaymentTransaction>> getCollectedDriverCash(@PathVariable Long driverId, @RequestParam Long groupId,
-                                                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                                                 @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                                                 @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         log.info("Rest request to get getCollectedDriverCash by driverId: {}, groupId: {}, startDate: {}, endDate: {}", driverId, groupId, startDate, endDate);
         return ResponseEntity.ok(collectedCashRetrieveUseCaseHandler.handle(CollectedCashRetrieve.builder()
                 .driverId(driverId)

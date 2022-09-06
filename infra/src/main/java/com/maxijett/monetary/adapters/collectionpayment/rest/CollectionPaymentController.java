@@ -47,8 +47,8 @@ public class CollectionPaymentController {
 
     @GetMapping("by-driver/{driverId}")
     public ResponseEntity<List<CollectionPayment>> getPayTheStoreCollectionPaymentByDriver(@PathVariable Long driverId, @RequestParam Long groupId,
-                                                                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                                                           @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+                                                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
         log.info("Rest request to get getPayTheStoreCollectionPaymentByDriver by driverId: {}, groupId: {}, startDate: {}, endDate: {}", driverId, groupId, startDate, endDate);
         return ResponseEntity.ok(paidToTheStoreCollectionPaymentRetrieveUseCaseHandler.handle(PaidToTheStoreCollectionPaymentRetrieve.builder()
                 .driverId(driverId).groupId(groupId).startDate(startDate).endDate(endDate).build()));
@@ -70,7 +70,7 @@ public class CollectionPaymentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CollectionPayment>> retrieveCollectionPaymentsByDateAndGroupId(@RequestParam Long groupId,
-                                                                                              @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate) {
+                                                                                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime requestDate) {
         log.info("Rest request to retrieveCollectionPaymentsByDateAndGroupId by groupId: {}, requestDate: {}", groupId, requestDate);
         return new ResponseEntity<>(getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler.handle(CollectionPaymentListGet.builder()
                 .groupId(groupId)
@@ -80,7 +80,7 @@ public class CollectionPaymentController {
 
     @GetMapping("by-store/{storeId}/monthly")
     public ResponseEntity<List<CollectionPayment>> getCollectionPaymentMonthlyByStore(@PathVariable Long storeId,
-                                                                                      @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+                                                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
         log.info("Rest request to getCollectionPaymentMonthlyByStore by storeId: {}, requestDate: {}", storeId, requestDate);
 
         return new ResponseEntity<>(retrieveCollectionPaymentMonthlyByStoreUseCaseHandler.handle(StoreCollectionPaymentRetrieve.fromModel(storeId, requestDate)), HttpStatus.OK);

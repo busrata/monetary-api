@@ -54,7 +54,7 @@ public class BillingPaymentController {
 
   @GetMapping("/all")
   public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentsByDateAndGroupId(@RequestParam Long groupId,
-                                                                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow) {
+                                                                                      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow) {
     return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.builder()
             .groupId(groupId)
             .createOn(dateNow)
@@ -63,7 +63,7 @@ public class BillingPaymentController {
 
   @GetMapping("/by-store/{storeId}/monthly")
   public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentMonthlyByStore(@PathVariable Long storeId,
-                                                                                   @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+                                                                                   @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
     return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentMonthlyByStore.handle(BillingPaymentMonthlyByStoreRetrieve.builder()
             .storeId(storeId)
             .requestDate(requestDate).build()), HttpStatus.OK);
