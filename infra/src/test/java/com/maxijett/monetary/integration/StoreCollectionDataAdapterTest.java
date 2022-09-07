@@ -6,9 +6,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
-import com.maxijett.monetary.adapters.store.jpa.StoreCollectionDataAdapter;
-import com.maxijett.monetary.adapters.store.jpa.repository.StoreCollectionRepository;
-
+import com.maxijett.monetary.adapters.store.rest.jpa.StoreCollectionDataAdapter;
+import com.maxijett.monetary.adapters.store.rest.jpa.repository.StoreCollectionRepository;
 import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;

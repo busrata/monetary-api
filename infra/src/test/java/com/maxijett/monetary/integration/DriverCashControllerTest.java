@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
-import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTransactionEntity;
-import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.driver.model.DriverCash;
 
 import java.math.BigDecimal;
@@ -16,7 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -24,7 +21,6 @@ import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;

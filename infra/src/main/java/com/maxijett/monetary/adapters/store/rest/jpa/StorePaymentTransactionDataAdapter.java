@@ -1,7 +1,7 @@
-package com.maxijett.monetary.adapters.store.jpa;
+package com.maxijett.monetary.adapters.store.rest.jpa;
 
-import com.maxijett.monetary.adapters.store.jpa.entity.StorePaymentTransactionEntity;
-import com.maxijett.monetary.adapters.store.jpa.repository.StorePaymentTransactionRepository;
+import com.maxijett.monetary.adapters.store.rest.jpa.entity.StorePaymentTransactionEntity;
+import com.maxijett.monetary.adapters.store.rest.jpa.repository.StorePaymentTransactionRepository;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
 import lombok.RequiredArgsConstructor;

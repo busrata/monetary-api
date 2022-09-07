@@ -1,6 +1,6 @@
-package com.maxijett.monetary.adapters.store.jpa.repository;
+package com.maxijett.monetary.adapters.store.rest.jpa.repository;
 
-import com.maxijett.monetary.adapters.store.jpa.entity.StoreCollectionEntity;
+import com.maxijett.monetary.adapters.store.rest.jpa.entity.StoreCollectionEntity;
 import java.util.List;
 import java.util.Optional;
 

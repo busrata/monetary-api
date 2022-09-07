@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.store.jpa.entity;
+package com.maxijett.monetary.adapters.store.rest.jpa.entity;
 
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.enumeration.TariffType;

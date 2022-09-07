@@ -6,8 +6,8 @@ import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.DriverPaymentTrans
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.DriverPaymentTransactionRepository;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.entity.CollectionPaymentEntity;
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.CollectionPaymentRepository;
-import com.maxijett.monetary.adapters.store.jpa.entity.StoreCollectionEntity;
-import com.maxijett.monetary.adapters.store.jpa.repository.StoreCollectionRepository;
+import com.maxijett.monetary.adapters.store.rest.jpa.entity.StoreCollectionEntity;
+import com.maxijett.monetary.adapters.store.rest.jpa.repository.StoreCollectionRepository;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;

@@ -1,9 +1,9 @@
-package com.maxijett.monetary.adapters.store.jpa;
+package com.maxijett.monetary.adapters.store.rest.jpa;
 
-import com.maxijett.monetary.adapters.store.jpa.entity.StoreCollectionEntity;
-import com.maxijett.monetary.adapters.store.jpa.entity.StorePaymentTransactionEntity;
-import com.maxijett.monetary.adapters.store.jpa.repository.StoreCollectionRepository;
-import com.maxijett.monetary.adapters.store.jpa.repository.StorePaymentTransactionRepository;
+import com.maxijett.monetary.adapters.store.rest.jpa.entity.StoreCollectionEntity;
+import com.maxijett.monetary.adapters.store.rest.jpa.entity.StorePaymentTransactionEntity;
+import com.maxijett.monetary.adapters.store.rest.jpa.repository.StoreCollectionRepository;
+import com.maxijett.monetary.adapters.store.rest.jpa.repository.StorePaymentTransactionRepository;
 import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
