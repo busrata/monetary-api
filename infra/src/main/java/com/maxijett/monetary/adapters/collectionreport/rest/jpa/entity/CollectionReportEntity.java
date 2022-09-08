@@ -28,6 +28,9 @@ public class CollectionReportEntity {
     @Column(name = "store_id", nullable = false)
     private Long storeId;
 
+    @Column(name = "client_id", nullable = false)
+    private Long clientId;
+
     @Column(name = "payment_date", nullable = false)
     private ZonedDateTime paymentDate;
 
@@ -66,6 +69,7 @@ public class CollectionReportEntity {
                 .cash(getCash())
                 .orderNumber(getOrderNumber())
                 .storeId(getStoreId())
+                .clientId(getClientId())
                 .paymentDate(getPaymentDate())
                 .deliveryDistance(getDeliveryDistance())
                 .distanceFee(getDistanceFee())

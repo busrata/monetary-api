@@ -16,4 +16,6 @@ public interface CollectionReportPort {
     List<CollectionReport> getListByPaymentDateAndNightShift(Long driverId,
                                                              ZonedDateTime startDate, ZonedDateTime endDate, int startHour, int minute, int endHour);
 
+    List<CollectionReport> getListDateRangeByStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate);
+
 }

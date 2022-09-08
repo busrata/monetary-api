@@ -38,4 +38,9 @@ public class CollectionReportDataAdapter implements CollectionReportPort {
                 Collectors.toList());
     }
 
+    @Override
+    public List<CollectionReport> getListDateRangeByStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate) {
+        return collectionReportRepository.findAllByStoreIdAndPaymentDateBetween(storeId, startDate, endDate).stream().map(CollectionReportEntity::toModel).collect(Collectors.toList());
+    }
+
 }

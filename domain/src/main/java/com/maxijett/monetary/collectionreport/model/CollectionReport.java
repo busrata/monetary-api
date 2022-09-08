@@ -21,6 +21,8 @@ public class CollectionReport {
 
     private Long storeId;
 
+    private Long clientId;
+
     private ZonedDateTime paymentDate;
 
     private BigDecimal cash;

@@ -19,4 +19,6 @@ public interface CollectionReportRepository extends JpaRepository<CollectionRepo
 
     @Query("select cr from CollectionReportEntity cr where cr.paymentDate >=:startDate and cr.paymentDate <=:endDate and cr.driverId=:driverId and  ((EXTRACT(HOUR FROM cr.paymentDate) =:startHour and EXTRACT(MINUTE FROM cr.paymentDate) >=:minute ) or (EXTRACT(HOUR FROM  cr.paymentDate ) > :startHour) or (EXTRACT(HOUR FROM  cr.paymentDate ) <= :endHour))")
     List<CollectionReportEntity> findByDriverIdAndPaymentDateBetweenNightShift(@Param("driverId") Long driverId, @Param("startDate") ZonedDateTime startDate, @Param("endDate") ZonedDateTime endDate, @Param("startHour") int startHour, @Param("minute") int minute, @Param("endHour") int endHour);
+
+    List<CollectionReportEntity> findAllByStoreIdAndPaymentDateBetween(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate);
 }

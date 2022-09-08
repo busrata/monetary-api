@@ -5,6 +5,7 @@ import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.collectionreport.port.CollectionReportPort;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -42,6 +43,14 @@ public class CollectionReportFakeDataAdapter implements CollectionReportPort {
                 CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
                 CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
                 CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build()
+        );
+    }
+
+    @Override
+    public List<CollectionReport> getListDateRangeByStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate) {
+        return List.of(
+                CollectionReport.builder().storeId(57L).clientId(20000L).cash(BigDecimal.TEN).pos(BigDecimal.ONE).build(),
+                CollectionReport.builder().storeId(57L).clientId(20000L).cash(BigDecimal.ZERO).pos(BigDecimal.TEN).build()
         );
     }
 
