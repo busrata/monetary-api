@@ -1,12 +1,13 @@
 package com.maxijett.monetary.collectionreport.model;
 
 import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
-import java.math.BigDecimal;
-import java.time.ZonedDateTime;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.ZonedDateTime;
 
 @Data
 @Builder

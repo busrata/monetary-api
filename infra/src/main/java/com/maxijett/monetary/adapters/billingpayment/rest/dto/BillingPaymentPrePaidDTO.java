@@ -33,7 +33,7 @@ public class BillingPaymentPrePaidDTO {
 
     private ZonedDateTime createOn;
 
-    public BillingPaymentPrePaidCreate toUseCase(){
+    public BillingPaymentPrePaidCreate toUseCase() {
         return BillingPaymentPrePaidCreate.builder()
                 .paymentType(getPaymentType())
                 .payloadType(getPayloadType())

@@ -68,7 +68,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
             driverCashPort.update(driverCash, buildDriverRollbackTransaction(transaction));
         });
 
-        storePaymentTransactionPort.findTransactionForRollback(orderNumber, List.of(StoreEventType.PACKAGE_DELIVERED, StoreEventType.SUPPORT_ACCEPTED)).ifPresent(transaction->{
+        storePaymentTransactionPort.findTransactionForRollback(orderNumber, List.of(StoreEventType.PACKAGE_DELIVERED, StoreEventType.SUPPORT_ACCEPTED)).ifPresent(transaction -> {
             storeCollection.setCash(storeCollection.getCash().subtract(transaction.getCash()));
             storeCollection.setPos(storeCollection.getPos().subtract(transaction.getPos()));
             storeCollectionPort.update(storeCollection, buildStoreRollbackTransaction(orderNumber, driverId, transaction));

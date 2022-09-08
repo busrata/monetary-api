@@ -10,13 +10,13 @@ import lombok.RequiredArgsConstructor;
 @DomainComponent
 @RequiredArgsConstructor
 public class GetDriverAmountFromDriverCashUseCaseHandler implements
-    UseCaseHandler<DriverCash, DriverCashRetrieve> {
+        UseCaseHandler<DriverCash, DriverCashRetrieve> {
 
-  private final DriverCashPort driverCashPort;
+    private final DriverCashPort driverCashPort;
 
-  @Override
-  public DriverCash handle(DriverCashRetrieve useCase) {
+    @Override
+    public DriverCash handle(DriverCashRetrieve useCase) {
 
-    return driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
-  }
+        return driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
+    }
 }

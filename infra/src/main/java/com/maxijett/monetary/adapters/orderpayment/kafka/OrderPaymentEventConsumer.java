@@ -1,7 +1,6 @@
 package com.maxijett.monetary.adapters.orderpayment.kafka;
 
 import com.maxijett.monetary.adapters.orderpayment.kafka.event.OrderPaymentEvent;
-import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.common.usecase.VoidUseCaseHandler;
 import com.maxijett.monetary.orderpayment.useCase.OrderPayment;
 import lombok.RequiredArgsConstructor;

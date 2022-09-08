@@ -1,8 +1,8 @@
 package com.maxijett.monetary.adapters.cashbox.rest.jpa;
 
+import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.CashBoxEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.CashBoxTransactionEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.CashBoxRepository;
-import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.CashBoxEntity;
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.repository.CashBoxTransactionRepository;
 import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
@@ -25,7 +25,7 @@ public class CashBoxDataAdapter implements CashBoxPort {
     @Override
     public CashBox retrieve(Long groupId) {
         return cashBoxRepository.findByGroupId(groupId).map(CashBoxEntity::toModel)
-                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.cashbox.notFound", String.valueOf(groupId)));
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.cashbox.notFound", String.valueOf(groupId)));
     }
 
     @Override
@@ -51,7 +51,7 @@ public class CashBoxDataAdapter implements CashBoxPort {
         return entity;
     }
 
-    private CashBoxTransactionEntity fromModel(CashBoxTransaction cashBoxTransaction){
+    private CashBoxTransactionEntity fromModel(CashBoxTransaction cashBoxTransaction) {
         var entity = new CashBoxTransactionEntity();
         entity.setAmount(cashBoxTransaction.getAmount());
         entity.setEventType(cashBoxTransaction.getCashBoxEventType());

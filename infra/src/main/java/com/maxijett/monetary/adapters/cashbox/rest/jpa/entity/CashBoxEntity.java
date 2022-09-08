@@ -2,7 +2,8 @@ package com.maxijett.monetary.adapters.cashbox.rest.jpa.entity;
 
 
 import com.maxijett.monetary.cashbox.model.CashBox;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

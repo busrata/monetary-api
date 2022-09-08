@@ -1,10 +1,11 @@
 package com.maxijett.monetary.store.model;
 
-import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -12,9 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StoreCashAndBalanceLimit {
 
-  private Long storeId;
+    private Long storeId;
 
-  private BigDecimal cash;
+    private BigDecimal cash;
 
-  private BigDecimal balanceLimit;
+    private BigDecimal balanceLimit;
 }

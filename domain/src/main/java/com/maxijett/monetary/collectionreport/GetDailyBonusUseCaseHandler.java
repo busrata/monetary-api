@@ -10,10 +10,11 @@ import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
 import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.driver.useCase.DriverGetDailyBonus;
+import lombok.RequiredArgsConstructor;
+
 import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @DomainComponent
@@ -70,11 +71,11 @@ public class GetDailyBonusUseCaseHandler implements
                 shiftTime.getNightShiftStartHour(), shiftTime.getNightShiftStartMinute(),
                 shiftTime.getNightShiftEndHour());
 
-        BigDecimal nightShiftDailyBonus = calculateNightShiftDailyBonus(nightShiftOrderList,dailyBonusValue);
+        BigDecimal nightShiftDailyBonus = calculateNightShiftDailyBonus(nightShiftOrderList, dailyBonusValue);
         BigDecimal noonShiftHotOrderDailyBonus = calculateNoonShiftHotOrderDailyBonus(
-                noonShiftHotOrderList,dailyBonusValue);
+                noonShiftHotOrderList, dailyBonusValue);
         BigDecimal noonShiftColdOrderDailyBonus = calculateNoonShiftColdOrderDailyBonus(
-                noonShiftColdOrderList,dailyBonusValue);
+                noonShiftColdOrderList, dailyBonusValue);
 
         return DriverDailyBonus.builder()
                 .NightShiftDailyBonus(nightShiftDailyBonus)
@@ -103,7 +104,7 @@ public class GetDailyBonusUseCaseHandler implements
         return sumDistanceFee.multiply(BigDecimal.valueOf(dailyBonusValue.getHotRate()));
     }
 
-    private BigDecimal calculateNoonShiftColdOrderDailyBonus(List<CollectionReport> list,DailyBonusValue dailyBonusValue) {
+    private BigDecimal calculateNoonShiftColdOrderDailyBonus(List<CollectionReport> list, DailyBonusValue dailyBonusValue) {
         int sumDeliveryDistance = list.stream().map(CollectionReport::getDeliveryDistance)
                 .reduce(0, Integer::sum);
 

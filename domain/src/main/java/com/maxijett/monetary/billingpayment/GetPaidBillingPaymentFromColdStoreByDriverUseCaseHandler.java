@@ -34,7 +34,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler implements
                 .eventType(DriverEventType.COLD_STORE_COLLECTION)
                 .groupId(useCase.getGroupId())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-            .build());
+                .build());
 
 
         return billingPaymentPort.create(useCase);

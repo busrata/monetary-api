@@ -13,12 +13,12 @@ import java.util.List;
 @Repository
 public interface BillingPaymentRepository extends JpaRepository<BillingPaymentEntity, Long> {
 
-  @Modifying(flushAutomatically = true, clearAutomatically = true)
-  @Query("update BillingPaymentEntity b set b.isDeleted = true where b.id =:id")
-  int updateBillingPaymentIsDeleted(@Param("id") Long id);
+    @Modifying(flushAutomatically = true, clearAutomatically = true)
+    @Query("update BillingPaymentEntity b set b.isDeleted = true where b.id =:id")
+    int updateBillingPaymentIsDeleted(@Param("id") Long id);
 
-  List<BillingPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
+    List<BillingPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
-  @Query("select b from BillingPaymentEntity b where (b.storeId) =:storeId and year(b.createOn) =:year and month(b.createOn) =:month")
-  List<BillingPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
+    @Query("select b from BillingPaymentEntity b where (b.storeId) =:storeId and year(b.createOn) =:year and month(b.createOn) =:month")
+    List<BillingPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
 }

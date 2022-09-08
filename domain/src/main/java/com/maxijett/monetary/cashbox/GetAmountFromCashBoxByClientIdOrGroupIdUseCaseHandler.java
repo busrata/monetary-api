@@ -1,10 +1,10 @@
 package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.model.CashBox;
-import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAmountGet;
 import com.maxijett.monetary.common.DomainComponent;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.RequiredArgsConstructor;
 

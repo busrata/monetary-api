@@ -2,13 +2,8 @@ package com.maxijett.monetary.adapters.collectionpayment.rest;
 
 import com.maxijett.monetary.adapters.collectionpayment.rest.dto.CollectionPaymentDTO;
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
-import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
-import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
-import com.maxijett.monetary.collectionpayment.useCase.StoreCollectionPaymentRetrieve;
+import com.maxijett.monetary.collectionpayment.useCase.*;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
-import java.time.ZonedDateTime;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 @Slf4j

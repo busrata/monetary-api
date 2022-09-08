@@ -19,7 +19,7 @@ public class CashBoxDTO {
     private Long clientId;
     private Long userId;
 
-    public static CashBoxDTO fromModel(CashBox cashBox){
+    public static CashBoxDTO fromModel(CashBox cashBox) {
         return CashBoxDTO.builder()
                 .id(cashBox.getId())
                 .clientId(cashBox.getClientId())

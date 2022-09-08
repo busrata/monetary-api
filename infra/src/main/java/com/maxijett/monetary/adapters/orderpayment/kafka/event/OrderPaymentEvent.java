@@ -2,12 +2,9 @@ package com.maxijett.monetary.adapters.orderpayment.kafka.event;
 
 import com.maxijett.monetary.common.model.Event;
 import com.maxijett.monetary.orderpayment.useCase.OrderPayment;
+import lombok.*;
+
 import java.math.BigDecimal;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @Getter
 @ToString
@@ -36,15 +33,15 @@ public class OrderPaymentEvent implements Event {
         return null;
     }
 
-    public OrderPayment toUseCase(){
+    public OrderPayment toUseCase() {
         return OrderPayment.builder()
-            .orderNumber(getOrderNumber())
-            .cash(getCash())
-            .pos(getPos())
-            .storeId(getStoreId())
-            .clientId(getClientId())
-            .driverId(getDriverId())
-            .groupId(getGroupId())
-            .build();
+                .orderNumber(getOrderNumber())
+                .cash(getCash())
+                .pos(getPos())
+                .storeId(getStoreId())
+                .clientId(getClientId())
+                .driverId(getDriverId())
+                .groupId(getGroupId())
+                .build();
     }
 }

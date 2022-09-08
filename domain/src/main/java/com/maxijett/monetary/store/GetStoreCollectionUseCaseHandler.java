@@ -10,12 +10,12 @@ import lombok.RequiredArgsConstructor;
 @DomainComponent
 @RequiredArgsConstructor
 public class GetStoreCollectionUseCaseHandler implements
-    UseCaseHandler<StoreCollection, StoreCollectionRetrieve> {
+        UseCaseHandler<StoreCollection, StoreCollectionRetrieve> {
 
-  private final StoreCollectionPort storeCollectionPort;
+    private final StoreCollectionPort storeCollectionPort;
 
-  @Override
-  public StoreCollection handle(StoreCollectionRetrieve useCase) {
-     return storeCollectionPort.retrieve(useCase.getId());
-  }
+    @Override
+    public StoreCollection handle(StoreCollectionRetrieve useCase) {
+        return storeCollectionPort.retrieve(useCase.getId());
+    }
 }

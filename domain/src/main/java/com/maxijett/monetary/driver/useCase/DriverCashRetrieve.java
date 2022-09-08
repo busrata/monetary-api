@@ -12,12 +12,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DriverCashRetrieve implements UseCase {
 
-  private Long driverId;
+    private Long driverId;
 
-  private Long groupId;
+    private Long groupId;
 
-  public static DriverCashRetrieve fromModel(Long driverId, Long groupId) {
-    return DriverCashRetrieve.builder().driverId(driverId).groupId(groupId).build();
+    public static DriverCashRetrieve fromModel(Long driverId, Long groupId) {
+        return DriverCashRetrieve.builder().driverId(driverId).groupId(groupId).build();
 
-  }
+    }
 }

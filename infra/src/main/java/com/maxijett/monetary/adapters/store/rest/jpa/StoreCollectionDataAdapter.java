@@ -8,10 +8,11 @@ import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,10 +44,10 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
 
     @Override
     public StoreCollection update(StoreCollection storeCollection,
-            StorePaymentTransaction storePaymentTransaction) {
+                                  StorePaymentTransaction storePaymentTransaction) {
 
         StoreCollectionEntity entity = storeCollectionRepository.findById(storeCollection.getId())
-                .orElseThrow(()-> new MonetaryApiBusinessException("monetaryapi.storecollection.notFoundById", String.valueOf(storeCollection.getId())));
+                .orElseThrow(() -> new MonetaryApiBusinessException("monetaryapi.storecollection.notFoundById", String.valueOf(storeCollection.getId())));
 
         entity.setStoreId(storeCollection.getStoreId());
         entity.setCash(storeCollection.getCash());

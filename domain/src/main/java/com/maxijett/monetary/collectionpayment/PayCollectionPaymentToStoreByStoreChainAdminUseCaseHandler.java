@@ -44,7 +44,7 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
                 .pos(useCase.getPos())
                 .eventType(StoreEventType.ADMIN_GET_PAID)
                 .clientId(useCase.getClientId())
-            .build());
+                .build());
 
 
         return collectionPayment;

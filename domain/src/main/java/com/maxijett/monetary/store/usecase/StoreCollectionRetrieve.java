@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class StoreCollectionRetrieve  implements UseCase {
+public class StoreCollectionRetrieve implements UseCase {
 
-  private Long id;
+    private Long id;
 
 }

@@ -6,8 +6,9 @@ import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
 import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @DomainComponent
 @RequiredArgsConstructor
