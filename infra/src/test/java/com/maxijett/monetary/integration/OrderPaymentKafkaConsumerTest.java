@@ -5,38 +5,37 @@ import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.orderpayment.kafka.OrderPaymentEventConsumer;
 import com.maxijett.monetary.adapters.orderpayment.kafka.event.OrderPaymentEvent;
 import com.maxijett.monetary.common.usecase.FakeAddPaymentToDriverAndStoreUseCaseHandler;
-import java.math.BigDecimal;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
 
 @IT
 public class OrderPaymentKafkaConsumerTest extends AbstractIT {
 
-  FakeAddPaymentToDriverAndStoreUseCaseHandler handler = new FakeAddPaymentToDriverAndStoreUseCaseHandler();
-  OrderPaymentEventConsumer orderPaymentEventConsumer = new OrderPaymentEventConsumer(handler);
+    FakeAddPaymentToDriverAndStoreUseCaseHandler handler = new FakeAddPaymentToDriverAndStoreUseCaseHandler();
+    OrderPaymentEventConsumer orderPaymentEventConsumer = new OrderPaymentEventConsumer(handler);
 
 
-  @Test
-  public void receivePaymentKafkaEventTest(){
-    //Given
-    OrderPaymentEvent orderPaymentEvent = OrderPaymentEvent.builder()
-        .orderNumber("123456789")
-        .pos(BigDecimal.valueOf(20))
-        .cash(BigDecimal.valueOf(15))
-        .groupId(20L)
-        .storeId(200L)
-        .clientId(20000L)
-        .driverId(1L)
-        .build();
+    @Test
+    public void receivePaymentKafkaEventTest() {
+        //Given
+        OrderPaymentEvent orderPaymentEvent = OrderPaymentEvent.builder()
+                .orderNumber("123456789")
+                .pos(BigDecimal.valueOf(20))
+                .cash(BigDecimal.valueOf(15))
+                .groupId(20L)
+                .storeId(200L)
+                .clientId(20000L)
+                .driverId(1L)
+                .build();
 
 
-    //When
+        //When
 
-      Boolean isEventListened = orderPaymentEventConsumer.orderPaymentEventListener(orderPaymentEvent);
+        orderPaymentEventConsumer.orderPaymentEventListener(orderPaymentEvent);
 
-    //Then
+        //Then TODO
 
-    Assertions.assertEquals(true, isEventListened);
-  }
+    }
 
 }

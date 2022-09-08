@@ -46,7 +46,7 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
 
     @Override
     @Transactional
-    public CollectionPayment update(Long id){
+    public CollectionPayment update(Long id) {
 
         collectionPaymentRepository.updateCollectionPaymentIsDeleted(id);
         return retrieve(id);
@@ -56,9 +56,9 @@ public class CollectionPaymentDataAdapter implements CollectionPaymentPort {
     @Override
     public List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
         return collectionPaymentRepository.findAllByGroupIdAndCreateOnBetween(groupId, startTime, endTime)
-            .stream()
-            .map(CollectionPaymentEntity::toModel)
-            .collect(Collectors.toList());
+                .stream()
+                .map(CollectionPaymentEntity::toModel)
+                .collect(Collectors.toList());
     }
 
 

@@ -1,7 +1,5 @@
 package com.maxijett.monetary.billingpayment;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import com.maxijett.monetary.billingpayment.adapters.BillingPaymentPortFakeDataAdapter;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
@@ -9,72 +7,75 @@ import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import java.math.BigDecimal;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class DeletePaidBillingPaymentFromStoreByStoreChainAdminTest {
 
-  DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler handler ;
+    DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler handler;
 
-  BillingPaymentPort billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
+    BillingPaymentPort billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
 
-  StoreCollectionFakeDataAdapter storeCollectionPort;
+    StoreCollectionFakeDataAdapter storeCollectionPort;
 
-  CashBoxFakeDataAdapter cashBoxPort;
-
-
-  @BeforeEach
-  public void setUp(){
-
-    storeCollectionPort = new StoreCollectionFakeDataAdapter();
-
-    cashBoxPort = new CashBoxFakeDataAdapter();
-
-    handler = new DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(billingPaymentPort, storeCollectionPort,cashBoxPort);
-  }
+    CashBoxFakeDataAdapter cashBoxPort;
 
 
-  @Test
-  public void shouldBeDeletedRecordTypeBillingPaymentExistWhenBillingPaymentDelete(){
+    @BeforeEach
+    public void setUp() {
 
-    //Given
-    BillingPaymentDelete billingPaymentDelete = BillingPaymentDelete.builder()
-        .id(3L)
-        .payingAccount("camlikChainAdmin")
-        .payloadType(PayloadType.NETTING)
-        .build();
+        storeCollectionPort = new StoreCollectionFakeDataAdapter();
 
-    //When
-    BillingPayment responseBilling = handler.handle(billingPaymentDelete);
+        cashBoxPort = new CashBoxFakeDataAdapter();
 
-    //Then
-    assertEquals(billingPaymentDelete.getId(), responseBilling.getId());
-    assertEquals(true, responseBilling.getIsDeleted());
-  }
-
-  @Test
-  public void shouldBeRollbackBillingPaymentExistWhenBillingPaymentDeleteByPayloadTypeCollection(){
-
-    //Given
-    BillingPaymentDelete billingPaymentDelete = BillingPaymentDelete.builder()
-        .id(3L)
-        .payingAccount("atalarChainAdmin")
-        .payloadType(PayloadType.COLLECTION)
-        .build();
-
-    //When
-    BillingPayment responseBilling = handler.handle(billingPaymentDelete);
+        handler = new DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler(billingPaymentPort, storeCollectionPort, cashBoxPort);
+    }
 
 
-    //Then
-    assertEquals(Boolean.TRUE,responseBilling.getIsDeleted());
-    assertEquals(billingPaymentDelete.getId(), responseBilling.getId());
+    @Test
+    public void shouldBeDeletedRecordTypeBillingPaymentExistWhenBillingPaymentDelete() {
 
-    assertEquals(BigDecimal.valueOf(65), storeCollectionPort.storeCollectionList.get(0).getCash());
+        //Given
+        BillingPaymentDelete billingPaymentDelete = BillingPaymentDelete.builder()
+                .id(3L)
+                .payingAccount("camlikChainAdmin")
+                .payloadType(PayloadType.NETTING)
+                .build();
 
-    assertEquals(BigDecimal.valueOf(260), cashBoxPort.boxes.get(0).getCash());
+        //When
+        BillingPayment responseBilling = handler.handle(billingPaymentDelete);
 
-  }
+        //Then
+        assertEquals(billingPaymentDelete.getId(), responseBilling.getId());
+        assertEquals(true, responseBilling.getIsDeleted());
+    }
+
+    @Test
+    public void shouldBeRollbackBillingPaymentExistWhenBillingPaymentDeleteByPayloadTypeCollection() {
+
+        //Given
+        BillingPaymentDelete billingPaymentDelete = BillingPaymentDelete.builder()
+                .id(3L)
+                .payingAccount("atalarChainAdmin")
+                .payloadType(PayloadType.COLLECTION)
+                .build();
+
+        //When
+        BillingPayment responseBilling = handler.handle(billingPaymentDelete);
+
+
+        //Then
+        assertEquals(Boolean.TRUE, responseBilling.getIsDeleted());
+        assertEquals(billingPaymentDelete.getId(), responseBilling.getId());
+
+        assertEquals(BigDecimal.valueOf(65), storeCollectionPort.storeCollectionList.get(0).getCash());
+
+        assertEquals(BigDecimal.valueOf(260), cashBoxPort.boxes.get(0).getCash());
+
+    }
 
 }

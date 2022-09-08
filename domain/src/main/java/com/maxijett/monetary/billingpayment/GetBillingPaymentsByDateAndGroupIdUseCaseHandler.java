@@ -20,7 +20,7 @@ public class GetBillingPaymentsByDateAndGroupIdUseCaseHandler implements UseCase
     @Override
     public List<BillingPayment> handle(BillingPaymentListGet useCase) {
         ZonedDateTime startTime = useCase.getCreateOn().toLocalDate().atStartOfDay(ZoneId.of("UTC"));
-        ZonedDateTime endTime = startTime.toLocalDate().atTime(23,59,59).atZone(ZoneId.of("UTC"));
+        ZonedDateTime endTime = startTime.toLocalDate().atTime(23, 59, 59).atZone(ZoneId.of("UTC"));
         return billingPaymentPort.getAllByGroupIdAndCreateOn(useCase.getGroupId(), startTime, endTime);
     }
 }

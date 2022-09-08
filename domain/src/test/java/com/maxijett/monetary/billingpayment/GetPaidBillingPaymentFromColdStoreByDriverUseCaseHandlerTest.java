@@ -28,6 +28,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
         driverCashPort = new DriverCashFakeDataAdapter();
         useCaseHandler = new GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler(billingPaymentPort, driverCashPort);
     }
+
     @Test
     public void shouldBeReturnBillingPaymentExistsWhenBillingPaymentPrePaidCreate() {
 
@@ -56,7 +57,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
     }
 
     @Test
-    public void shouldBeSaveBillingPaymentPrePaidCreate(){
+    public void shouldBeSaveBillingPaymentPrePaidCreate() {
 
         //Given
         BillingPaymentPrePaidCreate billingPaymentPrePaidCreate = BillingPaymentPrePaidCreate.builder()
@@ -75,20 +76,20 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
 
         //Then
         billingPaymentPort.assertContains(BillingPayment.builder()
-                        .amount(billingPaymentPrePaidCreate.getPrePaidBillingAmount())
-                        .storeId(billingPaymentPrePaidCreate.getStoreId())
-                        .clientId(billingPaymentPrePaidCreate.getClientId())
-                        .paymentType(billingPaymentPrePaidCreate.getPaymentType())
-                        .payloadType(billingPaymentPrePaidCreate.getPayloadType())
+                .amount(billingPaymentPrePaidCreate.getPrePaidBillingAmount())
+                .storeId(billingPaymentPrePaidCreate.getStoreId())
+                .clientId(billingPaymentPrePaidCreate.getClientId())
+                .paymentType(billingPaymentPrePaidCreate.getPaymentType())
+                .payloadType(billingPaymentPrePaidCreate.getPayloadType())
                 .build());
 
         driverCashPort.assertContains(DriverCash.builder()
-                        .id(1L)
-                        .groupId(billingPaymentPrePaidCreate.getGroupId())
-                        .driverId(billingPaymentPrePaidCreate.getDriverId())
-                        .prepaidCollectionCash(BigDecimal.valueOf(115))
-                        .clientId(billingPaymentPrePaidCreate.getClientId())
-                        .cash(BigDecimal.valueOf(120))
+                .id(1L)
+                .groupId(billingPaymentPrePaidCreate.getGroupId())
+                .driverId(billingPaymentPrePaidCreate.getDriverId())
+                .prepaidCollectionCash(BigDecimal.valueOf(115))
+                .clientId(billingPaymentPrePaidCreate.getClientId())
+                .cash(BigDecimal.valueOf(120))
                 .build());
 
 

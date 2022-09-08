@@ -9,7 +9,6 @@ import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverCashPort;
-import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZoneId;
@@ -35,7 +34,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler implements
                 .eventType(DriverEventType.COLD_STORE_COLLECTION)
                 .groupId(useCase.getGroupId())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-            .build());
+                .build());
 
 
         return billingPaymentPort.create(useCase);

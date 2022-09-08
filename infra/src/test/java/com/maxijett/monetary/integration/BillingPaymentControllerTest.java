@@ -1,26 +1,14 @@
 package com.maxijett.monetary.integration;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDTO;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentDeleteDTO;
 import com.maxijett.monetary.adapters.billingpayment.rest.dto.BillingPaymentPrePaidDTO;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
-import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
-import java.time.ZonedDateTime;
-import java.util.List;
-
+import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDelete;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
@@ -28,6 +16,16 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @IT
 @Sql(scripts = "classpath:sql/billing-payment.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)

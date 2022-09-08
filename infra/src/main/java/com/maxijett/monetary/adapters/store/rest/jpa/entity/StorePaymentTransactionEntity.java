@@ -1,4 +1,4 @@
-package com.maxijett.monetary.adapters.store.jpa.entity;
+package com.maxijett.monetary.adapters.store.rest.jpa.entity;
 
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
@@ -25,8 +25,8 @@ public class StorePaymentTransactionEntity {
     @Column(name = "order_number")
     private String orderNumber;
 
-    @Column(name = "date", nullable = false)
-    private ZonedDateTime date;
+    @Column(name = "create_on", nullable = false)
+    private ZonedDateTime createOn;
 
     @Column(name = "store_id", nullable = false)
     private Long storeId;
@@ -62,7 +62,7 @@ public class StorePaymentTransactionEntity {
                 .clientId(getClientId())
                 .storeId(getStoreId())
                 .userId(getUserId())
-                .date(getDate())
+                .createOn(getCreateOn())
                 .eventType(getEventType())
                 .orderNumber(getOrderNumber())
                 .parentTransactionId(getParentTransactionId()).build();

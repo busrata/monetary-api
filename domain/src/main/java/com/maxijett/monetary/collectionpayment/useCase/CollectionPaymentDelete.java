@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class CollectionPaymentDelete implements UseCase {
     Long id;
 
-    public static CollectionPaymentDelete fromModel(Long id){
+    public static CollectionPaymentDelete fromModel(Long id) {
         return CollectionPaymentDelete.builder()
                 .id(id)
                 .build();

@@ -1,7 +1,6 @@
 package com.maxijett.monetary.billingpayment.usecase;
 
 import com.maxijett.monetary.common.model.UseCase;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

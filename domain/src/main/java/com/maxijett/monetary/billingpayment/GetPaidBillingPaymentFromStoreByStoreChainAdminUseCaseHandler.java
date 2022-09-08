@@ -9,18 +9,15 @@ import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
-import com.maxijett.monetary.cashbox.port.CashBoxTransactionPort;
 import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
-import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 
-import java.time.ZoneId;
+import java.math.BigDecimal;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 
@@ -53,7 +50,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
                         .cashBoxEventType(CashBoxEventType.ADMIN_PAY)
                         .payingAccount(useCase.getPayingAccount())
                         .amount(useCase.getAmount())
-                    .build());
+                        .build());
 
 
             } else if (useCase.getPaymentType().equals(PaymentType.CREDIT_CARD)) {
@@ -64,12 +61,12 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
 
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneOffset.UTC))
-                .pos(useCase.getPaymentType() == PaymentType.CREDIT_CARD ? useCase.getAmount(): BigDecimal.ZERO )
-                .cash(useCase.getPaymentType() == PaymentType.CASH ? useCase.getAmount(): BigDecimal.ZERO)
+                .createOn(ZonedDateTime.now(ZoneOffset.UTC))
+                .pos(useCase.getPaymentType() == PaymentType.CREDIT_CARD ? useCase.getAmount() : BigDecimal.ZERO)
+                .cash(useCase.getPaymentType() == PaymentType.CASH ? useCase.getAmount() : BigDecimal.ZERO)
                 .eventType(StoreEventType.ADMIN_GET_PAID)
                 .clientId(useCase.getClientId())
-            .build());
+                .build());
 
         return billingPayment;
     }

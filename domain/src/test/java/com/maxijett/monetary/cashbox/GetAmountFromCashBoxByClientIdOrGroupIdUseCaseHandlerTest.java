@@ -2,14 +2,14 @@ package com.maxijett.monetary.cashbox;
 
 import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
 import com.maxijett.monetary.cashbox.model.CashBox;
-import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.cashbox.usecase.CashBoxAmountGet;
+import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetAmountFromCashBoxByClientIdOrGroupIdUseCaseHandlerTest {

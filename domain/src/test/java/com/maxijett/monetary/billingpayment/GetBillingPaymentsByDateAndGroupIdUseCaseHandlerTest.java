@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import java.time.ZonedDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetBillingPaymentsByDateAndGroupIdUseCaseHandlerTest {
 
@@ -18,7 +18,7 @@ public class GetBillingPaymentsByDateAndGroupIdUseCaseHandlerTest {
     GetBillingPaymentsByDateAndGroupIdUseCaseHandler useCaseHandler = new GetBillingPaymentsByDateAndGroupIdUseCaseHandler(billingPaymentPort);
 
     @Test
-    public void shouldBeReturnAllBillingPaymentByDateAndGroupId(){
+    public void shouldBeReturnAllBillingPaymentByDateAndGroupId() {
         //Given
         BillingPaymentListGet useCase = BillingPaymentListGet.builder()
                 .groupId(20L)
@@ -30,7 +30,7 @@ public class GetBillingPaymentsByDateAndGroupIdUseCaseHandlerTest {
         //Then
         assertEquals(useCase.getGroupId(), billingPaymentList.get(0).getGroupId());
 
-        assertThat(billingPaymentList.get(0).getCreateOn()).isBetween(useCase.getCreateOn(),useCase.getCreateOn().plusDays(1L));
+        assertThat(billingPaymentList.get(0).getCreateOn()).isBetween(useCase.getCreateOn(), useCase.getCreateOn().plusDays(1L));
 
     }
 

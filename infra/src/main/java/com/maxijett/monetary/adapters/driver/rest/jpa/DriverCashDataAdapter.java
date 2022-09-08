@@ -8,13 +8,13 @@ import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.port.DriverCashPort;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,14 +37,14 @@ public class DriverCashDataAdapter implements DriverCashPort {
         return driverCashRepository.save(fromModel(driverCash)).toModel();
     }
 
-    public List<DriverCash> getListByClientIdGreaterThanZero(Long clientId){
+    public List<DriverCash> getListByClientIdGreaterThanZero(Long clientId) {
         return driverCashRepository.findByClientIdAndCashGreaterThan(clientId, BigDecimal.ZERO).stream().map(DriverCashEntity::toModel).collect(
-            Collectors.toList());
+                Collectors.toList());
     }
 
-    public List<DriverCash> getListByGroupIdGreaterThanZero(Long groupId){
-        return driverCashRepository.findByGroupIdAndCashGreaterThan(groupId , BigDecimal.ZERO).stream().map(DriverCashEntity::toModel).collect(
-            Collectors.toList());
+    public List<DriverCash> getListByGroupIdGreaterThanZero(Long groupId) {
+        return driverCashRepository.findByGroupIdAndCashGreaterThan(groupId, BigDecimal.ZERO).stream().map(DriverCashEntity::toModel).collect(
+                Collectors.toList());
 
     }
 
@@ -59,7 +59,7 @@ public class DriverCashDataAdapter implements DriverCashPort {
         return entity;
     }
 
-    private DriverPaymentTransactionEntity fromModel(DriverPaymentTransaction driverPaymentTransaction){
+    private DriverPaymentTransactionEntity fromModel(DriverPaymentTransaction driverPaymentTransaction) {
         DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
         entity.setDriverId(driverPaymentTransaction.getDriverId());
         entity.setGroupId(driverPaymentTransaction.getGroupId());

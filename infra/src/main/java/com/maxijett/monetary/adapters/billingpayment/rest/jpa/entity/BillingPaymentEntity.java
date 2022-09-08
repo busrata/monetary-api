@@ -8,12 +8,11 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Getter
 @Setter
-@Entity(name="BillingPaymentEntity")
+@Entity(name = "BillingPaymentEntity")
 @Table(name = "billing_payment")
 public class BillingPaymentEntity {
 
@@ -44,13 +43,13 @@ public class BillingPaymentEntity {
     @Column(name = "client_id", nullable = false)
     private Long clientId;
 
-    @Column(name ="is_deleted", nullable = false)
+    @Column(name = "is_deleted", nullable = false)
     private Boolean isDeleted;
 
-    @Column(name ="create_on", nullable = false)
+    @Column(name = "create_on", nullable = false)
     private ZonedDateTime createOn;
 
-    @Column(name ="group_id", nullable = false)
+    @Column(name = "group_id", nullable = false)
     private Long groupId;
 
     public BillingPayment toModel() {

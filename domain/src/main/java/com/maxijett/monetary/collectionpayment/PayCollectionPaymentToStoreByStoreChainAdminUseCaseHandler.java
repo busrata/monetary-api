@@ -9,11 +9,9 @@ import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
@@ -41,12 +39,12 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
 
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
                 .cash(useCase.getCash())
                 .pos(useCase.getPos())
                 .eventType(StoreEventType.ADMIN_GET_PAID)
                 .clientId(useCase.getClientId())
-            .build());
+                .build());
 
 
         return collectionPayment;

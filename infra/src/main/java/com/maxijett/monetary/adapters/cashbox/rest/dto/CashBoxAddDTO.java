@@ -1,9 +1,11 @@
 package com.maxijett.monetary.adapters.cashbox.rest.dto;
 
 import com.maxijett.monetary.cashbox.usecase.CashBoxAdd;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
@@ -20,7 +22,7 @@ public class CashBoxAddDTO {
     private String payingAccount;
     private BigDecimal prePaidAmount;
 
-    public CashBoxAdd toUseCase(){
+    public CashBoxAdd toUseCase() {
         return CashBoxAdd.builder()
                 .clientId(clientId)
                 .groupId(groupId)

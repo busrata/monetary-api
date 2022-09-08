@@ -9,5 +9,6 @@ public interface CashBoxPort {
     CashBox retrieve(Long groupId);
 
     List<CashBox> getListByClientId(Long clientId);
+
     CashBox update(CashBox cashBox, CashBoxTransaction cashBoxTransaction);
 }

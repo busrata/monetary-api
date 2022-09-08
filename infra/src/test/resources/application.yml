@@ -41,3 +41,29 @@ server:
 logging:
   level:
     com.hexagonaldemo.ticketapi: DEBUG
+
+
+hot:
+  rate: 9.00
+
+shiftTime:
+  nightShift:
+    startHour: 23
+    endHour: 3
+    minute: 30
+  morningShift:
+    startHour: 9
+    endHour: 11
+
+
+dailyBonus:
+  hot:
+    rate: 0.09
+  cold:
+    rate: 0.032
+    opening: 5
+    divide: 100
+  nightShift:
+    rate: 1.5
+    minValue: 15
+    size: 10

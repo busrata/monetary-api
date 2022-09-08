@@ -6,12 +6,13 @@ import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
 import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+
+import java.util.List;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class StoreCollectionRetrieveByStoreIdUseCaseHandler implements
+public class StoreCollectionRetrieveByClientOrGroupUseCaseHandler implements
         UseCaseHandler<List<StoreCollection>, StoreCollectionRetrieve> {
 
     private final StoreCollectionPort storeCollectionPort;

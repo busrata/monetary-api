@@ -13,13 +13,13 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BillingPaymentDelete implements UseCase {
 
-  private Long id;
+    private Long id;
 
-  private String payingAccount;
+    private String payingAccount;
 
-  private PayloadType payloadType;
+    private PayloadType payloadType;
 
-  private Boolean isDeleted;
+    private Boolean isDeleted;
 
 
 }

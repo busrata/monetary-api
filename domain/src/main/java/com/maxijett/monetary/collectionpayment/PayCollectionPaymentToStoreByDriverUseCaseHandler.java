@@ -9,20 +9,16 @@ import com.maxijett.monetary.driver.model.DriverCash;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverCashPort;
-import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.model.StorePaymentTransaction;
 import com.maxijett.monetary.store.model.enumeration.StoreEventType;
 import com.maxijett.monetary.store.port.StoreCollectionPort;
-import com.maxijett.monetary.store.port.StorePaymentTransactionPort;
-
-import java.math.BigDecimal;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
-
 import lombok.RequiredArgsConstructor;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 
 @DomainComponent
@@ -52,7 +48,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
                 .paymentCash(useCase.getCash())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
                 .groupId(useCase.getGroupId())
-            .build());
+                .build());
 
         StoreCollection storeCollection = storeCollectionPort.retrieve(useCase.getStoreId());
 
@@ -64,8 +60,8 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
                 .clientId(useCase.getClientId())
                 .eventType(StoreEventType.DRIVER_PAY)
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
-            .build());
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
+                .build());
 
         return collectionPayment;
     }

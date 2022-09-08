@@ -24,17 +24,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CashBoxDataAdapterTest extends AbstractIT {
 
-  @Autowired
-  CashBoxDataAdapter cashBoxDataAdapter;
+    @Autowired
+    CashBoxDataAdapter cashBoxDataAdapter;
 
-  @Test
-  public void shouldRetrieveCashBox(){
+    @Test
+    public void shouldRetrieveCashBox() {
 
-   CashBox response = cashBoxDataAdapter.retrieve(20L);
+        CashBox response = cashBoxDataAdapter.retrieve(20L);
 
-    Assertions.assertNotNull(response);
-    assertEquals(20L, response.getGroupId());
-  }
+        Assertions.assertNotNull(response);
+        assertEquals(20L, response.getGroupId());
+    }
 
 
     @Test
@@ -50,34 +50,31 @@ public class CashBoxDataAdapterTest extends AbstractIT {
     }
 
 
-  @Test
-  public void shouldUpdateCashBox(){
+    @Test
+    public void shouldUpdateCashBox() {
 
-    CashBox cashBox = CashBox.builder()
-        .cash(BigDecimal.valueOf(20))
-        .clientId(20000L)
-        .groupId(20L)
-        .userId(1L)
-        .build();
+        CashBox cashBox = CashBox.builder()
+                .cash(BigDecimal.valueOf(20))
+                .clientId(20000L)
+                .groupId(20L)
+                .userId(1L)
+                .build();
 
-    CashBoxTransaction cashBoxTransaction = CashBoxTransaction.builder()
-        .cashBoxEventType(CashBoxEventType.DRIVER_PAY)
-        .driverId(1L)
-        .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-        .payingAccount("cashBox")
-        .amount(BigDecimal.valueOf(20))
-        .build();
+        CashBoxTransaction cashBoxTransaction = CashBoxTransaction.builder()
+                .cashBoxEventType(CashBoxEventType.DRIVER_PAY)
+                .driverId(1L)
+                .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
+                .payingAccount("cashBox")
+                .amount(BigDecimal.valueOf(20))
+                .build();
 
-    CashBox response = cashBoxDataAdapter.update(cashBox, cashBoxTransaction);
+        CashBox response = cashBoxDataAdapter.update(cashBox, cashBoxTransaction);
 
-    assertEquals(cashBox.getCash(), response.getCash());
-    assertEquals(cashBox.getGroupId(), response.getGroupId());
-    assertEquals(cashBox.getClientId(), response.getClientId());
-    assertEquals(cashBox.getUserId(), response.getUserId());
-  }
-
-
-
+        assertEquals(cashBox.getCash(), response.getCash());
+        assertEquals(cashBox.getGroupId(), response.getGroupId());
+        assertEquals(cashBox.getClientId(), response.getClientId());
+        assertEquals(cashBox.getUserId(), response.getUserId());
+    }
 
 
 }

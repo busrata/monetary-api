@@ -1,11 +1,9 @@
 package com.maxijett.monetary.adapters.cashbox.rest.jpa.repository;
 
 import com.maxijett.monetary.adapters.cashbox.rest.jpa.entity.CashBoxEntity;
-import com.maxijett.monetary.cashbox.model.CashBox;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
