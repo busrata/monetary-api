@@ -9,27 +9,27 @@ import org.junit.jupiter.api.Test;
 
 public class GetStoreCollectionUseCaseHandlerTest {
 
-  StoreCollectionFakeDataAdapter storeCollectionPort;
+    StoreCollectionFakeDataAdapter storeCollectionPort;
 
-  GetStoreCollectionUseCaseHandler handler;
+    GetStoreCollectionUseCaseHandler handler;
 
-  @BeforeEach
-  public void setUp(){
-    storeCollectionPort = new StoreCollectionFakeDataAdapter();
-    handler = new GetStoreCollectionUseCaseHandler(storeCollectionPort);
-  }
+    @BeforeEach
+    public void setUp() {
+        storeCollectionPort = new StoreCollectionFakeDataAdapter();
+        handler = new GetStoreCollectionUseCaseHandler(storeCollectionPort);
+    }
 
 
-  @Test
-  void shouldGetStoreCollection(){
-    //Given
-    StoreCollectionRetrieve storeCollectionRetrieve = StoreCollectionRetrieve.builder().id(3L).build();
+    @Test
+    void shouldGetStoreCollection() {
+        //Given
+        StoreCollectionRetrieve storeCollectionRetrieve = StoreCollectionRetrieve.builder().id(3L).build();
 
-    //When
-    StoreCollection response = handler.handle(storeCollectionRetrieve);
+        //When
+        StoreCollection response = handler.handle(storeCollectionRetrieve);
 
-    //Then
-    Assertions.assertEquals(3, response.getStoreId());
-  }
+        //Then
+        Assertions.assertEquals(3, response.getStoreId());
+    }
 
 }

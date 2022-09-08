@@ -1,24 +1,18 @@
 package com.maxijett.monetary.billingpayment;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-
 import com.maxijett.monetary.billingpayment.adapters.BillingPaymentPortFakeDataAdapter;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
+import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
+import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-import com.maxijett.monetary.cashbox.adapters.CashBoxFakeDataAdapter;
-import com.maxijett.monetary.cashbox.adapters.CashBoxTransactionFakeDataAdapter;
-import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
-import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.adapters.StorePaymentTransactionFakeDataAdapter;
-import com.maxijett.monetary.store.model.enumeration.StoreEventType;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 

@@ -5,8 +5,6 @@ import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
-import com.maxijett.monetary.store.model.StoreCollection;
-import com.maxijett.monetary.store.port.StoreCollectionPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -44,15 +44,15 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
 
     @Override
     public BillingPayment retrieve(Long id) {
-       return BillingPayment.builder()
-            .id(3L)
-            .isDeleted(false)
-            .paymentType(PaymentType.CASH)
-            .storeId(30L)
-            .amount(BigDecimal.TEN)
-            .clientId(20L)
-            .payingAccount("storeChainAdmin")
-            .build();
+        return BillingPayment.builder()
+                .id(3L)
+                .isDeleted(false)
+                .paymentType(PaymentType.CASH)
+                .storeId(30L)
+                .amount(BigDecimal.TEN)
+                .clientId(20L)
+                .payingAccount("storeChainAdmin")
+                .build();
     }
 
     @Override
@@ -64,7 +64,7 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
     }
 
     @Override
-    public List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime){
+    public List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime) {
         billings.add(BillingPayment.builder()
                 .id(4L)
                 .isDeleted(false)

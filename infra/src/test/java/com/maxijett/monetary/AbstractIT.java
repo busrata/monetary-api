@@ -12,7 +12,6 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -54,7 +53,7 @@ public abstract class AbstractIT {
     }
 
     protected void createCollectionPaymentRecord(Long driverId, Long storeId, Long clientId,
-            Long groupId, BigDecimal cash, BigDecimal pos, ZonedDateTime dateTime) {
+                                                 Long groupId, BigDecimal cash, BigDecimal pos, ZonedDateTime dateTime) {
         CollectionPaymentEntity entity = new CollectionPaymentEntity();
         entity.setDriverId(driverId);
         entity.setClientId(clientId);
@@ -69,7 +68,7 @@ public abstract class AbstractIT {
     }
 
     protected void createStoreCollectionRecord(Long storeId, Long groupId, BigDecimal cash,
-            BigDecimal pos, TariffType tariffType, Long clientId, BigDecimal balanceLimit) {
+                                               BigDecimal pos, TariffType tariffType, Long clientId, BigDecimal balanceLimit) {
         StoreCollectionEntity entity = new StoreCollectionEntity();
         entity.setStoreId(storeId);
         entity.setGroupId(groupId);

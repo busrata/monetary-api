@@ -4,15 +4,14 @@ import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
 import com.maxijett.monetary.store.model.StoreCollection;
 import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
-import java.math.BigDecimal;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
-import static org.assertj.core.api.Assertions.tuple;
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.*;
 
 public class StoreCollectionRetrieveByClientOrGroupUseCaseHandlerTest {
 

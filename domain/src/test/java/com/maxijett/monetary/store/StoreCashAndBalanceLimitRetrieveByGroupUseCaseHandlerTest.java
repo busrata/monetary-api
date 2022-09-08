@@ -1,15 +1,16 @@
 package com.maxijett.monetary.store;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
-
 import com.maxijett.monetary.store.adapters.StoreCollectionFakeDataAdapter;
 import com.maxijett.monetary.store.model.StoreCashAndBalanceLimit;
 import com.maxijett.monetary.store.useCase.StoreCollectionRetrieve;
-import java.math.BigDecimal;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 public class StoreCashAndBalanceLimitRetrieveByGroupUseCaseHandlerTest {
 

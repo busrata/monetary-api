@@ -151,10 +151,10 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
         //When
         ResponseEntity<List<CollectionPayment>> response = testRestTemplate.exchange(
-            "/api/v1/collection-payment/all?groupId={groupId}&requestDate={requestDate}",
-            HttpMethod.GET, new HttpEntity<>(null, null),
-            new ParameterizedTypeReference<List<CollectionPayment>>() {
-            }, groupId, requestDate
+                "/api/v1/collection-payment/all?groupId={groupId}&requestDate={requestDate}",
+                HttpMethod.GET, new HttpEntity<>(null, null),
+                new ParameterizedTypeReference<List<CollectionPayment>>() {
+                }, groupId, requestDate
         );
 
         //Then
