@@ -18,7 +18,7 @@ public class StorePaymentTransaction {
 
   private String orderNumber;
 
-  private ZonedDateTime date;
+  private ZonedDateTime createOn;
 
   private Long storeId;
 

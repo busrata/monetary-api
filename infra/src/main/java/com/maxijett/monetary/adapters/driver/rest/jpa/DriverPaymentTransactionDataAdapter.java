@@ -9,7 +9,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -28,6 +30,13 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
         driverPaymentTransactionEntity.setGroupId(from.getGroupId());
 
         return driverPaymentTransactionRepository.save(driverPaymentTransactionEntity).getId();
+    }
+
+    @Override
+    public Optional<DriverPaymentTransaction> findTransactionForRollback(String orderNumber, List<DriverEventType> eventTypes) {
+        return driverPaymentTransactionRepository.findByOrderNumberAndEventTypeIn(orderNumber, eventTypes)
+                .flatMap(transactions -> transactions.stream().max(Comparator.comparing(DriverPaymentTransactionEntity::getDateTime)))
+                .map(DriverPaymentTransactionEntity::toModel);
     }
 
     @Override

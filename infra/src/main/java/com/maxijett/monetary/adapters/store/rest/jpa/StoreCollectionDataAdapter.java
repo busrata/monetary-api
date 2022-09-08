@@ -69,7 +69,7 @@ public class StoreCollectionDataAdapter implements StoreCollectionPort {
         storePaymentTransactionEntity.setCash(storePaymentTransaction.getCash());
         storePaymentTransactionEntity.setClientId(storePaymentTransaction.getClientId());
         storePaymentTransactionEntity.setDriverId(storePaymentTransaction.getDriverId());
-        storePaymentTransactionEntity.setDate(storePaymentTransaction.getDate());
+        storePaymentTransactionEntity.setCreateOn(storePaymentTransaction.getCreateOn());
         storePaymentTransactionEntity.setEventType(storePaymentTransaction.getEventType());
         storePaymentTransactionEntity.setOrderNumber(storePaymentTransaction.getOrderNumber());
         storePaymentTransactionEntity.setPos(storePaymentTransaction.getPos());

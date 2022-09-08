@@ -70,7 +70,7 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler im
               .pos(billingPayment.getPaymentType() == PaymentType.CREDIT_CARD ? billingPayment.getAmount() : BigDecimal.ZERO)
               .clientId(billingPayment.getClientId())
               .eventType(StoreEventType.REFUND_OF_PAYMENT)
-              .date(ZonedDateTime.now(ZoneId.of("UTC")))
+              .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
           .build());
 
 

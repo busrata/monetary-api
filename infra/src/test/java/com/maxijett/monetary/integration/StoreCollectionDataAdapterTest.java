@@ -90,7 +90,7 @@ public class StoreCollectionDataAdapterTest extends AbstractIT {
                 .eventType(StoreEventType.PACKAGE_DELIVERED)
                 .cash(BigDecimal.valueOf(30))
                 .pos(BigDecimal.valueOf(10))
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
                 .build();
 
         StoreCollection response = storeCollectionDataAdapter.update(storeCollection, storePaymentTransaction);

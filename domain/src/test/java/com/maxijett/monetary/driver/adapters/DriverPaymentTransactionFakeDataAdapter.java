@@ -3,14 +3,13 @@ package com.maxijett.monetary.driver.adapters;
 import com.maxijett.monetary.driver.model.DriverPaymentTransaction;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
 import com.maxijett.monetary.driver.port.DriverPaymentTransactionPort;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -35,6 +34,19 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
         driverPaymentTransactions.add(transaction);
 
         return driverPaymentTransactions.get(0).getParentTransactionId();
+    }
+
+    @Override
+    public Optional<DriverPaymentTransaction> findTransactionForRollback(String orderNumber, List<DriverEventType> eventTypes) {
+        return Optional.of(DriverPaymentTransaction.builder()
+                .id(1L)
+                .groupId(20L)
+                .dateTime(ZonedDateTime.now().minusHours(1))
+                .orderNumber(orderNumber)
+                .eventType(DriverEventType.PACKAGE_DELIVERED)
+                .paymentCash(BigDecimal.valueOf(29.75))
+                .driverId(2L)
+                .build());
     }
 
     @Override

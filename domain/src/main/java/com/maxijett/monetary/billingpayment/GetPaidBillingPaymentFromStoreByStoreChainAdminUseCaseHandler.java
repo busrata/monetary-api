@@ -61,7 +61,7 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
 
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneOffset.UTC))
+                .createOn(ZonedDateTime.now(ZoneOffset.UTC))
                 .pos(useCase.getPaymentType() == PaymentType.CREDIT_CARD ? useCase.getAmount(): BigDecimal.ZERO )
                 .cash(useCase.getPaymentType() == PaymentType.CASH ? useCase.getAmount(): BigDecimal.ZERO)
                 .eventType(StoreEventType.ADMIN_GET_PAID)

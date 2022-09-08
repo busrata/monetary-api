@@ -62,7 +62,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
                 .clientId(useCase.getClientId())
                 .eventType(StoreEventType.DRIVER_PAY)
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
             .build());
 
         return collectionPayment;

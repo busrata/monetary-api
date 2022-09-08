@@ -39,7 +39,7 @@ public class PayCollectionPaymentToStoreByStoreChainAdminUseCaseHandler implemen
 
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
                 .cash(useCase.getCash())
                 .pos(useCase.getPos())
                 .eventType(StoreEventType.ADMIN_GET_PAID)

@@ -37,7 +37,7 @@ public class DeleteCollectionPaymentByStoreChainAdminUseCaseHandler implements U
                 .storeId(storeCollection.getStoreId())
                 .eventType(StoreEventType.ADMIN_PAYMENT_BACK)
                 .clientId(storeCollection.getClientId())
-                .date(ZonedDateTime.now(ZoneId.of("UTC")))
+                .createOn(ZonedDateTime.now(ZoneId.of("UTC")))
                 .build());
         return collectionPaymentPort.update(useCase.getId());
 
