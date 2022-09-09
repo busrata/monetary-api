@@ -5,7 +5,6 @@ import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.collectionreport.port.CollectionReportPort;
 
 import java.math.BigDecimal;
-import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -53,6 +52,5 @@ public class CollectionReportFakeDataAdapter implements CollectionReportPort {
                 CollectionReport.builder().storeId(57L).clientId(20000L).cash(BigDecimal.ZERO).pos(BigDecimal.TEN).build()
         );
     }
-
 
 }

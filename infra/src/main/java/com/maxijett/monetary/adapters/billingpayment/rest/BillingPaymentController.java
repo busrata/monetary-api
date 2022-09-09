@@ -37,14 +37,14 @@ public class BillingPaymentController {
 
     @PostMapping("/by-admin")
     public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO) {
-        log.info("REST request post to createBillingPaymentByStoreChainAdmin with billingPaymentDTO : {}", billingPaymentDTO);
+        log.info("REST request post to createBillingPaymentByStoreChainAdmin with billingPaymentDTO: {}", billingPaymentDTO);
         return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromStoreByStoreChainAdmin.handle(billingPaymentDTO.toUseCase()), HttpStatus.CREATED);
 
     }
 
     @PostMapping("/cold-store-by-driver")
     public ResponseEntity<BillingPayment> createBillingPaymentFromColdStoreByDriver(@RequestBody BillingPaymentPrePaidDTO billingPaymentPrePaidDTO) {
-        log.info("REST request post to createBillingPaymentFromColdStoreByDriver with billingPaymentPrePaidDTO : {}", billingPaymentPrePaidDTO);
+        log.info("REST request post to createBillingPaymentFromColdStoreByDriver with billingPaymentPrePaidDTO: {}", billingPaymentPrePaidDTO);
         return new ResponseEntity<BillingPayment>(getPaidBillingPaymentFromColdStoreByDriver.handle(billingPaymentPrePaidDTO.toUseCase()), HttpStatus.CREATED);
     }
 
@@ -57,6 +57,7 @@ public class BillingPaymentController {
     @GetMapping("/all")
     public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentsByDateAndGroupId(@RequestParam Long groupId,
                                                                                         @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow) {
+        log.info("Rest request to retrieveBillingPaymentsByDateAndGroupId by group id: {} and date: {}", groupId, dateNow);
         return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.builder()
                 .groupId(groupId)
                 .createOn(dateNow)
@@ -66,6 +67,7 @@ public class BillingPaymentController {
     @GetMapping("/by-store/{storeId}/monthly")
     public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentMonthlyByStore(@PathVariable Long storeId,
                                                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+        log.info("Rest request to retrieveBillingPaymentMonthlyByStore by store id: {} and date: {}", storeId, requestDate);
         return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentMonthlyByStore.handle(BillingPaymentMonthlyByStoreRetrieve.builder()
                 .storeId(storeId)
                 .requestDate(requestDate).build()), HttpStatus.OK);

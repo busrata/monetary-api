@@ -2,8 +2,11 @@ package com.maxijett.monetary.billingpayment;
 
 import com.maxijett.monetary.billingpayment.adapters.BillingPaymentPortFakeDataAdapter;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
+import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentMonthlyByStoreRetrieve;
+import com.maxijett.monetary.collectionreport.adapters.ShiftTimeFakeDataAdapter;
+import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -15,14 +18,17 @@ import static org.assertj.core.api.Assertions.tuple;
 
 public class RetrieveBillingPaymentMonthlyByStoreUseCaseHandlerTest {
 
-    BillingPaymentPort billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
-    RetrieveBillingPaymentMonthlyByStoreUseCaseHandler useCaseHandler = new RetrieveBillingPaymentMonthlyByStoreUseCaseHandler(billingPaymentPort);
+    BillingPaymentPortFakeDataAdapter billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
+
+    ShiftTimeFakeDataAdapter shiftTimePort = new ShiftTimeFakeDataAdapter();
+
+    RetrieveBillingPaymentMonthlyByStoreUseCaseHandler useCaseHandler = new RetrieveBillingPaymentMonthlyByStoreUseCaseHandler(billingPaymentPort, shiftTimePort);
 
     @Test
     public void shouldReturnBillingPaymentMonthlyByStore() {
         //Given
         BillingPaymentMonthlyByStoreRetrieve useCase = BillingPaymentMonthlyByStoreRetrieve.builder()
-                .storeId(20L)
+                .storeId(111L)
                 .requestDate(LocalDate.now())
                 .build();
 
@@ -30,11 +36,12 @@ public class RetrieveBillingPaymentMonthlyByStoreUseCaseHandlerTest {
         List<BillingPayment> billingPaymentList = useCaseHandler.handle(useCase);
 
         //Then
-        assertThat(billingPaymentList).isNotNull().hasSize(2)
-                .extracting("amount", "storeId")
+        assertThat(billingPaymentList).isNotNull().hasSize(3)
+                .extracting("amount", "storeId", "paymentType")
                 .containsExactlyInAnyOrder(
-                        tuple(BigDecimal.valueOf(20.05), 20L),
-                        tuple(BigDecimal.valueOf(30.05), 20L)
+                        tuple(BigDecimal.valueOf(50.05), useCase.getStoreId(), PaymentType.CASH),
+                        tuple(BigDecimal.valueOf(50.05), useCase.getStoreId(), PaymentType.CREDIT_CARD),
+                        tuple(BigDecimal.valueOf(55.05), useCase.getStoreId(), PaymentType.CASH)
                 );
     }
 }

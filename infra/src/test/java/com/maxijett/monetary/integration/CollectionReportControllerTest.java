@@ -65,7 +65,6 @@ public class CollectionReportControllerTest extends AbstractIT {
         createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
         createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
 
-
         //When
         ResponseEntity<List<CollectionReport>> response = testRestTemplate.exchange("/api/v1/collection-report/{storeId}/date-range?startDate={startDate}&endDate={endDate}",
                 HttpMethod.GET, new HttpEntity<>(null, null),
@@ -135,5 +134,35 @@ public class CollectionReportControllerTest extends AbstractIT {
         assertThat(commissionConstantCashList.get(2).getEndTime().toLocalDate()).isBetween(startDate, endDate);
     }
 
+    @Test
+    public void retrieveCollectionReportMonthlyByStore() {
+        //Given
+        Long storeId = 37L;
+        LocalDate requestDate = LocalDate.of(2022, 2, 1);
+
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), 67L, "1005", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-03-20T08:47:00.000Z"), storeId, "1006", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+
+
+        //When
+        ResponseEntity<List<CollectionReport>> response =
+                testRestTemplate.exchange("/api/v1/collection-report/by-store/{storeId}/monthly?requestDate={requestDate}",
+                        HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
+                        }, storeId, requestDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        assertThat(response.getBody()).isNotNull().hasSize(2)
+                .extracting("storeId", "cash", "pos", "clientId")
+                .containsExactlyInAnyOrder(
+                        tuple(storeId, new BigDecimal("110.00"), new BigDecimal("10.00"), 20000L),
+                        tuple(storeId, new BigDecimal("120.00"), new BigDecimal("0.00"), 20000L)
+                );
+
+    }
 
 }

@@ -19,9 +19,6 @@ public interface CollectionPaymentRepository extends JpaRepository<CollectionPay
 
     List<CollectionPaymentEntity> findAllByDriverIdAndGroupIdAndCreateOnBetween(Long driverId, Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
 
-    @Query("select c from CollectionPaymentEntity c where (c.storeId) =:storeId and year(c.createOn) =:year and month(c.createOn) =:month")
-    List<CollectionPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
-
     List<CollectionPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startDateTime, ZonedDateTime endDateTime);
 
     List<CollectionPaymentEntity> findAllByStoreIdAndCreateOnBetween(Long storeId, ZonedDateTime firstDate, ZonedDateTime lastDate);

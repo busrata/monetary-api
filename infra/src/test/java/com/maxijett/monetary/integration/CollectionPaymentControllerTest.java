@@ -174,41 +174,6 @@ public class CollectionPaymentControllerTest extends AbstractIT {
     }
 
     @Test
-    public void retrieveCollectionPaymentMonthlyByStore() {
-
-        //Given
-        Long storeId = 25L;
-        Long driverId = 315L;
-        Long groupId = 20L;
-        String requestDate = LocalDate.now().toString();
-
-        createCollectionPaymentRecord(driverId, 23L, 20000L, groupId, BigDecimal.valueOf(34.00), BigDecimal.ZERO, ZonedDateTime.now());
-        createCollectionPaymentRecord(driverId, 24L, 20000L, groupId, BigDecimal.valueOf(75.00), BigDecimal.ZERO, ZonedDateTime.now());
-        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(34.00), BigDecimal.ZERO, ZonedDateTime.now());
-        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(75.00), BigDecimal.ZERO, ZonedDateTime.now().minusMonths(2));
-        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(134.00), BigDecimal.ZERO, ZonedDateTime.now());
-        createCollectionPaymentRecord(driverId, 25L, 20000L, groupId, BigDecimal.valueOf(234.00), BigDecimal.ZERO, ZonedDateTime.now().minusYears(2));
-
-
-        //When
-        ResponseEntity<List<CollectionPayment>> response =
-                testRestTemplate.exchange("/api/v1/collection-payment/by-store/{storeId}/monthly?requestDate={requestDate}",
-                        HttpMethod.GET, new HttpEntity<>(null, null), new ParameterizedTypeReference<>() {
-                        }, storeId, requestDate);
-
-        //Then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-
-        assertThat(response.getBody()).isNotNull().hasSize(2)
-                .extracting("driverId", "groupId", "storeId", "cash", "pos", "clientId")
-                .containsExactlyInAnyOrder(
-                        tuple(315L, 20L, 25L, new BigDecimal("34.00"), new BigDecimal("0.00"), 20000L),
-                        tuple(315L, 20L, 25L, new BigDecimal("134.00"), new BigDecimal("0.00"), 20000L)
-                );
-
-    }
-
-    @Test
     public void getAllCollectionPaymentByStoreIdAndDate(){
 
         //Given

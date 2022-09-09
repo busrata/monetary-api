@@ -6,7 +6,6 @@ import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentCreate;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentListGet;
 import com.maxijett.monetary.collectionpayment.useCase.PaidToTheStoreCollectionPaymentRetrieve;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentDelete;
-import com.maxijett.monetary.collectionpayment.useCase.StoreCollectionPaymentRetrieve;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentRetrieveByDateRangeAndStore;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import lombok.RequiredArgsConstructor;
@@ -34,10 +33,7 @@ public class CollectionPaymentController {
 
     private final UseCaseHandler<List<CollectionPayment>, PaidToTheStoreCollectionPaymentRetrieve> paidToTheStoreCollectionPaymentRetrieveUseCaseHandler;
 
-    private final UseCaseHandler<List<CollectionPayment>, StoreCollectionPaymentRetrieve> retrieveCollectionPaymentMonthlyByStoreUseCaseHandler;
-
     private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentListGet> getAllCollectionPaymentsByGroupIdAndDateUseCaseHandler;
-
 
     private final UseCaseHandler<List<CollectionPayment>, CollectionPaymentRetrieveByDateRangeAndStore> getAllCollectionPaymentsByStoreIdAndDateUseCaseHandler;
 
@@ -79,15 +75,6 @@ public class CollectionPaymentController {
                 .groupId(groupId)
                 .createOn(requestDate)
                 .build()), HttpStatus.OK);
-    }
-
-    @GetMapping("by-store/{storeId}/monthly")
-    public ResponseEntity<List<CollectionPayment>> getCollectionPaymentMonthlyByStore(@PathVariable Long storeId,
-                                                                                      @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
-        log.info("Rest request to getCollectionPaymentMonthlyByStore by storeId: {}, requestDate: {}", storeId, requestDate);
-
-        return new ResponseEntity<>(retrieveCollectionPaymentMonthlyByStoreUseCaseHandler.handle(StoreCollectionPaymentRetrieve.fromModel(storeId, requestDate)), HttpStatus.OK);
-
     }
 
     @GetMapping("/all/{storeId}")

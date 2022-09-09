@@ -31,19 +31,16 @@ public class DriverCashController {
     @GetMapping("/instant-list")
     public ResponseEntity<List<DriverCash>> getInstantCashGreaterThanZeroByGroupId(
             @RequestParam(required = false) Long groupId, @RequestParam(required = false) Long clientId) {
-        log.info("REST request to get instant cash greater than zero bu groupId: {} and clientId : {}",
-                groupId, clientId);
+        log.info("REST request to getInstantCashGreaterThanZeroByGroupId groupId: {} and clientId: {}", groupId, clientId);
         return new ResponseEntity<List<DriverCash>>(
                 handler.handle(DriverCashListRetrieve.fromModel(groupId, clientId)),
                 HttpStatus.OK);
     }
 
     @GetMapping("/{driverId}/amount")
-    public ResponseEntity<DriverCash> getDriverCashAndPrepaidAmountByDriverIdAndGroupId(
-            @PathVariable Long driverId,
-            @RequestParam Long groupId) {
-        log.info("Rest request to get driver amounts by driverId: {} and groupId: {}", driverId,
-                groupId);
+    public ResponseEntity<DriverCash> getDriverCashAndPrepaidAmountByDriverIdAndGroupId(@PathVariable Long driverId,
+                                                                                        @RequestParam Long groupId) {
+        log.info("Rest request to getDriverCashAndPrepaidAmountByDriverIdAndGroupId by driverId: {} and groupId: {}", driverId, groupId);
 
         DriverCash response = getDriverAmountFromDriver.handle(
                 DriverCashRetrieve.fromModel(driverId, groupId));

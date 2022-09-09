@@ -81,19 +81,6 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
     }
 
     @Override
-    public List<BillingPayment> retrieveBillingPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate) {
-        billings.add(BillingPayment.builder()
-                .storeId(storeId)
-                .amount(BigDecimal.valueOf(20.05))
-                .build());
-        billings.add(BillingPayment.builder()
-                .storeId(storeId)
-                .amount(BigDecimal.valueOf(30.05))
-                .build());
-        return billings;
-    }
-
-    @Override
     public List<BillingPayment> retrieveBillingPaymentListByDateBetweenAndStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate){
 
         storeId = 111L;

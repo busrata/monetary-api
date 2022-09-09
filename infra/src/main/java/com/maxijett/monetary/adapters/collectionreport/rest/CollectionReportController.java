@@ -5,6 +5,7 @@ import com.maxijett.monetary.collectionreport.model.CommissionConstantAccrualVal
 import com.maxijett.monetary.collectionreport.model.DriverDailyBonus;
 import com.maxijett.monetary.collectionreport.useCase.CollectionReportByDateBetweenAndStoreRetrieve;
 import com.maxijett.monetary.collectionreport.useCase.CommissionConstantByDateBetweenAndClientIdRetrieve;
+import com.maxijett.monetary.collectionreport.useCase.CollectionReportMonthlyByStoreRetrieve;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
 import com.maxijett.monetary.driver.useCase.DriverGetDailyBonus;
 
@@ -35,6 +36,8 @@ public class CollectionReportController {
 
   private final UseCaseHandler<CommissionConstantAccrualValue, CommissionConstantByDateBetweenAndClientIdRetrieve> commissionConstantByDateBetweenAndClientIdRetrieveUseCaseHandler;
 
+  private final UseCaseHandler<List<CollectionReport>, CollectionReportMonthlyByStoreRetrieve> retrieveCollectionReportMonthlyByStoreUseCaseHandler;
+
   @GetMapping("/daily-bonus/{driverId}")
   public ResponseEntity<DriverDailyBonus> getDailyBonusByDriverAndGroupId(@PathVariable Long driverId, @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
                                                                           @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate, @RequestParam boolean isRequestFromMobil) {
@@ -55,6 +58,15 @@ public class CollectionReportController {
             .startDate(startDate)
             .endDate(endDate)
             .build()), HttpStatus.OK);
+  }
+
+  @GetMapping("by-store/{storeId}/monthly")
+  public ResponseEntity<List<CollectionReport>> getCollectionReportMonthlyByStore(@PathVariable Long storeId,
+                                                                                  @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+    log.info("Rest request to getCollectionReportMonthlyByStore by storeId: {}, requestDate: {}", storeId, requestDate);
+
+    return new ResponseEntity<>(retrieveCollectionReportMonthlyByStoreUseCaseHandler.handle(CollectionReportMonthlyByStoreRetrieve.builder().storeId(storeId).requestDate(requestDate).build()), HttpStatus.OK);
+
   }
 
   @GetMapping("/accrual-value/{clientId}/date-range")

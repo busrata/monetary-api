@@ -18,7 +18,6 @@ public interface CollectionPaymentPort {
 
     List<CollectionPayment> retrieveCollectionPaymentListByGroupIdAndDates(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
-    List<CollectionPayment> retrieveCollectionPaymentMonthlyByStore(Long storeId, ZonedDateTime startTime);
 
     List<CollectionPayment> retrieveCollectionPaymentListByStoreIdAndDates(Long storeId, ZonedDateTime firstDate, ZonedDateTime lastDate);
 }
