@@ -38,15 +38,20 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
 
     @Override
     public Optional<DriverPaymentTransaction> findTransactionForRollback(String orderNumber, List<DriverEventType> eventTypes) {
-        return Optional.of(DriverPaymentTransaction.builder()
-                .id(1L)
-                .groupId(20L)
-                .dateTime(ZonedDateTime.now().minusHours(1))
-                .orderNumber(orderNumber)
-                .eventType(DriverEventType.PACKAGE_DELIVERED)
-                .paymentCash(BigDecimal.valueOf(29.75))
-                .driverId(2L)
-                .build());
+        String rollbackOrderNumber = "999999999";
+        if (orderNumber.equals(rollbackOrderNumber)) {
+            return Optional.of(DriverPaymentTransaction.builder()
+                    .id(1L)
+                    .groupId(20L)
+                    .dateTime(ZonedDateTime.now().minusHours(1))
+                    .orderNumber(orderNumber)
+                    .eventType(DriverEventType.PACKAGE_DELIVERED)
+                    .paymentCash(BigDecimal.valueOf(29.75))
+                    .driverId(2L)
+                    .build());
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override

@@ -51,7 +51,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         driverCashPort.assertContains(DriverCash.builder()
                 .id(1L)
                 .driverId(2L)
-                .cash(BigDecimal.valueOf(110.25))
+                .cash(BigDecimal.valueOf(140))
                 .groupId(1L)
                 .clientId(20L)
                 .prepaidCollectionCash(BigDecimal.valueOf(75))
@@ -61,8 +61,8 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
 
         storeCollectionPort.assertContains(StoreCollection.builder()
                 .storeId(3L)
-                .cash(BigDecimal.valueOf(30))
-                .pos(BigDecimal.valueOf(12))
+                .cash(BigDecimal.valueOf(75))
+                .pos(BigDecimal.valueOf(100))
                 .groupId(1L)
                 .clientId(20L)
                 .tariffType(TariffType.TAXIMETER_HOT)
@@ -89,10 +89,10 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
 
         //Then
         storeCollectionPort.assertContains(StoreCollection.builder()
+                .pos(BigDecimal.valueOf(140))
                 .storeId(3L)
                 .groupId(1L)
-                .pos(BigDecimal.valueOf(52))
-                .cash(BigDecimal.valueOf(10))
+                .cash(BigDecimal.valueOf(55))
                 .clientId(20L)
                 .tariffType(TariffType.TAXIMETER_HOT)
                 .build()
@@ -120,7 +120,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
         //Then
         driverCashPort.assertContains(DriverCash.builder()
                 .id(1L)
-                .cash(BigDecimal.valueOf(115.25))
+                .cash(BigDecimal.valueOf(145))
                 .groupId(1L)
                 .driverId(2L)
                 .prepaidCollectionCash(BigDecimal.valueOf(75))
@@ -131,8 +131,8 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
 
         storeCollectionPort.assertContains(StoreCollection.builder()
                 .storeId(3L)
-                .pos(BigDecimal.valueOf(47))
-                .cash(BigDecimal.valueOf(35))
+                .pos(BigDecimal.valueOf(135))
+                .cash(BigDecimal.valueOf(80))
                 .groupId(1L)
                 .clientId(20L)
                 .tariffType(TariffType.TAXIMETER_HOT)
@@ -144,8 +144,9 @@ public class AddPaymentToDriverAndStoreUseCaseHandlerTest {
     @Test
     public void shouldBeRefundTransactionAmountToDriverCashAndStoreCashAndPos() {
         //Given
+        String rollbackOrderNumber = "999999999";
         OrderPayment orderPayment = OrderPayment.builder()
-                .orderNumber("123456789")
+                .orderNumber(rollbackOrderNumber)
                 .storeId(3L)
                 .driverId(2L)
                 .groupId(1L)
