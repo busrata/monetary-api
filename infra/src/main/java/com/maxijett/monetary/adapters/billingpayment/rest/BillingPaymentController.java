@@ -56,11 +56,11 @@ public class BillingPaymentController {
 
     @GetMapping("/all")
     public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentsByDateAndGroupId(@RequestParam Long groupId,
-                                                                                        @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) ZonedDateTime dateNow) {
-        log.info("Rest request to retrieveBillingPaymentsByDateAndGroupId by group id: {} and date: {}", groupId, dateNow);
+                                                                                        @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate requestDate) {
+        log.info("Rest request to retrieveBillingPaymentsByDateAndGroupId by group id: {} and date: {}", groupId, requestDate);
         return new ResponseEntity<List<BillingPayment>>(getBillingPaymentListByDateAndGroupId.handle(BillingPaymentListGet.builder()
                 .groupId(groupId)
-                .createOn(dateNow)
+                .createOn(requestDate)
                 .build()), HttpStatus.OK);
     }
 

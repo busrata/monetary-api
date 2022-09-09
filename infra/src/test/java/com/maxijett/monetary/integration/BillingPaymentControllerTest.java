@@ -164,11 +164,11 @@ public class BillingPaymentControllerTest extends AbstractIT {
 
         //Given
         Long groupId = 20L;
-        String requestDate = "2022-09-02T12:00:00.000+03:00";
+        LocalDate requestDate = LocalDate.of(2022, 9, 2);
 
         //When
         ResponseEntity<List<BillingPayment>> response = testRestTemplate.exchange(
-                "/api/v1/billing-payment/all?groupId={groupId}&dateNow={dateNow}",
+                "/api/v1/billing-payment/all?groupId={groupId}&requestDate={requestDate}",
                 HttpMethod.GET, new HttpEntity<>(null, null),
                 new ParameterizedTypeReference<List<BillingPayment>>() {
                 }, groupId, requestDate

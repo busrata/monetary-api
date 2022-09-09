@@ -3,8 +3,11 @@ package com.maxijett.monetary.billingpayment;
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentListGet;
+import com.maxijett.monetary.collectionreport.model.ShiftTime;
+import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
 import com.maxijett.monetary.common.DomainComponent;
 import com.maxijett.monetary.common.usecase.UseCaseHandler;
+import com.maxijett.monetary.common.util.MonetaryDate;
 import lombok.RequiredArgsConstructor;
 
 import java.time.ZoneId;
@@ -17,10 +20,16 @@ public class GetBillingPaymentsByDateAndGroupIdUseCaseHandler implements UseCase
 
     private final BillingPaymentPort billingPaymentPort;
 
+    private final ShiftTimePort shiftTimePort;
+
     @Override
     public List<BillingPayment> handle(BillingPaymentListGet useCase) {
-        ZonedDateTime startTime = useCase.getCreateOn().toLocalDate().atStartOfDay(ZoneId.of("UTC"));
-        ZonedDateTime endTime = startTime.toLocalDate().atTime(23, 59, 59).atZone(ZoneId.of("UTC"));
-        return billingPaymentPort.getAllByGroupIdAndCreateOn(useCase.getGroupId(), startTime, endTime);
+
+        ShiftTime shiftTime = shiftTimePort.getShiftTime();
+
+        ZonedDateTime dateRangeFrom = MonetaryDate.convertStartZonedDateTime(useCase.getCreateOn(), shiftTime.getNightShiftEndHour());
+        ZonedDateTime dateRangeTo = MonetaryDate.convertEndZonedDateTime(useCase.getCreateOn(), shiftTime.getNightShiftEndHour());
+
+        return billingPaymentPort.getAllByGroupIdAndCreateOn(useCase.getGroupId(), dateRangeFrom, dateRangeTo);
     }
 }

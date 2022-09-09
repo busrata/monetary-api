@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.ZonedDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 public class BillingPaymentListGet implements UseCase {
 
-    private ZonedDateTime createOn;
+    private LocalDate createOn;
 
     private Long groupId;
 
