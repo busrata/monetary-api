@@ -57,5 +57,25 @@ public class getDailyBonusUseCaseHandlerTest {
 
     }
 
+    @Test
+    public void calculateDailyBonusForMobil() {
+
+        //Given
+        DriverGetDailyBonus driverGetDailyBonus = DriverGetDailyBonus.builder()
+                .driverId(1L)
+                .isRequestForMobil(true)
+                .startDate(LocalDate.of(2022, 8, 02))
+                .endDate(null)
+                .build();
+
+        //When
+        DriverDailyBonus response = handler.handle(driverGetDailyBonus);
+
+        //Then
+        assertEquals(BigDecimal.valueOf(15), response.getNightShiftDailyBonus());
+        assertEquals(BigDecimal.valueOf(13.75), response.getNoonShiftDailyBonus().setScale(2, RoundingMode.HALF_EVEN));
+
+    }
+
 
 }
