@@ -23,17 +23,23 @@ public class StorePaymentTransactionFakeDataAdapter implements StorePaymentTrans
 
     @Override
     public Optional<StorePaymentTransaction> findTransactionForRollback(String orderNumber, List<StoreEventType> eventTypes) {
-        return Optional.of(StorePaymentTransaction.builder()
-                .id(1L)
-                .cash(BigDecimal.valueOf(45))
-                .createOn(ZonedDateTime.now(ZoneOffset.UTC).minusHours(2))
-                .eventType(StoreEventType.PACKAGE_DELIVERED)
-                .clientId(20000L)
-                .storeId(20L)
-                .driverId(2L)
-                .pos(BigDecimal.valueOf(88))
-                .orderNumber(orderNumber)
-                .build());
+        String rollbackOrderNumber = "999999999";
+        if (orderNumber.equals(rollbackOrderNumber)) {
+            return Optional.of(StorePaymentTransaction.builder()
+                    .id(1L)
+                    .cash(BigDecimal.valueOf(45))
+                    .createOn(ZonedDateTime.now(ZoneOffset.UTC).minusHours(2))
+                    .eventType(StoreEventType.PACKAGE_DELIVERED)
+                    .clientId(20000L)
+                    .storeId(20L)
+                    .driverId(2L)
+                    .pos(BigDecimal.valueOf(88))
+                    .orderNumber(orderNumber)
+                    .build());
+
+        } else {
+            return Optional.empty();
+        }
     }
 
 }
