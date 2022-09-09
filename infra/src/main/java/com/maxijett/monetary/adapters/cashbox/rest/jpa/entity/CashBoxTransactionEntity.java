@@ -36,4 +36,8 @@ public class CashBoxTransactionEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "event_type")
     private CashBoxEventType eventType;
+
+    @Column(name = "client_id")
+    private Long clientId;
+
 }

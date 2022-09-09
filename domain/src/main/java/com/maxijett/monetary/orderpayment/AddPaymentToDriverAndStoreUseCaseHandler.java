@@ -98,7 +98,9 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
                 .dateTime(ZonedDateTime.now(ZoneOffset.UTC))
                 .groupId(transaction.getGroupId())
                 .driverId(transaction.getDriverId())
-                .parentTransactionId(transaction.getId()).build();
+                .parentTransactionId(transaction.getId())
+                .clientId(transaction.getClientId())
+                .build();
     }
 
     private DriverPaymentTransaction buildDriverPaymentTransaction(OrderPayment useCase) {
@@ -109,6 +111,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
                 .groupId(useCase.getGroupId())
                 .orderNumber(useCase.getOrderNumber())
                 .eventType(DriverEventType.PACKAGE_DELIVERED)
+                .clientId(useCase.getClientId())
                 .build();
     }
 

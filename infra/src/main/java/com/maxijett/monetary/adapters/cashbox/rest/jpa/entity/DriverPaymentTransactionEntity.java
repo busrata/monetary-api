@@ -46,6 +46,9 @@ public class DriverPaymentTransactionEntity {
     @Column(name = "group_id")
     private Long groupId;
 
+    @Column(name = "client_id")
+    private Long clientId;
+
     public DriverPaymentTransaction toModel() {
         return DriverPaymentTransaction.builder()
                 .groupId(getGroupId())
@@ -57,6 +60,7 @@ public class DriverPaymentTransactionEntity {
                 .orderNumber(getOrderNumber())
                 .userId(getUserId())
                 .parentTransactionId(getParentTransactionId())
+                .clientId(getClientId())
                 .build();
     }
 }

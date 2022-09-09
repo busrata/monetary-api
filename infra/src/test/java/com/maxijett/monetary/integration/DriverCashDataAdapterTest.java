@@ -72,6 +72,7 @@ public class DriverCashDataAdapterTest extends AbstractIT {
                 .paymentCash(BigDecimal.valueOf(12))
                 .eventType(DriverEventType.REFUND_OF_PAYMENT)
                 .orderNumber("12345678")
+                .clientId(20000L)
                 .build();
 
 

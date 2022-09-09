@@ -29,6 +29,7 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                 .eventType(driverTransaction.getEventType())
                 .orderNumber(driverTransaction.getOrderNumber())
                 .groupId(driverTransaction.getGroupId())
+                .clientId(driverTransaction.getClientId())
                 .build();
 
         driverPaymentTransactions.add(transaction);
@@ -48,6 +49,7 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                     .eventType(DriverEventType.PACKAGE_DELIVERED)
                     .paymentCash(BigDecimal.valueOf(29.75))
                     .driverId(2L)
+                    .clientId(17L)
                     .build());
         } else {
             return Optional.empty();
@@ -65,6 +67,7 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                         .eventType(DriverEventType.PACKAGE_DELIVERED)
                         .dateTime(ZonedDateTime.now().minusHours(3))
                         .orderNumber(String.valueOf(RandomUtils.nextLong()))
+                        .clientId(20000L)
                         .build(),
                 DriverPaymentTransaction.builder()
                         .orderNumber(String.valueOf(RandomUtils.nextLong()))
@@ -73,6 +76,7 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                         .eventType(DriverEventType.SUPPORT_ACCEPTED)
                         .paymentCash(BigDecimal.valueOf(48.02))
                         .groupId(groupId)
+                        .clientId(20000L)
                         .build(),
                 DriverPaymentTransaction.builder()
                         .orderNumber(String.valueOf(RandomUtils.nextLong()))
@@ -81,6 +85,7 @@ public class DriverPaymentTransactionFakeDataAdapter implements DriverPaymentTra
                         .eventType(DriverEventType.ADMIN_GET_PAID)
                         .paymentCash(BigDecimal.valueOf(76))
                         .groupId(groupId)
+                        .clientId(20000L)
                         .build()
         ).filter(driverPaymentTransaction -> eventTypes.contains(driverPaymentTransaction.getEventType()) &&
                 driverPaymentTransaction.getDateTime().isAfter(startTime) &&

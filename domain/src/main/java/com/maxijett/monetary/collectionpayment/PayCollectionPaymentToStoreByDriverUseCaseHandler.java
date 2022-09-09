@@ -48,6 +48,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
                 .paymentCash(useCase.getCash())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
                 .groupId(useCase.getGroupId())
+                .clientId(useCase.getClientId())
                 .build());
 
         StoreCollection storeCollection = storeCollectionPort.retrieve(useCase.getStoreId());

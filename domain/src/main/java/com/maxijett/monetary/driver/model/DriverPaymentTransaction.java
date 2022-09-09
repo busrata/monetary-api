@@ -33,4 +33,6 @@ public class DriverPaymentTransaction implements Serializable {
     private DriverEventType eventType;
 
     private Long groupId;
+
+    private Long clientId;
 }

@@ -65,6 +65,7 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
                 .groupId(useCase.getGroupId())
                 .dateTime(ZonedDateTime.now(ZoneOffset.UTC))
                 .paymentCash(useCase.getAmount())
+                .clientId(useCase.getClientId())
                 .build();
     }
 
