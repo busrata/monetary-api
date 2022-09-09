@@ -11,12 +11,18 @@ import com.maxijett.monetary.billingpayment.usecase.BillingPaymentDateBetweenByS
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+
+import com.maxijett.monetary.collectionreport.adapters.ShiftTimeFakeDataAdapter;
+import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
 import org.junit.jupiter.api.Test;
 
 public class RetrieveBillingPaymentListByDateBetweenAndStoreUseCaseHandlerTest {
 
     BillingPaymentPort billingPaymentPort = new BillingPaymentPortFakeDataAdapter();
-    RetrieveBillingPaymentListByDateBetweenAndStoreUseCaseHandler useCaseHandler = new RetrieveBillingPaymentListByDateBetweenAndStoreUseCaseHandler(billingPaymentPort);
+
+    ShiftTimePort shiftTimePort = new ShiftTimeFakeDataAdapter();
+
+    RetrieveBillingPaymentListByDateBetweenAndStoreUseCaseHandler useCaseHandler = new RetrieveBillingPaymentListByDateBetweenAndStoreUseCaseHandler(billingPaymentPort, shiftTimePort);
 
     @Test
     public void shouldReturnBillingPaymentListByDateBetweenAndStore() {

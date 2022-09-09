@@ -5,8 +5,7 @@ import com.maxijett.monetary.collectionreport.adapters.ShiftTimeFakeDataAdapter;
 import com.maxijett.monetary.collectionreport.model.CollectionReport;
 import com.maxijett.monetary.collectionreport.port.CollectionReportPort;
 import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
-import com.maxijett.monetary.collectionreport.useCase.CollectionReportDateRangeByStoreRetrieve;
-import org.junit.jupiter.api.Assertions;
+import com.maxijett.monetary.collectionreport.useCase.CollectionReportByDateBetweenAndStoreRetrieve;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -16,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-public class CollectionReportDateRangeByStoreRetrieveUseCaseHandlerTest {
+public class CollectionReportByDateBetweenAndStoreRetrieveUseCaseHandlerTest {
 
     CollectionReportPort collectionReportPort = new CollectionReportFakeDataAdapter();
     ShiftTimePort shiftTimePort = new ShiftTimeFakeDataAdapter();
@@ -26,7 +25,7 @@ public class CollectionReportDateRangeByStoreRetrieveUseCaseHandlerTest {
     public void shouldReturnCollectionReportDateRangeByStore() {
 
         //Given
-        CollectionReportDateRangeByStoreRetrieve useCase = CollectionReportDateRangeByStoreRetrieve.builder()
+        CollectionReportByDateBetweenAndStoreRetrieve useCase = CollectionReportByDateBetweenAndStoreRetrieve.builder()
                 .storeId(20L)
                 .startDate(LocalDate.of(2022, 6, 12))
                 .endDate(LocalDate.of(2022, 6, 20))

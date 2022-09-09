@@ -8,6 +8,10 @@ import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.entity.Collecti
 import com.maxijett.monetary.adapters.collectionpayment.rest.jpa.repository.CollectionPaymentRepository;
 import com.maxijett.monetary.adapters.collectionreport.rest.jpa.entity.CollectionReportEntity;
 import com.maxijett.monetary.adapters.collectionreport.rest.jpa.repository.CollectionReportRepository;
+import com.maxijett.monetary.adapters.collectionreport.rest.jpa.entity.CommissionConstantCashEntity;
+import com.maxijett.monetary.adapters.collectionreport.rest.jpa.entity.CommissionConstantPosEntity;
+import com.maxijett.monetary.adapters.collectionreport.rest.jpa.repository.CommissionConstantCashRepository;
+import com.maxijett.monetary.adapters.collectionreport.rest.jpa.repository.CommissionConstantPosRepository;
 import com.maxijett.monetary.adapters.store.rest.jpa.entity.StoreCollectionEntity;
 import com.maxijett.monetary.adapters.store.rest.jpa.repository.StoreCollectionRepository;
 import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
@@ -41,6 +45,12 @@ public abstract class AbstractIT {
 
     @Autowired
     protected CollectionReportRepository collectionReportRepository;
+
+    @Autowired
+    protected CommissionConstantCashRepository commissionConstantCashRepository;
+
+    @Autowired
+    protected CommissionConstantPosRepository commissionConstantPosRepository;
 
     @LocalServerPort
     protected Integer port;
@@ -124,6 +134,28 @@ public abstract class AbstractIT {
         entity.setWarmthType(warmthType);
 
         collectionReportRepository.save(entity);
+    }
+
+    protected void createCollectionReportCommissionConstantCashRecord(BigDecimal rate, ZonedDateTime startTime,
+                                                                      ZonedDateTime endTime, Long clientId){
+
+        CommissionConstantCashEntity entity = new CommissionConstantCashEntity();
+        entity.setClientId(clientId);
+        entity.setStartTime(startTime);
+        entity.setEndTime(endTime);
+        entity.setRate(rate);
+        commissionConstantCashRepository.save(entity);
+    }
+
+    protected void createCollectionReportCommissionConstantPosRecord(BigDecimal rate, ZonedDateTime startTime,
+                                                                     ZonedDateTime endTime, Long clientId){
+
+        CommissionConstantPosEntity entity = new CommissionConstantPosEntity();
+        entity.setClientId(clientId);
+        entity.setStartTime(startTime);
+        entity.setEndTime(endTime);
+        entity.setRate(rate);
+        commissionConstantPosRepository.save(entity);
     }
 
 }

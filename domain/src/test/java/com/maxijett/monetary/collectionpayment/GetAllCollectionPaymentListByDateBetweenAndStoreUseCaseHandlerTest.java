@@ -4,6 +4,8 @@ import com.maxijett.monetary.collectionpayment.adapters.CollectionPaymentFakeDat
 import com.maxijett.monetary.collectionpayment.model.CollectionPayment;
 import com.maxijett.monetary.collectionpayment.port.CollectionPaymentPort;
 import com.maxijett.monetary.collectionpayment.useCase.CollectionPaymentRetrieveByDateRangeAndStore;
+import com.maxijett.monetary.collectionreport.adapters.ShiftTimeFakeDataAdapter;
+import com.maxijett.monetary.collectionreport.port.ShiftTimePort;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -13,10 +15,13 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
 
-public class GetAllCollectionPaymentsByStoreIdAndDateUseCaseHandlerTest {
+public class GetAllCollectionPaymentListByDateBetweenAndStoreUseCaseHandlerTest {
 
     CollectionPaymentPort collectionPaymentPort = new CollectionPaymentFakeDataAdapter();
-    GetAllCollectionPaymentsByStoreIdAndDateUseCaseHandler useCaseHandler = new GetAllCollectionPaymentsByStoreIdAndDateUseCaseHandler(collectionPaymentPort);
+
+    ShiftTimePort shiftTimePort = new ShiftTimeFakeDataAdapter();
+
+    GetAllCollectionPaymentsByDateBetweenAndStoreUseCaseHandler useCaseHandler = new GetAllCollectionPaymentsByDateBetweenAndStoreUseCaseHandler(collectionPaymentPort, shiftTimePort);
 
     @Test
     public void shouldRetrieveCollectionPaymentsByStoreIdAndDate() {

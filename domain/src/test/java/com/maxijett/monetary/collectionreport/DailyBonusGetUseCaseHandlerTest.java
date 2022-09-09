@@ -14,9 +14,9 @@ import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class getDailyBonusUseCaseHandlerTest {
+public class DailyBonusGetUseCaseHandlerTest {
 
-    GetDailyBonusUseCaseHandler handler;
+    DailyBonusGetUseCaseHandler handler;
 
     CollectionReportFakeDataAdapter collectionReportPort;
 
@@ -33,7 +33,7 @@ public class getDailyBonusUseCaseHandlerTest {
 
         dailyBonusValuePort = new DailyBonusValueFakeDataAdapter();
 
-        handler = new GetDailyBonusUseCaseHandler(collectionReportPort, shiftTimePort, dailyBonusValuePort);
+        handler = new DailyBonusGetUseCaseHandler(collectionReportPort, shiftTimePort, dailyBonusValuePort);
     }
 
     @Test
