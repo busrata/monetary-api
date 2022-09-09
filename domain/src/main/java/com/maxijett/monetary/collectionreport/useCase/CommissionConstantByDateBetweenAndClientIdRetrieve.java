@@ -12,9 +12,9 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CollectionReportDateRangeByStoreRetrieve implements UseCase {
+public class CommissionConstantByDateBetweenAndClientIdRetrieve implements UseCase {
 
-    private Long storeId;
+    private Long clientId;
 
     private LocalDate startDate;
 

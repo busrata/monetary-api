@@ -33,6 +33,8 @@ public class BillingPaymentController {
 
     private final UseCaseHandler<List<BillingPayment>, BillingPaymentMonthlyByStoreRetrieve> retrieveBillingPaymentMonthlyByStore;
 
+    private final UseCaseHandler<List<BillingPayment>, BillingPaymentDateBetweenByStoreRetrieve> retrieveBillingPaymentListByDateAndStoreId;
+
     @PostMapping("/by-admin")
     public ResponseEntity<BillingPayment> createBillingPaymentByStoreChainAdmin(@RequestBody BillingPaymentDTO billingPaymentDTO) {
         log.info("REST request post to createBillingPaymentByStoreChainAdmin with billingPaymentDTO : {}", billingPaymentDTO);
@@ -69,4 +71,13 @@ public class BillingPaymentController {
                 .requestDate(requestDate).build()), HttpStatus.OK);
     }
 
+    @GetMapping("/by-store/{storeId}/date-between")
+    public ResponseEntity<List<BillingPayment>> retrieveBillingPaymentListByDateBetweenAndStore(@PathVariable Long storeId,
+                                                                                                @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        log.info("Rest request to retrieveBillingPaymentListByDateBetweenAndStore by store id: {} and date between: {} - {}", storeId, startDate, endDate);
+        return new ResponseEntity<List<BillingPayment>>(retrieveBillingPaymentListByDateAndStoreId.handle(BillingPaymentDateBetweenByStoreRetrieve.builder()
+            .storeId(storeId)
+            .startDate(startDate)
+            .endDate(endDate).build()), HttpStatus.OK);
+    }
 }

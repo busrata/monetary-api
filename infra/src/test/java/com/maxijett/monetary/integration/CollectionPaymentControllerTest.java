@@ -95,6 +95,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
     @Test
     public void retrieveDriverCollectionPaymentPaidToStore() {
+
         //Given
         Long driverId = 1L;
         Long groupId = 20L;
@@ -128,6 +129,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
     @Test
     public void deleteCollectionPaymentByStoreChainAdmin() {
+
         //Given
         Long id = 100L;
 
@@ -144,6 +146,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
     @Test
     public void getAllCollectionPaymentByGroupIdAndDate() {
+
         //Given
         Long groupId = 20L;
         String requestDate = "2022-09-02T12:00:00.000+03:00";
@@ -172,6 +175,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
     @Test
     public void retrieveCollectionPaymentMonthlyByStore() {
+
         //Given
         Long storeId = 25L;
         Long driverId = 315L;
@@ -200,6 +204,40 @@ public class CollectionPaymentControllerTest extends AbstractIT {
                 .containsExactlyInAnyOrder(
                         tuple(315L, 20L, 25L, new BigDecimal("34.00"), new BigDecimal("0.00"), 20000L),
                         tuple(315L, 20L, 25L, new BigDecimal("134.00"), new BigDecimal("0.00"), 20000L)
+                );
+
+    }
+
+    @Test
+    public void getAllCollectionPaymentByStoreIdAndDate(){
+
+        //Given
+        Long storeId = 57L;
+        String fistDate = LocalDate.now().minusDays(3L).toString();
+        String lastDate = LocalDate.now().plusDays(5L).toString();
+
+        createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(75), BigDecimal.valueOf(0), ZonedDateTime.now());
+        createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(35), ZonedDateTime.now());
+        createCollectionPaymentRecord(350L, 33L, 20000L, 20L, BigDecimal.valueOf(20), BigDecimal.valueOf(25), ZonedDateTime.now());
+        createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(0), ZonedDateTime.now());
+        createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(0),ZonedDateTime.now().plusDays(8L));
+        createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(0),ZonedDateTime.now().minusDays(6L));
+
+        //When
+        ResponseEntity<List<CollectionPayment>> response = testRestTemplate.exchange(
+                "/api/v1/collection-payment/all/{storeId}?firstDate={firstDate}&lastDate={lastDate}",
+                HttpMethod.GET, new HttpEntity<>(null, null),
+                new ParameterizedTypeReference<>() {
+                }, storeId, fistDate, lastDate);
+
+        //Then
+        assertEquals(HttpStatus.OK,response.getStatusCode());
+        assertThat(response.getBody()).isNotNull().hasSize(3)
+                .extracting("groupId", "storeId", "cash", "pos")
+                .containsExactlyInAnyOrder(
+                        tuple(20L, 57L, new BigDecimal("75.00"), new BigDecimal("0.00")),
+                        tuple(20L, 57L, new BigDecimal("0.00"), new BigDecimal("35.00")),
+                        tuple(20L, 57L, new BigDecimal("0.00"), new BigDecimal("0.00"))
                 );
 
     }
