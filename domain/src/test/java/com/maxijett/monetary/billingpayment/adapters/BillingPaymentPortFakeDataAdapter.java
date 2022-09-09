@@ -1,6 +1,7 @@
 package com.maxijett.monetary.billingpayment.adapters;
 
 import com.maxijett.monetary.billingpayment.model.BillingPayment;
+import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
@@ -89,6 +90,16 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
                 .storeId(storeId)
                 .amount(BigDecimal.valueOf(30.05))
                 .build());
+        return billings;
+    }
+
+    @Override
+    public List<BillingPayment> retrieveBillingPaymentListByDateBetweenAndStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate){
+
+        storeId = 111L;
+        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CASH).amount(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(2L)).build());
+        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CASH).amount(BigDecimal.valueOf(55.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(1L)).build());
+        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CREDIT_CARD).amount(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now()).build());
         return billings;
     }
 

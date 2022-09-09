@@ -124,5 +124,17 @@ public class CollectionPaymentFakeDataAdapter implements CollectionPaymentPort {
         );
     }
 
+    @Override
+    public List<CollectionPayment> retrieveCollectionPaymentListByStoreIdAndDates(Long storeId, ZonedDateTime firstDate, ZonedDateTime lastDate) {
+
+        return List.of(CollectionPayment.builder()
+                .storeId(storeId)
+                .pos(BigDecimal.ZERO)
+                .cash(BigDecimal.valueOf(10))
+                .pos(BigDecimal.valueOf(65))
+                .createOn(ZonedDateTime.now())
+                .build());
+    }
+
 
 }

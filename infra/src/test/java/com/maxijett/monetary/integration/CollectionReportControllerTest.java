@@ -2,8 +2,7 @@ package com.maxijett.monetary.integration;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
-import com.maxijett.monetary.collectionreport.model.CollectionReport;
-import com.maxijett.monetary.collectionreport.model.DriverDailyBonus;
+import com.maxijett.monetary.collectionreport.model.*;
 import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -82,6 +81,58 @@ public class CollectionReportControllerTest extends AbstractIT {
                         tuple(storeId, 12345L, "1000", new BigDecimal("120.00"), new BigDecimal("52.00"), 315L, new BigDecimal("10.00"), new BigDecimal("0.00"), 1045, new BigDecimal("0.00"), 201L, WarmthType.HOT),
                         tuple(storeId, 12345L, "1001", new BigDecimal("130.00"), new BigDecimal("52.00"), 315L, new BigDecimal("10.00"), new BigDecimal("10.00"), 1055, new BigDecimal("0.00"), 201L, WarmthType.COLD)
                 );
+    }
+
+    @Test
+    public void retrieveCollectionReportAccrualValueByDateBetweenAndStore(){
+
+        //Given
+        Long clientId = 20000L;
+        BigDecimal ratePos = BigDecimal.valueOf(0.51);
+        BigDecimal rateCash = BigDecimal.valueOf(0.96);
+        LocalDate startDate = LocalDate.of(2022, 4, 1);
+        LocalDate endDate = LocalDate.of(2022, 5, 1);
+
+        createCollectionReportCommissionConstantCashRecord(rateCash, ZonedDateTime.parse("2022-03-20T00:00:00.000Z"), ZonedDateTime.parse("2022-04-10T23:59:59.999Z"), clientId); //+
+        createCollectionReportCommissionConstantCashRecord(BigDecimal.valueOf(0.65), ZonedDateTime.parse("2022-04-11T00:00:00.000Z"), ZonedDateTime.parse("2022-04-16T23:59:59.999Z"), clientId); //+
+        createCollectionReportCommissionConstantCashRecord(rateCash, ZonedDateTime.parse("2022-05-01T00:00:00.000Z"), ZonedDateTime.parse("2022-05-01T23:59:59.999Z"), clientId); //+
+        createCollectionReportCommissionConstantCashRecord(rateCash, ZonedDateTime.parse("2022-05-02T05:00:00.000Z"), ZonedDateTime.parse("2500-01-01T00:00:00.000Z"), clientId); //-
+
+        createCollectionReportCommissionConstantPosRecord(ratePos, ZonedDateTime.parse("2022-04-11T08:00:00.000Z"), ZonedDateTime.parse("2022-04-16T08:00:00.000Z"), clientId); //+
+        createCollectionReportCommissionConstantPosRecord(BigDecimal.valueOf(0.55), ZonedDateTime.parse("2022-04-16T08:00:00.000Z"), ZonedDateTime.parse("2022-04-30T08:00:00.000Z"), clientId); //+
+        createCollectionReportCommissionConstantPosRecord(ratePos, ZonedDateTime.parse("2022-04-30T08:00:00.000Z"), ZonedDateTime.parse("2022-05-15T08:00:00.000Z"), 20001L); //-
+
+        //When
+        ResponseEntity<CommissionConstantAccrualValue> response = testRestTemplate.exchange("/api/v1/collection-report/accrual-value/{clientId}/date-range?startDate={startDate}&endDate={endDate}",
+                HttpMethod.GET, new HttpEntity<>(null, null),
+                new ParameterizedTypeReference<>() {
+                }, clientId, startDate, endDate);
+
+        //Then
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        List<CommissionConstantPos> commissionConstantPosList = response.getBody().getCommissionConstantPosList();
+        List<CommissionConstantCash> commissionConstantCashList = response.getBody().getCommissionConstantCashList();
+
+        assertThat(commissionConstantPosList).isNotNull().hasSize(2)
+                .extracting("rate", "clientId")
+                .containsExactlyInAnyOrder(
+                        tuple(ratePos, clientId),
+                        tuple(BigDecimal.valueOf(0.55), clientId)
+                );
+
+        assertThat(commissionConstantPosList.get(0).getEndTime().toLocalDate()).isBetween(startDate, endDate);
+        assertThat(commissionConstantPosList.get(1).getEndTime().toLocalDate()).isBetween(startDate, endDate);
+
+        assertThat(response.getBody().getCommissionConstantCashList()).isNotNull().hasSize(3)
+                .extracting("rate", "clientId")
+                .containsExactlyInAnyOrder(
+                        tuple(rateCash, clientId),
+                        tuple(rateCash, clientId),
+                        tuple(BigDecimal.valueOf(0.65), clientId)
+                );
+        assertThat(commissionConstantCashList.get(0).getEndTime().toLocalDate()).isBetween(startDate, endDate);
+        assertThat(commissionConstantCashList.get(1).getEndTime().toLocalDate()).isBetween(startDate, endDate);
+        assertThat(commissionConstantCashList.get(2).getEndTime().toLocalDate()).isBetween(startDate, endDate);
     }
 
 

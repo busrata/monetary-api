@@ -80,4 +80,9 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
         return billingPaymentRepository.getAllMonthlyByStore(storeId, requestDate.getYear(), requestDate.getMonthValue()).stream().map(BillingPaymentEntity::toModel).collect(Collectors.toList());
     }
 
+    @Override
+    public List<BillingPayment> retrieveBillingPaymentListByDateBetweenAndStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate) {
+        return billingPaymentRepository.findAllByStoreIdAndCreateOnBetween(storeId, startDate, endDate).stream().map(BillingPaymentEntity::toModel).collect(Collectors.toList());
+    }
+
 }

@@ -19,7 +19,7 @@ import java.util.List;
 
 @DomainComponent
 @RequiredArgsConstructor
-public class GetDailyBonusUseCaseHandler implements
+public class DailyBonusGetUseCaseHandler implements
         UseCaseHandler<DriverDailyBonus, DriverGetDailyBonus> {
 
 

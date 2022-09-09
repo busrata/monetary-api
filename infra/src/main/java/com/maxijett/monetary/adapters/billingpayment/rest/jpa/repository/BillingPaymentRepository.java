@@ -19,6 +19,9 @@ public interface BillingPaymentRepository extends JpaRepository<BillingPaymentEn
 
     List<BillingPaymentEntity> findAllByGroupIdAndCreateOnBetween(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
-    @Query("select b from BillingPaymentEntity b where (b.storeId) =:storeId and year(b.createOn) =:year and month(b.createOn) =:month")
-    List<BillingPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
+  @Query("select b from BillingPaymentEntity b where (b.storeId) =:storeId and year(b.createOn) =:year and month(b.createOn) =:month")
+  List<BillingPaymentEntity> getAllMonthlyByStore(@Param("storeId") Long storeId, @Param("year") int year, @Param("month") int month);
+
+  List<BillingPaymentEntity> findAllByStoreIdAndCreateOnBetween(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate);
+
 }

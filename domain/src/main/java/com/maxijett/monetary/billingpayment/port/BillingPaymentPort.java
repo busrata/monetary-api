@@ -20,4 +20,6 @@ public interface BillingPaymentPort {
     List<BillingPayment> getAllByGroupIdAndCreateOn(Long groupId, ZonedDateTime startTime, ZonedDateTime endTime);
 
     List<BillingPayment> retrieveBillingPaymentMonthlyByStore(Long storeId, ZonedDateTime requestDate);
+
+    List<BillingPayment> retrieveBillingPaymentListByDateBetweenAndStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate);
 }
