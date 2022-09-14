@@ -5,6 +5,7 @@ import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.collectionreport.port.CollectionReportPort;
 
 import java.math.BigDecimal;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -36,12 +37,48 @@ public class CollectionReportFakeDataAdapter implements CollectionReportPort {
     public List<CollectionReport> getListByPaymentDateAndNightShift(Long driverId,
                                                                     ZonedDateTime startDate, ZonedDateTime endDate, int startHour, int minute, int endHour) {
         return List.of(
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build(),
-                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.now()).build()
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC"))).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC"))).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC"))).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC"))).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC"))).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(1)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(1)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(1)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build(),
+                CollectionReport.builder().driverId(1L).groupId(20L).paymentDate(ZonedDateTime.of(2022,8,01,00,00,00,00,
+                        ZoneId.of("UTC")).plusDays(2)).build()
         );
     }
 

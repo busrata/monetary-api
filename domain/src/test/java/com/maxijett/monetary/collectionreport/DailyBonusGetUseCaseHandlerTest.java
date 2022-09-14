@@ -77,5 +77,23 @@ public class DailyBonusGetUseCaseHandlerTest {
 
     }
 
+    @Test
+    public void calculateDailyBonusNightShiftMultipleDay(){
+
+        //Given
+        DriverGetDailyBonus driverGetDailyBonus = DriverGetDailyBonus.builder()
+                .driverId(1L)
+                .isRequestForMobil(false)
+                .startDate(LocalDate.of(2022, 8, 01))
+                .endDate(LocalDate.of(2022,8,04))
+                .build();
+
+        //When
+        DriverDailyBonus response = handler.handle(driverGetDailyBonus);
+
+        //Then
+        assertEquals(BigDecimal.valueOf(49.5), response.getNightShiftDailyBonus());
+    }
+
 
 }
