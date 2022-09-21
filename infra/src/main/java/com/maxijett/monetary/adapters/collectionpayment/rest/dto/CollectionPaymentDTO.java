@@ -17,19 +17,19 @@ public class CollectionPaymentDTO {
 
     private Long id;
     private Long storeId;
-    private Long driverId;
-    private BigDecimal cash;
-    private BigDecimal pos;
+    private Long courierId;
+    private BigDecimal paymentCash;
+    private BigDecimal paymentPos;
     private ZonedDateTime date;
     private Long groupId;
     private Long clientId;
 
     public CollectionPaymentCreate toUseCase() {
         return CollectionPaymentCreate.builder()
-                .pos(getPos())
-                .cash(getCash())
+                .pos(getPaymentPos())
+                .cash(getPaymentCash())
                 .storeId(getStoreId())
-                .driverId(getDriverId())
+                .driverId(getCourierId())
                 .date(getDate())
                 .clientId(getClientId())
                 .groupId(getGroupId()).build();

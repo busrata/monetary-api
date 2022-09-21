@@ -40,9 +40,9 @@ public class CollectionPaymentControllerTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(20L)
                 .storeId(200L)
-                .cash(BigDecimal.valueOf(84))
+                .paymentCash(BigDecimal.valueOf(84))
                 .date(ZonedDateTime.now())
-                .driverId(1L)
+                .courierId(1L)
                 .build();
 
         //When
@@ -54,8 +54,8 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         CollectionPayment collectionPayment = response.getBody();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(collectionPaymentDTO.getCash(), collectionPayment.getCash());
-        assertEquals(collectionPaymentDTO.getDriverId(), collectionPayment.getDriverId());
+        assertEquals(collectionPaymentDTO.getPaymentCash(), collectionPayment.getCash());
+        assertEquals(collectionPaymentDTO.getCourierId(), collectionPayment.getDriverId());
         assertEquals(collectionPaymentDTO.getStoreId(), collectionPayment.getStoreId());
         assertEquals(collectionPaymentDTO.getGroupId(), collectionPayment.getGroupId());
         assertNotNull(collectionPayment.getId());
@@ -71,8 +71,8 @@ public class CollectionPaymentControllerTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(20L)
                 .storeId(200L)
-                .pos(BigDecimal.valueOf(84))
-                .cash(BigDecimal.ZERO)
+                .paymentPos(BigDecimal.valueOf(84))
+                .paymentCash(BigDecimal.ZERO)
                 .date(ZonedDateTime.now())
                 .build();
 
@@ -85,7 +85,7 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         CollectionPayment collectionPayment = response.getBody();
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(collectionPaymentDTO.getPos(), collectionPayment.getPos());
+        assertEquals(collectionPaymentDTO.getPaymentPos(), collectionPayment.getPos());
         assertEquals(BigDecimal.ZERO, collectionPayment.getCash());
         assertEquals(collectionPaymentDTO.getStoreId(), collectionPayment.getStoreId());
         assertEquals(collectionPaymentDTO.getGroupId(), collectionPayment.getGroupId());
