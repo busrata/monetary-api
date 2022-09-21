@@ -19,4 +19,5 @@ public class DriverCash {
     private BigDecimal cash;
     private Long clientId;
     private BigDecimal prepaidCollectionCash;
+
 }

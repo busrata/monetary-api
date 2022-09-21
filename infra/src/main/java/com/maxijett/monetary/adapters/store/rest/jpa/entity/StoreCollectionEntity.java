@@ -1,6 +1,8 @@
 package com.maxijett.monetary.adapters.store.rest.jpa.entity;
 
+import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.store.model.StoreCollection;
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,6 +45,16 @@ public class StoreCollectionEntity {
     @Column(name = "balance_limit", columnDefinition = "Decimal(10,2) default '0.00'")
     private BigDecimal balanceLimit;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "warmth_type", nullable = false)
+    private WarmthType warmthType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "record_type",nullable = false)
+    private RecordType recordType;
+
+    //!!morning sgift ve night shift
+
     public StoreCollection toModel() {
         return StoreCollection.builder()
                 .id(getId())
@@ -52,6 +64,8 @@ public class StoreCollectionEntity {
                 .clientId(getClientId())
                 .pos(getPos())
                 .tariffType(getTariffType())
-                .balanceLimit(getBalanceLimit()).build();
+                .balanceLimit(getBalanceLimit())
+                .warmthType(getWarmthType())
+                .build();
     }
 }

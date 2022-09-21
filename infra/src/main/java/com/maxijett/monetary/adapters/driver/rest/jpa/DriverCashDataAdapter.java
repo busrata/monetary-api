@@ -63,7 +63,7 @@ public class DriverCashDataAdapter implements DriverCashPort {
         DriverPaymentTransactionEntity entity = new DriverPaymentTransactionEntity();
         entity.setDriverId(driverPaymentTransaction.getDriverId());
         entity.setGroupId(driverPaymentTransaction.getGroupId());
-        entity.setPaymentCash(driverPaymentTransaction.getPaymentCash());
+        entity.setCash(driverPaymentTransaction.getCash());
         entity.setDateTime(driverPaymentTransaction.getDateTime());
         entity.setOrderNumber(driverPaymentTransaction.getOrderNumber());
         entity.setEventType(driverPaymentTransaction.getEventType());

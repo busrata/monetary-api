@@ -138,7 +138,7 @@ public class DriverCashControllerTest extends AbstractIT {
 
 
         assertThat(responseTransactions).isNotNull().hasSize(3)
-                .extracting("driverId", "groupId", "paymentCash", "eventType")
+                .extracting("driverId", "groupId", "cash", "eventType")
                 .containsExactlyInAnyOrder(
                         tuple(1L, 20L, new BigDecimal("45.25"), DriverEventType.PACKAGE_DELIVERED),
                         tuple(1L, 20L, new BigDecimal("40.50"), DriverEventType.PACKAGE_DELIVERED),

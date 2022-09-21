@@ -1,5 +1,6 @@
 package com.maxijett.monetary.adapters.collectionreport.rest.jpa.entity;
 
+import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.collectionreport.model.CollectionReport;
 import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import lombok.Getter;
@@ -61,6 +62,10 @@ public class CollectionReportEntity {
     @Column(name = "warmth_type", nullable = false)
     @Enumerated(EnumType.STRING)
     private WarmthType warmthType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false)
+    private PaymentType paymentMethod;
 
     public CollectionReport toModel() {
         return CollectionReport.builder()

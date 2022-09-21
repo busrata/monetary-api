@@ -64,7 +64,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
 
     private void rollbackTransactionsForSupport(String orderNumber, Long driverId, StoreCollection storeCollection, DriverCash driverCash) {
         driverPaymentTransactionPort.findTransactionForRollback(orderNumber, List.of(DriverEventType.PACKAGE_DELIVERED, DriverEventType.SUPPORT_ACCEPTED)).ifPresent(transaction -> {
-            driverCash.setCash(driverCash.getCash().subtract(transaction.getPaymentCash()));
+            driverCash.setCash(driverCash.getCash().subtract(transaction.getCash()));
             driverCashPort.update(driverCash, buildDriverRollbackTransaction(transaction));
         });
 
@@ -92,7 +92,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
 
     private DriverPaymentTransaction buildDriverRollbackTransaction(DriverPaymentTransaction transaction) {
         return DriverPaymentTransaction.builder()
-                .paymentCash(transaction.getPaymentCash())
+                .cash(transaction.getCash())
                 .eventType(DriverEventType.REFUND_OF_PAYMENT)
                 .orderNumber(transaction.getOrderNumber())
                 .dateTime(ZonedDateTime.now(ZoneOffset.UTC))
@@ -106,7 +106,7 @@ public class AddPaymentToDriverAndStoreUseCaseHandler implements VoidUseCaseHand
     private DriverPaymentTransaction buildDriverPaymentTransaction(OrderPayment useCase) {
         return DriverPaymentTransaction.builder()
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-                .paymentCash(useCase.getCash())
+                .cash(useCase.getCash())
                 .driverId(useCase.getDriverId())
                 .groupId(useCase.getGroupId())
                 .orderNumber(useCase.getOrderNumber())

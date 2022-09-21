@@ -69,7 +69,7 @@ public class DriverCashDataAdapterTest extends AbstractIT {
                 .driverId(1L)
                 .groupId(20L)
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
-                .paymentCash(BigDecimal.valueOf(12))
+                .cash(BigDecimal.valueOf(12))
                 .eventType(DriverEventType.REFUND_OF_PAYMENT)
                 .orderNumber("12345678")
                 .clientId(20000L)

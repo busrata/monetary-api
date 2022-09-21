@@ -2,6 +2,7 @@ package com.maxijett.monetary.integration;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
+import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.collectionreport.model.*;
 import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import org.junit.jupiter.api.Test;
@@ -58,12 +59,12 @@ public class CollectionReportControllerTest extends AbstractIT {
         LocalDate startDate = LocalDate.of(2022, 4, 1);
         LocalDate endDate = LocalDate.of(2022, 4, 18);
 
-        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-01T08:47:00.000Z"), storeId, "1000", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.ZERO, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
-        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-18T08:47:00.000Z"), storeId, "1001", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1055, BigDecimal.ZERO, 201L, WarmthType.COLD);
+        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-01T08:47:00.000Z"), storeId, "1000", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.ZERO, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.CASH);
+        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-18T08:47:00.000Z"), storeId, "1001", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1055, BigDecimal.ZERO, 201L, WarmthType.COLD, PaymentType.MIX);
 
-        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-18T08:47:00.000Z"), 30L, "1002", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
-        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
-        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-18T08:47:00.000Z"), 30L, "1002", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT,PaymentType.MIX);
+        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT,PaymentType.CASH);
+        createCollectionReportRecord(12345L, ZonedDateTime.parse("2022-04-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(130), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.CREDIT_CARD);
 
         //When
         ResponseEntity<List<CollectionReport>> response = testRestTemplate.exchange("/api/v1/collection-report/{storeId}/date-range?startDate={startDate}&endDate={endDate}",
@@ -140,11 +141,11 @@ public class CollectionReportControllerTest extends AbstractIT {
         Long storeId = 37L;
         LocalDate requestDate = LocalDate.of(2022, 2, 1);
 
-        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
-        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), storeId, "1003", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.MIX);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-20T08:47:00.000Z"), storeId, "1004", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.CREDIT_CARD);
 
-        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), 67L, "1005", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
-        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-03-20T08:47:00.000Z"), storeId, "1006", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-02-19T08:47:00.000Z"), 67L, "1005", BigDecimal.valueOf(110), BigDecimal.valueOf(52), 315L, BigDecimal.TEN, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.MIX);
+        createCollectionReportRecord(20000L, ZonedDateTime.parse("2022-03-20T08:47:00.000Z"), storeId, "1006", BigDecimal.valueOf(120), BigDecimal.valueOf(52), 315L, BigDecimal.ZERO, BigDecimal.TEN, 1045, BigDecimal.ZERO, 201L, WarmthType.HOT, PaymentType.CREDIT_CARD);
 
 
         //When

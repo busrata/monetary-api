@@ -4,6 +4,7 @@ import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.port.CashBoxPort;
 
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +15,8 @@ public class CashBoxFakeDataAdapter implements CashBoxPort {
 
     @Override
     public CashBox retrieve(Long groupId) {
-        return CashBox.builder().id(1L).clientId(20000L).userId(2L).groupId(groupId).cash(BigDecimal.valueOf(250)).build();
+        return CashBox.builder().id(1L).clientId(20000L).userId(2L).groupId(groupId).recordType(
+                RecordType.ACTIVE).cash(BigDecimal.valueOf(250)).build();
     }
 
     @Override

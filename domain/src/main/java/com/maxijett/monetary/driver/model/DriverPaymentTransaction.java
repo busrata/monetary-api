@@ -24,7 +24,7 @@ public class DriverPaymentTransaction implements Serializable {
 
     private Long driverId;
 
-    private BigDecimal paymentCash;
+    private BigDecimal cash;
 
     private Long userId;
 

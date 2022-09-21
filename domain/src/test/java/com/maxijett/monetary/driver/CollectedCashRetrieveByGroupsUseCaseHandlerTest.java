@@ -41,7 +41,7 @@ public class CollectedCashRetrieveByGroupsUseCaseHandlerTest {
 
         //Then
         assertThat(actualPaymentTransactions).isNotNull().hasSize(2)
-                .extracting("driverId", "groupId", "paymentCash", "eventType")
+                .extracting("driverId", "groupId", "cash", "eventType")
                 .containsExactlyInAnyOrder(
                         tuple(1L, 20L, BigDecimal.valueOf(100.05), DriverEventType.PACKAGE_DELIVERED),
                         tuple(1L, 20L, BigDecimal.valueOf(48.02), DriverEventType.SUPPORT_ACCEPTED)

@@ -48,6 +48,7 @@ public class CashBoxDataAdapter implements CashBoxPort {
         entity.setGroupId(cashBox.getGroupId());
         entity.setUserId(cashBox.getUserId());
         entity.setCash(cashBox.getCash());
+        entity.setRecordType(cashBox.getRecordType());
         return entity;
     }
 

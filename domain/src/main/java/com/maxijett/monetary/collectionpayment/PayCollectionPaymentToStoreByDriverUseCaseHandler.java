@@ -45,7 +45,7 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
         driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
                 .eventType(DriverEventType.DRIVER_PAY)
                 .driverId(useCase.getDriverId())
-                .paymentCash(useCase.getCash())
+                .cash(useCase.getCash())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
                 .groupId(useCase.getGroupId())
                 .clientId(useCase.getClientId())

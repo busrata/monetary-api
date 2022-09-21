@@ -30,7 +30,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandler implements
         driverCash.setPrepaidCollectionCash(driverCash.getPrepaidCollectionCash().add(useCase.getPrePaidBillingAmount()));
         driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
                 .driverId(useCase.getDriverId())
-                .paymentCash(useCase.getPrePaidBillingAmount())
+                .cash(useCase.getPrePaidBillingAmount())
                 .eventType(DriverEventType.COLD_STORE_COLLECTION)
                 .groupId(useCase.getGroupId())
                 .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))

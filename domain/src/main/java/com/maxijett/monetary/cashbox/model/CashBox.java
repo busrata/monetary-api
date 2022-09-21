@@ -1,5 +1,6 @@
 package com.maxijett.monetary.cashbox.model;
 
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,4 +18,6 @@ public class CashBox {
     private BigDecimal cash;
     private Long clientId;
     private Long userId;
+    private RecordType recordType;
+
 }

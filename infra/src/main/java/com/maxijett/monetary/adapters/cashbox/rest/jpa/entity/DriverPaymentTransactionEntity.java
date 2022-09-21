@@ -31,8 +31,8 @@ public class DriverPaymentTransactionEntity {
     @Column(name = "driver_id", nullable = false)
     private Long driverId;
 
-    @Column(name = "payment_cash", nullable = false)
-    private BigDecimal paymentCash;
+    @Column(name = "cash", nullable = false)
+    private BigDecimal cash;
 
     @Column(name = "user_id")
     private Long userId;
@@ -52,7 +52,7 @@ public class DriverPaymentTransactionEntity {
     public DriverPaymentTransaction toModel() {
         return DriverPaymentTransaction.builder()
                 .groupId(getGroupId())
-                .paymentCash(getPaymentCash())
+                .cash(getCash())
                 .driverId(getDriverId())
                 .eventType(getEventType())
                 .dateTime(getDateTime())

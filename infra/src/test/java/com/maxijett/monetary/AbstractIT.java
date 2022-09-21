@@ -18,6 +18,7 @@ import com.maxijett.monetary.billingpayment.model.enumeration.PayloadType;
 import com.maxijett.monetary.billingpayment.model.enumeration.PaymentType;
 import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.driver.model.enumeration.DriverEventType;
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import com.maxijett.monetary.store.model.enumeration.TariffType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -63,7 +64,7 @@ public abstract class AbstractIT {
         entity.setGroupId(groupId);
         entity.setDateTime(dateTime);
         entity.setEventType(eventType);
-        entity.setPaymentCash(cashAmount);
+        entity.setCash(cashAmount);
 
         driverPaymentTransactionRepository.save(entity);
     }
@@ -84,7 +85,7 @@ public abstract class AbstractIT {
     }
 
     protected void createStoreCollectionRecord(Long storeId, Long groupId, BigDecimal cash,
-                                               BigDecimal pos, TariffType tariffType, Long clientId, BigDecimal balanceLimit) {
+                                               BigDecimal pos, TariffType tariffType, Long clientId, BigDecimal balanceLimit, RecordType recordType, WarmthType warmthType) {
         StoreCollectionEntity entity = new StoreCollectionEntity();
         entity.setStoreId(storeId);
         entity.setGroupId(groupId);
@@ -93,6 +94,8 @@ public abstract class AbstractIT {
         entity.setTariffType(tariffType);
         entity.setClientId(clientId);
         entity.setBalanceLimit(balanceLimit);
+        entity.setRecordType(recordType);
+        entity.setWarmthType(warmthType);
 
         storeCollectionRepository.save(entity);
     }
@@ -116,7 +119,7 @@ public abstract class AbstractIT {
 
     protected void createCollectionReportRecord(Long clientId, ZonedDateTime paymentDate, Long storeId, String orderNumber, BigDecimal cash, BigDecimal cashCommission,
                                                 Long driverId, BigDecimal pos, BigDecimal distanceFee, int deliveryDistance, BigDecimal posCommission,
-                                                Long groupId, WarmthType warmthType) {
+                                                Long groupId, WarmthType warmthType, PaymentType paymentMethod) {
 
         CollectionReportEntity entity = new CollectionReportEntity();
         entity.setClientId(clientId);
@@ -132,6 +135,7 @@ public abstract class AbstractIT {
         entity.setPosCommission(posCommission);
         entity.setGroupId(groupId);
         entity.setWarmthType(warmthType);
+        entity.setPaymentMethod(PaymentType.CASH);
 
         collectionReportRepository.save(entity);
     }

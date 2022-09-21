@@ -24,7 +24,7 @@ public class DriverPaymentTransactionDataAdapter implements DriverPaymentTransac
     public Long createTransaction(DriverPaymentTransaction from) {
         var driverPaymentTransactionEntity = new DriverPaymentTransactionEntity();
         driverPaymentTransactionEntity.setDriverId(from.getDriverId());
-        driverPaymentTransactionEntity.setPaymentCash(from.getPaymentCash());
+        driverPaymentTransactionEntity.setCash(from.getCash());
         driverPaymentTransactionEntity.setDateTime(from.getDateTime());
         driverPaymentTransactionEntity.setEventType(DriverEventType.ADMIN_GET_PAID);
         driverPaymentTransactionEntity.setGroupId(from.getGroupId());

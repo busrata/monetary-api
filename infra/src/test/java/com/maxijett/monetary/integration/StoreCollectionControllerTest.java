@@ -6,8 +6,10 @@ import static org.assertj.core.api.Assertions.tuple;
 
 import com.maxijett.monetary.AbstractIT;
 import com.maxijett.monetary.IT;
+import com.maxijett.monetary.collectionreport.model.enumerations.WarmthType;
 import com.maxijett.monetary.store.model.StoreCashAndBalanceLimit;
 import com.maxijett.monetary.store.model.StoreCollection;
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
@@ -34,11 +36,11 @@ public class StoreCollectionControllerTest extends AbstractIT {
         Long clientId = 2000L;
 
         createStoreCollectionRecord(200L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
-                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(250));
+                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(250), RecordType.ACTIVE, WarmthType.HOT );
         createStoreCollectionRecord(300L, 20L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
-                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(350));
+                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(350),RecordType.ACTIVE, WarmthType.HOT);
         createStoreCollectionRecord(400L, 20L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
-                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(450));
+                TariffType.TAXIMETER_HOT, 2000L, BigDecimal.valueOf(450),RecordType.ACTIVE, WarmthType.COLD);
 
         //When
         ResponseEntity<List<StoreCollection>> response = testRestTemplate.exchange(
@@ -89,11 +91,11 @@ public class StoreCollectionControllerTest extends AbstractIT {
         Long groupId = 30L;
 
         createStoreCollectionRecord(200L, 30L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
-                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(250));
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(250),RecordType.ACTIVE, WarmthType.HOT);
         createStoreCollectionRecord(300L, 30L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
-                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(350));
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(350),RecordType.ACTIVE, WarmthType.HOT);
         createStoreCollectionRecord(400L, 30L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
-                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(450));
+                TariffType.TAXIMETER_HOT, 30000L, BigDecimal.valueOf(450),RecordType.ACTIVE, WarmthType.COLD);
 
         //When
         ResponseEntity<List<StoreCollection>> response = testRestTemplate.exchange(
@@ -144,11 +146,11 @@ public class StoreCollectionControllerTest extends AbstractIT {
         Long groupId = 40L;
 
         createStoreCollectionRecord(200L, 40L, BigDecimal.valueOf(0), BigDecimal.valueOf(140),
-                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(250));
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(250),RecordType.ACTIVE, WarmthType.HOT);
         createStoreCollectionRecord(300L, 40L, BigDecimal.valueOf(60), BigDecimal.valueOf(80),
-                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(350));
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(350),RecordType.ACTIVE, WarmthType.HOT);
         createStoreCollectionRecord(400L, 40L, BigDecimal.valueOf(90), BigDecimal.valueOf(100),
-                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(450));
+                TariffType.TAXIMETER_HOT, 40000L, BigDecimal.valueOf(450),RecordType.ACTIVE, WarmthType.COLD);
 
         //When
         ResponseEntity<List<StoreCashAndBalanceLimit>> response = testRestTemplate.exchange(

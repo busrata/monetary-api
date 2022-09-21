@@ -7,6 +7,7 @@ import com.maxijett.monetary.cashbox.model.CashBox;
 import com.maxijett.monetary.cashbox.model.CashBoxTransaction;
 import com.maxijett.monetary.cashbox.model.enumaration.CashBoxEventType;
 import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,7 @@ public class CashBoxDataAdapterTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(20L)
                 .userId(1L)
+                .recordType(RecordType.ACTIVE)
                 .build();
 
         CashBoxTransaction cashBoxTransaction = CashBoxTransaction.builder()

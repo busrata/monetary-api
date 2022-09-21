@@ -2,6 +2,7 @@ package com.maxijett.monetary.adapters.cashbox.rest.jpa.entity;
 
 
 import com.maxijett.monetary.cashbox.model.CashBox;
+import com.maxijett.monetary.store.model.enumeration.RecordType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,6 +34,10 @@ public class CashBoxEntity {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "record_type", nullable = false)
+    private RecordType recordType;
+
     public CashBox toModel() {
         return CashBox.builder()
                 .id(getId())
@@ -40,6 +45,7 @@ public class CashBoxEntity {
                 .groupId(getGroupId())
                 .clientId(getClientId())
                 .cash(getCash())
+                .recordType(getRecordType())
                 .build();
     }
 }
