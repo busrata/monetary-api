@@ -37,11 +37,9 @@ public class CollectionPaymentControllerTest extends AbstractIT {
         //Given
         CollectionPaymentDTO collectionPaymentDTO = CollectionPaymentDTO.builder()
                 .id(101L)
-                .clientId(20000L)
                 .groupId(20L)
                 .storeId(200L)
                 .paymentCash(BigDecimal.valueOf(84))
-                .date(ZonedDateTime.now())
                 .courierId(1L)
                 .build();
 

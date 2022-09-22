@@ -37,9 +37,12 @@ public class PayCollectionPaymentToStoreByDriverUseCaseHandler implements
     @Transactional
     public CollectionPayment handle(CollectionPaymentCreate useCase) {
 
-        CollectionPayment collectionPayment = collectionPaymentPort.create(useCase);
-
         DriverCash driverCash = driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
+
+        useCase.setClientId(driverCash.getClientId());
+        useCase.setDate(ZonedDateTime.now());
+
+        CollectionPayment collectionPayment = collectionPaymentPort.create(useCase);
 
         driverCash.setCash(driverCash.getCash().subtract(useCase.getCash()));
         driverCashPort.update(driverCash, DriverPaymentTransaction.builder()
