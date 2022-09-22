@@ -31,6 +31,8 @@ public class AddCashToCashBoxUseCaseHandler implements UseCaseHandler<CashBox, C
     @Override
     public CashBox handle(CashBoxAdd useCase) {
 
+        useCase.setCreateOn(ZonedDateTime.now());
+
         CashBox cashBox = cashBoxPort.retrieve(useCase.getGroupId());
         DriverCash driverCash = driverCashPort.retrieve(useCase.getDriverId(), useCase.getGroupId());
 

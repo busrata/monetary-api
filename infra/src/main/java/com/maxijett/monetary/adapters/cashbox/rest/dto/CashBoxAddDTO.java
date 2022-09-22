@@ -20,7 +20,6 @@ public class CashBoxAddDTO {
     private Long groupId;
     private Long clientId;
     private String payingAccount;
-    private BigDecimal prePaidAmount;
 
     public CashBoxAdd toUseCase() {
         return CashBoxAdd.builder()

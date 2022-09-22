@@ -36,9 +36,8 @@ public class CashBoxControllerTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(20L)
                 .payingAccount("cashBox")
-                .prePaidAmount(BigDecimal.ZERO)
                 .amount(BigDecimal.valueOf(100))
-                .createOn(ZonedDateTime.now()).build();
+                .build();
 
 
         //When
@@ -62,9 +61,8 @@ public class CashBoxControllerTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(wrongGroupId)
                 .payingAccount("cashBox")
-                .prePaidAmount(BigDecimal.ZERO)
                 .amount(BigDecimal.valueOf(100))
-                .createOn(ZonedDateTime.now()).build();
+                .build();
 
 
         //When
@@ -87,9 +85,8 @@ public class CashBoxControllerTest extends AbstractIT {
                 .clientId(20000L)
                 .groupId(20L)
                 .payingAccount("StoreChain")
-                .prePaidAmount(BigDecimal.ZERO)
                 .amount(BigDecimal.valueOf(65))
-                .createOn(ZonedDateTime.now()).build();
+                .build();
 
         //When
         var response = testRestTemplate.exchange("/api/v1/cashbox",
