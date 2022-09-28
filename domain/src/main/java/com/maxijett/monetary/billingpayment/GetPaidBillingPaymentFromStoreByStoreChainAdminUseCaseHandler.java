@@ -39,22 +39,22 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
         StoreCollection storeCollection = storeCollectionPort.retrieve(useCase.getStoreId());
 
         if (useCase.getPayloadType().equals(PayloadType.COLLECTION)) {
-            if (useCase.getPaymentType().equals(PaymentType.CASH)) {
+            if (useCase.getCash().compareTo(BigDecimal.ZERO) > 0) {
                 CashBox cashBox = cashBoxPort.retrieve(storeCollection.getGroupId());
-                cashBox.setCash(cashBox.getCash().subtract(useCase.getAmount()));
+                cashBox.setCash(cashBox.getCash().subtract(useCase.getCash()));
 
-                storeCollection.setCash(storeCollection.getCash().subtract(useCase.getAmount()));
+                storeCollection.setCash(storeCollection.getCash().subtract(useCase.getCash()));
 
                 cashBoxPort.update(cashBox, CashBoxTransaction.builder()
                         .dateTime(ZonedDateTime.now(ZoneOffset.UTC))
                         .cashBoxEventType(CashBoxEventType.ADMIN_PAY)
                         .payingAccount(useCase.getPayingAccount())
-                        .amount(useCase.getAmount())
+                        .amount(useCase.getCash())
                         .build());
 
 
-            } else if (useCase.getPaymentType().equals(PaymentType.CREDIT_CARD)) {
-                storeCollection.setPos(storeCollection.getPos().subtract(useCase.getAmount()));
+            } else if (useCase.getPos().compareTo(BigDecimal.ZERO) > 0) {
+                storeCollection.setPos(storeCollection.getPos().subtract(useCase.getPos()));
             }
         }
 
@@ -62,8 +62,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler imple
         storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                 .storeId(useCase.getStoreId())
                 .createOn(ZonedDateTime.now(ZoneOffset.UTC))
-                .pos(useCase.getPaymentType() == PaymentType.CREDIT_CARD ? useCase.getAmount() : BigDecimal.ZERO)
-                .cash(useCase.getPaymentType() == PaymentType.CASH ? useCase.getAmount() : BigDecimal.ZERO)
+                .pos(useCase.getPos())
+                .cash(useCase.getCash())
                 .eventType(StoreEventType.ADMIN_GET_PAID)
                 .clientId(useCase.getClientId())
                 .build());

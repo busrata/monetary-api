@@ -41,9 +41,9 @@ public class BillingPaymentControllerTest extends AbstractIT {
         //Given
         BillingPaymentDTO billingPaymentDTO = BillingPaymentDTO.builder()
                 .storeId(200L)
-                .amount(BigDecimal.valueOf(40))
+                .cash(BigDecimal.valueOf(40))
                 .clientId(20L)
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.COLLECTION)
                 .payingAccount("storeChainAdmin")
                 .createOn(ZonedDateTime.now())
@@ -61,9 +61,9 @@ public class BillingPaymentControllerTest extends AbstractIT {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(actualBilling.getId());
         assertEquals(billingPaymentDTO.getStoreId(), actualBilling.getStoreId());
-        assertEquals(billingPaymentDTO.getPaymentType(), actualBilling.getPaymentType());
+        assertEquals(billingPaymentDTO.getCash(), actualBilling.getCash());
         assertEquals(billingPaymentDTO.getClientId(), actualBilling.getClientId());
-        assertEquals(billingPaymentDTO.getAmount(), actualBilling.getAmount());
+        assertEquals(billingPaymentDTO.getPos(), actualBilling.getPos());
         assertEquals(billingPaymentDTO.getPayingAccount(), actualBilling.getPayingAccount());
         assertEquals(billingPaymentDTO.getPayloadType(), actualBilling.getPayloadType());
 
@@ -75,9 +75,9 @@ public class BillingPaymentControllerTest extends AbstractIT {
         //Given
         BillingPaymentDTO billingPaymentDTO = BillingPaymentDTO.builder()
                 .storeId(200L)
-                .amount(BigDecimal.valueOf(40))
+                .cash(BigDecimal.valueOf(40))
                 .clientId(20L)
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.NETTING)
                 .payingAccount("camlikChainAdmin")
                 .createOn(ZonedDateTime.now())
@@ -96,9 +96,9 @@ public class BillingPaymentControllerTest extends AbstractIT {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(actualBilling.getId());
         assertEquals(billingPaymentDTO.getStoreId(), actualBilling.getStoreId());
-        assertEquals(billingPaymentDTO.getPaymentType(), actualBilling.getPaymentType());
+        assertEquals(billingPaymentDTO.getPos(), actualBilling.getPos());
         assertEquals(billingPaymentDTO.getClientId(), actualBilling.getClientId());
-        assertEquals(billingPaymentDTO.getAmount(), actualBilling.getAmount());
+        assertEquals(billingPaymentDTO.getCash(), actualBilling.getCash());
         assertEquals(billingPaymentDTO.getPayingAccount(), actualBilling.getPayingAccount());
         assertEquals(billingPaymentDTO.getPayloadType(), actualBilling.getPayloadType());
         assertEquals(false, actualBilling.getIsDeleted());
@@ -133,7 +133,7 @@ public class BillingPaymentControllerTest extends AbstractIT {
         //Given
         BillingPaymentPrePaidDTO billingPaymentPrePaidDTO = BillingPaymentPrePaidDTO.builder()
                 .driverId(1L)
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.NETTING)
                 .storeId(200L)
                 .clientId(20000L)
@@ -153,7 +153,7 @@ public class BillingPaymentControllerTest extends AbstractIT {
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(actualBilling.getId());
         assertEquals(billingPaymentPrePaidDTO.getStoreId(), actualBilling.getStoreId());
-        assertEquals(billingPaymentPrePaidDTO.getPaymentType(), actualBilling.getPaymentType());
+        assertEquals(billingPaymentPrePaidDTO.getPrePaidBillingAmount(), actualBilling.getCash());
         assertEquals(billingPaymentPrePaidDTO.getClientId(), actualBilling.getClientId());
         assertEquals(billingPaymentPrePaidDTO.getPayloadType(), actualBilling.getPayloadType());
 
@@ -178,10 +178,10 @@ public class BillingPaymentControllerTest extends AbstractIT {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         List<BillingPayment> body = response.getBody();
         assertThat(body).isNotNull().hasSize(2)
-                .extracting("amount", "paymentType", "groupId")
+                .extracting("cash", "pos", "groupId")
                 .containsExactlyInAnyOrder(
-                        tuple(BigDecimal.valueOf(50.05), PaymentType.CASH, groupId),
-                        tuple(BigDecimal.valueOf(55.05), PaymentType.CREDIT_CARD, groupId)
+                        tuple(BigDecimal.valueOf(50.05), new BigDecimal("0.00"), groupId),
+                        tuple(new BigDecimal("0.00"), BigDecimal.valueOf(55.05), groupId)
                 );
         assertThat(body.get(0).getCreateOn().toString().contains("2022-09-02"));
         assertThat(body.get(1).getCreateOn().toString().contains("2022-09-02"));
@@ -194,10 +194,10 @@ public class BillingPaymentControllerTest extends AbstractIT {
         Long storeId = 222L;
         String requestDate = LocalDate.now().toString();
 
-        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
-        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
-        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.parse("2022-08-02T12:00:00.000Z"), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
-        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
+        createBillingPaymentRecord(222L, 20000L, 50L, BigDecimal.ZERO, ZonedDateTime.parse("2022-08-02T12:00:00.000Z"), "storeChainAdmin", PayloadType.NETTING, BigDecimal.TEN);
+        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
 
 
         //When
@@ -208,10 +208,10 @@ public class BillingPaymentControllerTest extends AbstractIT {
         //Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertThat(response.getBody()).isNotNull().hasSize(2)
-                .extracting("storeId", "amount")
+                .extracting("storeId", "cash", "pos")
                 .containsExactlyInAnyOrder(
-                        tuple(storeId, BigDecimal.valueOf(55.05)),
-                        tuple(storeId, BigDecimal.valueOf(50.05))
+                        tuple(storeId, BigDecimal.valueOf(55.05), new BigDecimal("0.00")),
+                        tuple(storeId, BigDecimal.valueOf(50.05), new BigDecimal("0.00"))
                 );
 
     }
@@ -224,12 +224,12 @@ public class BillingPaymentControllerTest extends AbstractIT {
         String startDate = LocalDate.now().minusDays(5L).toString();
         String endDate = LocalDate.now().toString();
 
-        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now().minusDays(2L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
-        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now().minusDays(1L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
-        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(50.05), ZonedDateTime.now().minusDays(2L), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now().minusDays(1L), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.ZERO, ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, BigDecimal.TEN);
 
-        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.TEN, ZonedDateTime.now().plusDays(1L), "storeChainAdmin", PayloadType.NETTING, PaymentType.CREDIT_CARD);
-        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, PaymentType.CASH);
+        createBillingPaymentRecord(storeId, 20000L, 50L, BigDecimal.ZERO, ZonedDateTime.now().plusDays(1L), "storeChainAdmin", PayloadType.NETTING, BigDecimal.TEN);
+        createBillingPaymentRecord(333L, 20000L, 50L, BigDecimal.valueOf(55.05), ZonedDateTime.now(), "storeChainAdmin", PayloadType.NETTING, BigDecimal.ZERO);
 
 
         //When
@@ -240,11 +240,11 @@ public class BillingPaymentControllerTest extends AbstractIT {
         //Then
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertThat(response.getBody()).isNotNull().hasSize(3)
-            .extracting("storeId", "amount")
+            .extracting("storeId", "cash","pos")
             .containsExactlyInAnyOrder(
-                tuple(storeId, BigDecimal.valueOf(55.05)),
-                tuple(storeId, BigDecimal.valueOf(50.05)),
-                tuple(storeId, new BigDecimal("10.00"))
+                tuple(storeId, BigDecimal.valueOf(55.05), new BigDecimal("0.00")),
+                tuple(storeId, BigDecimal.valueOf(50.05), new BigDecimal("0.00")),
+                tuple(storeId, new BigDecimal("0.00"),new BigDecimal("10.00"))
             );
         assertThat(response.getBody().get(0).getCreateOn().toLocalDate()).isBetween(startDate, endDate);
     }

@@ -22,10 +22,10 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
         billings.add(BillingPayment.builder()
                 .storeId(useCase.getStoreId())
                 .clientId(useCase.getClientId())
-                .amount(useCase.getAmount())
+                .cash(useCase.getCash())
                 .payloadType(useCase.getPayloadType())
                 .payingAccount(useCase.getPayingAccount())
-                .paymentType(useCase.getPaymentType())
+                .pos(useCase.getPos())
                 .isDeleted(false)
                 .build());
         return billings.get(0);
@@ -36,9 +36,9 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
         billings.add(BillingPayment.builder()
                 .storeId(useCase.getStoreId())
                 .clientId(useCase.getClientId())
-                .amount(useCase.getPrePaidBillingAmount())
+                .cash(useCase.getPrePaidBillingAmount())
                 .payloadType(useCase.getPayloadType())
-                .paymentType(useCase.getPaymentType())
+                .pos(BigDecimal.ZERO)
                 .build());
         return billings.get(0);
     }
@@ -48,9 +48,9 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
         return BillingPayment.builder()
                 .id(3L)
                 .isDeleted(false)
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .storeId(30L)
-                .amount(BigDecimal.TEN)
+                .cash(BigDecimal.TEN)
                 .clientId(20L)
                 .payingAccount("storeChainAdmin")
                 .build();
@@ -69,9 +69,9 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
         billings.add(BillingPayment.builder()
                 .id(4L)
                 .isDeleted(false)
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .storeId(30L)
-                .amount(BigDecimal.TEN)
+                .cash(BigDecimal.TEN)
                 .clientId(20L)
                 .payingAccount("storeChainAdmin")
                 .createOn(ZonedDateTime.parse("2022-09-02T05:00:00.000Z"))
@@ -84,9 +84,9 @@ public class BillingPaymentPortFakeDataAdapter implements BillingPaymentPort {
     public List<BillingPayment> retrieveBillingPaymentListByDateBetweenAndStore(Long storeId, ZonedDateTime startDate, ZonedDateTime endDate){
 
         storeId = 111L;
-        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CASH).amount(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(2L)).build());
-        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CASH).amount(BigDecimal.valueOf(55.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(1L)).build());
-        billings.add(BillingPayment.builder().storeId(storeId).paymentType(PaymentType.CREDIT_CARD).amount(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now()).build());
+        billings.add(BillingPayment.builder().storeId(storeId).pos(BigDecimal.ZERO).cash(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(2L)).build());
+        billings.add(BillingPayment.builder().storeId(storeId).pos(BigDecimal.ZERO).cash(BigDecimal.valueOf(55.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now().minusDays(1L)).build());
+        billings.add(BillingPayment.builder().storeId(storeId).cash(BigDecimal.ZERO).pos(BigDecimal.valueOf(50.05)).payloadType(PayloadType.NETTING).createOn(ZonedDateTime.now()).build());
         return billings;
     }
 

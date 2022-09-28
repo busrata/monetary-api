@@ -34,7 +34,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
 
         //Given
         BillingPaymentPrePaidCreate billingPaymentPrePaidCreate = BillingPaymentPrePaidCreate.builder()
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.COLLECTION)
                 .storeId(2L)
                 .clientId(20L)
@@ -48,8 +48,8 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
         BillingPayment responseBillingPayment = useCaseHandler.handle(billingPaymentPrePaidCreate);
 
         //Then
-        assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), responseBillingPayment.getAmount());
-        assertEquals(billingPaymentPrePaidCreate.getPaymentType(), responseBillingPayment.getPaymentType());
+        assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), responseBillingPayment.getCash());
+        assertEquals(billingPaymentPrePaidCreate.getPos(), responseBillingPayment.getPos());
         assertEquals(billingPaymentPrePaidCreate.getPayloadType(), responseBillingPayment.getPayloadType());
         assertEquals(billingPaymentPrePaidCreate.getStoreId(), responseBillingPayment.getStoreId());
         assertEquals(billingPaymentPrePaidCreate.getClientId(), responseBillingPayment.getClientId());
@@ -61,7 +61,7 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
 
         //Given
         BillingPaymentPrePaidCreate billingPaymentPrePaidCreate = BillingPaymentPrePaidCreate.builder()
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.NETTING)
                 .storeId(2L)
                 .clientId(20L)
@@ -76,10 +76,10 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
 
         //Then
         billingPaymentPort.assertContains(BillingPayment.builder()
-                .amount(billingPaymentPrePaidCreate.getPrePaidBillingAmount())
+                .cash(billingPaymentPrePaidCreate.getPrePaidBillingAmount())
                 .storeId(billingPaymentPrePaidCreate.getStoreId())
                 .clientId(billingPaymentPrePaidCreate.getClientId())
-                .paymentType(billingPaymentPrePaidCreate.getPaymentType())
+                .pos(billingPaymentPrePaidCreate.getPos())
                 .payloadType(billingPaymentPrePaidCreate.getPayloadType())
                 .build());
 
@@ -93,6 +93,6 @@ public class GetPaidBillingPaymentFromColdStoreByDriverUseCaseHandlerTest {
                 .build());
 
 
-        assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), responseBillingPayment.getAmount());
+        assertEquals(billingPaymentPrePaidCreate.getPrePaidBillingAmount(), responseBillingPayment.getCash());
     }
 }

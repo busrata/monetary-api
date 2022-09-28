@@ -16,8 +16,8 @@ public class CollectionPaymentRetrieveByDateRangeAndStore implements UseCase {
 
     private Long storeId;
 
-    private LocalDate firstDate;
+    private LocalDate startDate;
 
-    private LocalDate lastDate;
+    private LocalDate endDate;
 
 }

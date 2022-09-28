@@ -19,7 +19,7 @@ public class BillingPaymentPrePaidCreate implements UseCase {
 
     private Long storeId;
 
-    private PaymentType paymentType;
+    private BigDecimal pos;
 
     private PayloadType payloadType;
 

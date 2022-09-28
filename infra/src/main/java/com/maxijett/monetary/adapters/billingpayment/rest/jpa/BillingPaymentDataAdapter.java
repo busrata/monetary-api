@@ -7,6 +7,7 @@ import com.maxijett.monetary.billingpayment.port.BillingPaymentPort;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentCreate;
 import com.maxijett.monetary.billingpayment.usecase.BillingPaymentPrePaidCreate;
 import com.maxijett.monetary.common.exception.MonetaryApiBusinessException;
+import java.math.BigDecimal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,9 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
     public BillingPayment create(BillingPaymentCreate useCase) {
         BillingPaymentEntity entity = new BillingPaymentEntity();
 
-        entity.setAmount(useCase.getAmount());
+        entity.setCash(useCase.getCash());
         entity.setClientId(useCase.getClientId());
-        entity.setPaymentType(useCase.getPaymentType());
+        entity.setPos(useCase.getPos());
         entity.setPayingAccount(useCase.getPayingAccount());
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
@@ -57,9 +58,9 @@ public class BillingPaymentDataAdapter implements BillingPaymentPort {
     public BillingPayment create(BillingPaymentPrePaidCreate useCase) {
         BillingPaymentEntity entity = new BillingPaymentEntity();
 
-        entity.setAmount(useCase.getPrePaidBillingAmount());
+        entity.setCash(useCase.getPrePaidBillingAmount());
         entity.setClientId(useCase.getClientId());
-        entity.setPaymentType(useCase.getPaymentType());
+        entity.setPos(BigDecimal.ZERO);
         entity.setStoreId(useCase.getStoreId());
         entity.setPayloadType(useCase.getPayloadType());
         entity.setPayingAccount(useCase.getDriverId().toString());

@@ -37,11 +37,11 @@ public class RetrieveBillingPaymentMonthlyByStoreUseCaseHandlerTest {
 
         //Then
         assertThat(billingPaymentList).isNotNull().hasSize(3)
-                .extracting("amount", "storeId", "paymentType")
+                .extracting("cash", "storeId", "pos")
                 .containsExactlyInAnyOrder(
-                        tuple(BigDecimal.valueOf(50.05), useCase.getStoreId(), PaymentType.CASH),
-                        tuple(BigDecimal.valueOf(50.05), useCase.getStoreId(), PaymentType.CREDIT_CARD),
-                        tuple(BigDecimal.valueOf(55.05), useCase.getStoreId(), PaymentType.CASH)
+                        tuple(BigDecimal.valueOf(50.05), useCase.getStoreId(), BigDecimal.ZERO),
+                        tuple(BigDecimal.ZERO, useCase.getStoreId(), BigDecimal.valueOf(50.05)),
+                        tuple(BigDecimal.valueOf(55.05), useCase.getStoreId(), BigDecimal.ZERO)
                 );
     }
 }

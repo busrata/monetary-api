@@ -26,12 +26,11 @@ public class BillingPaymentEntity {
     @Column(name = "store_id", nullable = false)
     private Long storeId;
 
-    @Column(name = "amount", nullable = false)
-    private BigDecimal amount;
+    @Column(name = "cash", nullable = false)
+    private BigDecimal cash;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "payment_type", nullable = false)
-    private PaymentType paymentType;
+    @Column(name = "pos", nullable = false)
+    private BigDecimal pos;
 
     @Column(name = "paying_account", nullable = false)
     private String payingAccount;
@@ -55,10 +54,10 @@ public class BillingPaymentEntity {
     public BillingPayment toModel() {
         return BillingPayment.builder()
                 .id(getId())
-                .paymentType(getPaymentType())
+                .pos(getPos())
                 .storeId(getStoreId())
                 .clientId(getClientId())
-                .amount(getAmount())
+                .cash(getCash())
                 .payloadType(getPayloadType())
                 .isDeleted(getIsDeleted())
                 .payingAccount(getPayingAccount())

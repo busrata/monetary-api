@@ -19,9 +19,9 @@ public class BillingPaymentCreate implements UseCase {
 
     private Long storeId;
 
-    private BigDecimal amount;
+    private BigDecimal cash;
 
-    private PaymentType paymentType;
+    private BigDecimal pos;
 
     private String payingAccount;
 

@@ -26,8 +26,8 @@ public class GetAllCollectionPaymentsByDateBetweenAndStoreUseCaseHandler impleme
 
         ShiftTime shiftTime = shiftTimePort.getShiftTime();
 
-        ZonedDateTime dateRangeFrom = MonetaryDate.convertStartZonedDateTime(useCase.getFirstDate(), shiftTime.getNightShiftEndHour());
-        ZonedDateTime dateRangeTo = MonetaryDate.convertEndZonedDateTime(useCase.getLastDate(), shiftTime.getNightShiftEndHour());
+        ZonedDateTime dateRangeFrom = MonetaryDate.convertStartZonedDateTime(useCase.getStartDate(), shiftTime.getNightShiftEndHour());
+        ZonedDateTime dateRangeTo = MonetaryDate.convertEndZonedDateTime(useCase.getEndDate(), shiftTime.getNightShiftEndHour());
 
         return collectionPaymentPort.retrieveCollectionPaymentListByStoreIdAndDates(useCase.getStoreId(), dateRangeFrom, dateRangeTo);
 

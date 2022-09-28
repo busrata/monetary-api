@@ -19,9 +19,9 @@ public class BillingPaymentDTO {
 
     private Long storeId;
 
-    private BigDecimal amount;
+    private BigDecimal cash;
 
-    private PaymentType paymentType;
+    private BigDecimal pos;
 
     private String payingAccount;
 
@@ -35,8 +35,8 @@ public class BillingPaymentDTO {
 
     public BillingPaymentCreate toUseCase() {
         return BillingPaymentCreate.builder()
-                .amount(getAmount())
-                .paymentType(getPaymentType())
+                .cash(getCash())
+                .pos(getPos())
                 .payloadType(getPayloadType())
                 .payingAccount(getPayingAccount())
                 .clientId(getClientId())

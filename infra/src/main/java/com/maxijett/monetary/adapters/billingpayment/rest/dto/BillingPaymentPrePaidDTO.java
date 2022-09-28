@@ -19,7 +19,7 @@ public class BillingPaymentPrePaidDTO {
 
     private Long storeId;
 
-    private PaymentType paymentType;
+    private BigDecimal pos;
 
     private PayloadType payloadType;
 
@@ -35,7 +35,7 @@ public class BillingPaymentPrePaidDTO {
 
     public BillingPaymentPrePaidCreate toUseCase() {
         return BillingPaymentPrePaidCreate.builder()
-                .paymentType(getPaymentType())
+                .pos(getPos())
                 .payloadType(getPayloadType())
                 .clientId(getClientId())
                 .storeId(getStoreId())

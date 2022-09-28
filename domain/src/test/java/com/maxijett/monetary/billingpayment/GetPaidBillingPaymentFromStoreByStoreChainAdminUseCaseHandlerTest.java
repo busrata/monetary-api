@@ -37,8 +37,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
         //Given
         BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
-                .amount(BigDecimal.valueOf(48))
-                .paymentType(PaymentType.CASH)
+                .cash(BigDecimal.valueOf(48))
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.COLLECTION)
                 .storeId(2L)
                 .payingAccount("storeChainAdmin")
@@ -49,11 +49,11 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
         BillingPayment responseBillingPayment = useCaseHandler.handle(billingPaymentCreate);
 
         //Then
-        assertEquals(billingPaymentCreate.getPaymentType(), responseBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getPos(), responseBillingPayment.getPos());
         assertEquals(billingPaymentCreate.getPayloadType(), responseBillingPayment.getPayloadType());
         assertEquals(billingPaymentCreate.getStoreId(), responseBillingPayment.getStoreId());
         assertEquals(billingPaymentCreate.getClientId(), responseBillingPayment.getClientId());
-        assertEquals(billingPaymentCreate.getAmount(), responseBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getCash(), responseBillingPayment.getCash());
         assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
 
     }
@@ -63,8 +63,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
         //Given
         BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
-                .amount(BigDecimal.valueOf(48))
-                .paymentType(PaymentType.CASH)
+                .cash(BigDecimal.valueOf(48))
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.COLLECTION)
                 .storeId(20000L)
                 .payingAccount("storeChainAdmin")
@@ -83,19 +83,19 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
                 .clientId(CLIENT_ID)
                 .payingAccount("storeChainAdmin")
                 .payloadType(PayloadType.COLLECTION)
-                .amount(BigDecimal.valueOf(48))
+                .cash(BigDecimal.valueOf(48))
                 .storeId(billingPaymentCreate.getStoreId())
-                .paymentType(PaymentType.CASH)
+                .pos(BigDecimal.ZERO)
                 .isDeleted(false)
                 .build());
 
 
         assertEquals(expectedCashBoxAmountForStoreGroups, cashBoxPort.boxes.get(0).getCash());
-        assertEquals(billingPaymentCreate.getPaymentType(), responseBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getPos(), responseBillingPayment.getPos());
         assertEquals(billingPaymentCreate.getPayloadType(), responseBillingPayment.getPayloadType());
         assertEquals(billingPaymentCreate.getStoreId(), responseBillingPayment.getStoreId());
         assertEquals(billingPaymentCreate.getClientId(), responseBillingPayment.getClientId());
-        assertEquals(billingPaymentCreate.getAmount(), responseBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getCash(), responseBillingPayment.getCash());
         assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
 
 
@@ -108,8 +108,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
         //Given
         BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
-                .amount(BigDecimal.valueOf(50))
-                .paymentType(PaymentType.CREDIT_CARD)
+                .pos(BigDecimal.valueOf(50))
+                .cash(BigDecimal.ZERO)
                 .payloadType(PayloadType.COLLECTION)
                 .storeId(20000L)
                 .payingAccount("storeChainAdmin")
@@ -126,17 +126,17 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
                 .clientId(CLIENT_ID)
                 .payingAccount("storeChainAdmin")
                 .payloadType(PayloadType.COLLECTION)
-                .amount(BigDecimal.valueOf(50))
+                .pos(BigDecimal.valueOf(50))
                 .storeId(billingPaymentCreate.getStoreId())
-                .paymentType(PaymentType.CREDIT_CARD)
+                .cash(BigDecimal.ZERO)
                 .isDeleted(false)
                 .build());
 
-        assertEquals(billingPaymentCreate.getPaymentType(), responseBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getCash(), responseBillingPayment.getCash());
         assertEquals(billingPaymentCreate.getPayloadType(), responseBillingPayment.getPayloadType());
         assertEquals(billingPaymentCreate.getStoreId(), responseBillingPayment.getStoreId());
         assertEquals(billingPaymentCreate.getClientId(), responseBillingPayment.getClientId());
-        assertEquals(billingPaymentCreate.getAmount(), responseBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getPos(), responseBillingPayment.getPos());
         assertEquals(billingPaymentCreate.getPayingAccount(), responseBillingPayment.getPayingAccount());
 
         assertEquals(BigDecimal.valueOf(50), storeCollectionPort.storeCollectionList.get(0).getPos());
@@ -147,8 +147,8 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
     public void shouldBeSaveBillingPaymentCashWithPayloadTypeNetting() {
         //Given
         BillingPaymentCreate billingPaymentCreate = BillingPaymentCreate.builder()
-                .amount(BigDecimal.valueOf(48))
-                .paymentType(PaymentType.CASH)
+                .cash(BigDecimal.valueOf(48))
+                .pos(BigDecimal.ZERO)
                 .payloadType(PayloadType.NETTING)
                 .storeId(20000L)
                 .payingAccount("storeChainAdmin")
@@ -161,11 +161,11 @@ public class GetPaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandlerTest {
 
         //Then
 
-        assertEquals(billingPaymentCreate.getPaymentType(), actualBillingPayment.getPaymentType());
+        assertEquals(billingPaymentCreate.getCash(), actualBillingPayment.getCash());
         assertEquals(billingPaymentCreate.getPayloadType(), actualBillingPayment.getPayloadType());
         assertEquals(billingPaymentCreate.getStoreId(), actualBillingPayment.getStoreId());
         assertEquals(billingPaymentCreate.getClientId(), actualBillingPayment.getClientId());
-        assertEquals(billingPaymentCreate.getAmount(), actualBillingPayment.getAmount());
+        assertEquals(billingPaymentCreate.getPos(), actualBillingPayment.getPos());
         assertEquals(billingPaymentCreate.getPayingAccount(), actualBillingPayment.getPayingAccount());
     }
 

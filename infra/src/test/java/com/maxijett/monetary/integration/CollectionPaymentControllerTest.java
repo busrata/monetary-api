@@ -176,8 +176,8 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
         //Given
         Long storeId = 57L;
-        String fistDate = LocalDate.now().minusDays(3L).toString();
-        String lastDate = LocalDate.now().plusDays(5L).toString();
+        String startDate = LocalDate.now().minusDays(3L).toString();
+        String endDate = LocalDate.now().plusDays(5L).toString();
 
         createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(75), BigDecimal.valueOf(0), ZonedDateTime.now());
         createCollectionPaymentRecord(350L, storeId, 20000L, 20L, BigDecimal.valueOf(0), BigDecimal.valueOf(35), ZonedDateTime.now());
@@ -188,10 +188,10 @@ public class CollectionPaymentControllerTest extends AbstractIT {
 
         //When
         ResponseEntity<List<CollectionPayment>> response = testRestTemplate.exchange(
-                "/api/v1/collection-payment/all/{storeId}?firstDate={firstDate}&lastDate={lastDate}",
+                "/api/v1/collection-payment/all/{storeId}?startDate={startDate}&endDate={endDate}",
                 HttpMethod.GET, new HttpEntity<>(null, null),
                 new ParameterizedTypeReference<>() {
-                }, storeId, fistDate, lastDate);
+                }, storeId, startDate, endDate);
 
         //Then
         assertEquals(HttpStatus.OK,response.getStatusCode());

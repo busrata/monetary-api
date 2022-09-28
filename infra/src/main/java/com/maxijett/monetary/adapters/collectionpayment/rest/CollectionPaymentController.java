@@ -79,13 +79,13 @@ public class CollectionPaymentController {
 
     @GetMapping("/all/{storeId}")
     public ResponseEntity<List<CollectionPayment>> getCollectionPaymentByDateAndStoreId(@PathVariable Long storeId,
-                                                                                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate firstDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate lastDate) {
-        log.info("Rest request to getCollectionPaymentByDateAndStoreId by storeId: {}, firstDate: {}, lastDate: {}", storeId, firstDate, lastDate);
+                                                                                        @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate, @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate) {
+        log.info("Rest request to getCollectionPaymentByDateAndStoreId by storeId: {}, firstDate: {}, lastDate: {}", storeId, startDate, endDate);
 
         return new ResponseEntity<>(getAllCollectionPaymentsByStoreIdAndDateUseCaseHandler.handle(CollectionPaymentRetrieveByDateRangeAndStore.builder()
                 .storeId(storeId)
-                .firstDate(firstDate)
-                .lastDate(lastDate)
+                .startDate(startDate)
+                .endDate(endDate)
                 .build()), HttpStatus.OK);
     }
 

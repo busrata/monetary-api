@@ -29,8 +29,8 @@ public class GetAllCollectionPaymentListByDateBetweenAndStoreUseCaseHandlerTest 
         //Given
         CollectionPaymentRetrieveByDateRangeAndStore useCase = CollectionPaymentRetrieveByDateRangeAndStore.builder()
                 .storeId(57L)
-                .firstDate(LocalDate.now().minusDays(1L))
-                .lastDate(LocalDate.now().plusDays(2L))
+                .startDate(LocalDate.now().minusDays(1L))
+                .endDate(LocalDate.now().plusDays(2L))
                 .build();
 
         //When

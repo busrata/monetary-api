@@ -45,28 +45,28 @@ public class DeletePaidBillingPaymentFromStoreByStoreChainAdminUseCaseHandler im
 
             StoreCollection storeCollection = storeCollectionPort.retrieve(billingPayment.getStoreId());
 
-            if (billingPayment.getPaymentType().equals(PaymentType.CASH)) {
-                storeCollection.setCash(storeCollection.getCash().add(billingPayment.getAmount()));
+            if (billingPayment.getCash().compareTo(BigDecimal.ZERO) > 0) {
+                storeCollection.setCash(storeCollection.getCash().add(billingPayment.getCash()));
 
 
                 CashBox cashBox = cashBoxPort.retrieve(storeCollection.getGroupId());
-                cashBox.setCash(cashBox.getCash().add(billingPayment.getAmount()));
+                cashBox.setCash(cashBox.getCash().add(billingPayment.getCash()));
                 cashBoxPort.update(cashBox, CashBoxTransaction.builder()
-                        .amount(billingPayment.getAmount())
+                        .amount(billingPayment.getCash())
                         .cashBoxEventType(CashBoxEventType.REFUND_OF_PAYMENT)
                         .payingAccount(useCase.getPayingAccount())
                         .dateTime(ZonedDateTime.now(ZoneId.of("UTC")))
                         .build());
 
-            } else if (billingPayment.getPaymentType().equals(PaymentType.CREDIT_CARD)) {
-                storeCollection.setPos(storeCollection.getPos().add(billingPayment.getAmount()));
+            } else if (billingPayment.getPos().compareTo(BigDecimal.ZERO) > 0) {
+                storeCollection.setPos(storeCollection.getPos().add(billingPayment.getPos()));
 
             }
 
             storeCollectionPort.update(storeCollection, StorePaymentTransaction.builder()
                     .storeId(billingPayment.getStoreId())
-                    .cash(billingPayment.getPaymentType() == PaymentType.CASH ? billingPayment.getAmount() : BigDecimal.ZERO)
-                    .pos(billingPayment.getPaymentType() == PaymentType.CREDIT_CARD ? billingPayment.getAmount() : BigDecimal.ZERO)
+                    .cash(billingPayment.getCash())
+                    .pos(billingPayment.getPos())
                     .clientId(billingPayment.getClientId())
                     .eventType(StoreEventType.REFUND_OF_PAYMENT)
                     .createOn(ZonedDateTime.now(ZoneId.of("UTC")))

@@ -100,18 +100,18 @@ public abstract class AbstractIT {
         storeCollectionRepository.save(entity);
     }
 
-    protected void createBillingPaymentRecord(Long storeId, Long clientId, Long groupId, BigDecimal amount,
-                                              ZonedDateTime dateTime, String payingAccount, PayloadType payloadType, PaymentType paymentType) {
+    protected void createBillingPaymentRecord(Long storeId, Long clientId, Long groupId, BigDecimal cash,
+                                              ZonedDateTime dateTime, String payingAccount, PayloadType payloadType, BigDecimal pos) {
 
         BillingPaymentEntity entity = new BillingPaymentEntity();
         entity.setClientId(clientId);
         entity.setStoreId(storeId);
         entity.setCreateOn(dateTime);
-        entity.setAmount(amount);
+        entity.setCash(cash);
         entity.setGroupId(groupId);
         entity.setPayingAccount(payingAccount);
         entity.setPayloadType(payloadType);
-        entity.setPaymentType(paymentType);
+        entity.setPos(pos);
         entity.setIsDeleted(false);
 
         billingPaymentRepository.save(entity);
